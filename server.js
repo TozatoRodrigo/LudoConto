@@ -1,8 +1,15 @@
 const express = require('express');
 const cors = require('cors');
 const OpenAI = require('openai');
-const { db, auth } = require('./firebase-config');
 require('dotenv').config();
+
+console.log('🚀 Iniciando Ludo Conto...');
+console.log('📊 Variáveis de ambiente carregadas');
+
+const app = express();
+const PORT = process.env.PORT || 8080;
+
+console.log(`🔧 Configurando servidor na porta ${PORT}`);
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -34,19 +41,38 @@ app.get('/', (req, res) => {
 
 // Configuração OpenAI
 console.log('🔑 Verificando API Key da OpenAI...');
-if (!process.env.OPENAI_API_KEY) {
-  console.error('❌ OPENAI_API_KEY não encontrada no .env');
-  process.exit(1);
+let openai = null;
+if (process.env.OPENAI_API_KEY) {
+  console.log('✅ API Key encontrada:', process.env.OPENAI_API_KEY.substring(0, 20) + '...');
+  openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY
+  });
+} else {
+  console.log('⚠️ OPENAI_API_KEY não encontrada - algumas funcionalidades podem não funcionar');
 }
-console.log('✅ API Key encontrada:', process.env.OPENAI_API_KEY.substring(0, 20) + '...');
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
+// Inicialização do Firebase (segura)
+let db = null;
+let auth = null;
+
+try {
+  console.log('🔥 Inicializando Firebase...');
+  const firebaseConfig = require('./firebase-config');
+  db = firebaseConfig.db;
+  auth = firebaseConfig.auth;
+  console.log('✅ Firebase inicializado com sucesso');
+} catch (error) {
+  console.log('⚠️ Firebase não inicializado:', error.message);
+  console.log('📝 Algumas funcionalidades podem não funcionar');
+}
 
 // Middleware para verificar autenticação
 async function verificarAuth(req, res, next) {
   try {
+    if (!auth) {
+      return res.status(500).json({ error: 'Firebase Auth não inicializado' });
+    }
+
     const token = req.headers.authorization?.split('Bearer ')[1];
     if (!token) {
       return res.status(401).json({ error: 'Token de autenticação necessário' });
@@ -64,6 +90,13 @@ async function verificarAuth(req, res, next) {
 // Rota para gerar história (protegida)
 app.post('/api/gerar-historia', verificarAuth, async (req, res) => {
   try {
+    if (!openai) {
+      return res.status(500).json({ error: 'OpenAI não configurada' });
+    }
+    if (!db) {
+      return res.status(500).json({ error: 'Firebase não configurado' });
+    }
+
     const { nome, idade, preferencias, valor, desafio } = req.body;
     const userId = req.user.uid;
 
@@ -255,21 +288,34 @@ app.delete('/api/historia/:id', verificarAuth, async (req, res) => {
   }
 });
 
+console.log('🚀 Iniciando servidor...');
+
 const server = app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Servidor rodando na porta ${PORT}`);
-  console.log(`📱 Acesse: http://localhost:${PORT}`);
-  console.log('🔥 Firebase configurado para projeto: ludoconto');
-  console.log('✅ Servidor pronto para receber conexões');
+  console.log(`✅ Servidor rodando na porta ${PORT}`);
+  console.log(`🌐 Health check: http://localhost:${PORT}/health`);
+  console.log(`📱 API: http://localhost:${PORT}/api/`);
+  console.log('🎉 Ludo Conto está online!');
 });
 
 server.on('error', (error) => {
   console.error('❌ Erro no servidor:', error);
+  if (error.code === 'EADDRINUSE') {
+    console.error(`❌ Porta ${PORT} já está em uso`);
+  }
   process.exit(1);
 });
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
-  console.log('🔄 Recebido SIGTERM, fechando servidor...');
+  console.log('🔄 Recebido SIGTERM, fechando servidor graciosamente...');
+  server.close(() => {
+    console.log('✅ Servidor fechado com sucesso');
+    process.exit(0);
+  });
+});
+
+process.on('SIGINT', () => {
+  console.log('🔄 Recebido SIGINT, fechando servidor...');
   server.close(() => {
     console.log('✅ Servidor fechado');
     process.exit(0);
