@@ -8,16 +8,12 @@
     ],
     "rewrites": [
       {
-        "source": "/api/**",
-        "function": "api"
-      },
-      {
         "source": "**",
         "destination": "/index.html"
       }
     ]
   },
-  "functions": {
+  "apphosting": {
     "source": ".",
     "runtime": "nodejs18"
   },

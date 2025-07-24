@@ -12,6 +12,15 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
+// Health check endpoint para App Hosting
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'healthy', 
+    timestamp: new Date().toISOString(),
+    service: 'Ludo Conto API'
+  });
+});
+
 // Configuração OpenAI
 console.log('🔑 Verificando API Key da OpenAI...');
 if (!process.env.OPENAI_API_KEY) {

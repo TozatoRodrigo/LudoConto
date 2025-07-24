@@ -1,0 +1,33 @@
+# Firebase App Hosting Configuration
+# https://firebase.google.com/docs/app-hosting
+
+# Runtime configuration
+runtime: nodejs18
+
+# Environment variables (configure no Firebase Console)
+env:
+  OPENAI_API_KEY: ${OPENAI_API_KEY}
+  FIREBASE_PROJECT_ID: ${FIREBASE_PROJECT_ID}
+  FIREBASE_CLIENT_EMAIL: ${FIREBASE_CLIENT_EMAIL}
+  FIREBASE_PRIVATE_KEY: ${FIREBASE_PRIVATE_KEY}
+
+# Build configuration
+build:
+  commands:
+    - npm install
+    - npm run build
+
+# Serve configuration
+serve:
+  staticAssets:
+    - path: /public
+      directory: public
+  
+# Health check
+healthCheck:
+  path: /health
+  
+# Scaling
+scaling:
+  minInstances: 0
+  maxInstances: 10
