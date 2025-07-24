@@ -71,6 +71,13 @@ async function gerarHistoria(e) {
     mostrarLoading(true);
     
     try {
+        // Modo temporário - usar função simulada
+        if (window.TEMP_MODE && window.gerarHistoriaTemp) {
+            const data = await window.gerarHistoriaTemp(dados);
+            exibirHistoria(data.historia);
+            return;
+        }
+
         const response = await fetch('/api/gerar-historia', {
             method: 'POST',
             headers: {
