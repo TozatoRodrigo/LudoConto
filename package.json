@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "build": "echo 'Build completed - Ready for App Hosting'",
+    "build": "echo 'Build completed'",
     "deploy": "firebase deploy",
     "deploy:hosting": "firebase deploy --only hosting",
     "deploy:apphosting": "firebase deploy --only apphosting",
