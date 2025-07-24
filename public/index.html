@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ludo Conto - Histórias Mágicas Personalizadas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Tela de Login -->
+    <div id="login-screen" class="login-screen">
+        <div class="login-container">
+            <h1 class="login-logo">✨ Ludo Conto</h1>
+            <p class="login-subtitle">Entre para criar histórias mágicas</p>
+            
+            <div class="auth-tabs">
+                <button class="tab-btn active" onclick="showLogin()">Entrar</button>
+                <button class="tab-btn" onclick="showRegister()">Cadastrar</button>
+            </div>
+
+            <!-- Formulário de Login -->
+            <form id="login-form" class="auth-form">
+                <div class="form-group">
+                    <input type="email" id="login-email" placeholder="Seu e-mail" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="login-password" placeholder="Sua senha" required>
+                </div>
+                <button type="submit" class="auth-btn">
+                    <span class="btn-text">Entrar</span>
+                    <div class="loading" style="display: none;">
+                        <div class="spinner"></div>
+                        Entrando...
+                    </div>
+                </button>
+            </form>
+
+            <!-- Formulário de Cadastro -->
+            <form id="register-form" class="auth-form" style="display: none;">
+                <div class="form-group">
+                    <input type="email" id="register-email" placeholder="Seu e-mail" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="register-password" placeholder="Crie uma senha (min. 6 caracteres)" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="register-confirm" placeholder="Confirme sua senha" required>
+                </div>
+                <button type="submit" class="auth-btn">
+                    <span class="btn-text">Cadastrar</span>
+                    <div class="loading" style="display: none;">
+                        <div class="spinner"></div>
+                        Cadastrando...
+                    </div>
+                </button>
+            </form>
+
+            <div id="auth-error" class="auth-error" style="display: none;"></div>
+        </div>
+    </div>
+    <!-- App Principal -->
+    <div id="main-app" style="display: none;">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <h1 class="logo">✨ Ludo Conto</h1>
+                <div class="header-actions">
+                    <button class="btn-historias" onclick="toggleHistorias()">Minhas Histórias</button>
+                    <button class="btn-sobre" onclick="toggleSobre()">Sobre</button>
+                    <button class="btn-logout" onclick="logout()">Sair</button>
+                </div>
+            </div>
+        </header>
+
+    <!-- Modal Sobre -->
+    <div id="modal-sobre" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="toggleSobre()">&times;</span>
+            <h2>Sobre o Ludo Conto</h2>
+            <p>O Ludo Conto é uma plataforma que cria histórias infantis personalizadas usando inteligência artificial. Nosso objetivo é ajudar pais a educar seus filhos através de contos mágicos e envolventes.</p>
+            <p>Cada história é cuidadosamente gerada para ser segura, educativa e adaptada à idade da criança, ensinando valores importantes de forma lúdica e divertida.</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <div class="hero">
+                <h2>Crie histórias mágicas personalizadas para sua criança</h2>
+                <p>Preencha o formulário abaixo e receba uma história única, educativa e encantadora!</p>
+            </div>
+
+            <!-- Formulário -->
+            <form id="historia-form" class="form-container">
+                <div class="form-group">
+                    <label for="nome">Nome da criança *</label>
+                    <input type="text" id="nome" name="nome" required placeholder="Digite o nome da criança">
+                </div>
+
+                <div class="form-group">
+                    <label for="idade">Idade *</label>
+                    <input type="number" id="idade" name="idade" min="3" max="12" required placeholder="Ex: 6">
+                </div>
+
+                <div class="form-group">
+                    <label for="preferencias">Preferências da criança *</label>
+                    <input type="text" id="preferencias" name="preferencias" required 
+                           placeholder="Ex: dragões, futebol, castelos, florestas mágicas...">
+                    <div class="sugestoes">
+                        <span class="sugestao" onclick="adicionarSugestao('dragões')">dragões</span>
+                        <span class="sugestao" onclick="adicionarSugestao('futebol')">futebol</span>
+                        <span class="sugestao" onclick="adicionarSugestao('castelos')">castelos</span>
+                        <span class="sugestao" onclick="adicionarSugestao('florestas mágicas')">florestas mágicas</span>
+                        <span class="sugestao" onclick="adicionarSugestao('animais')">animais</span>
+                        <span class="sugestao" onclick="adicionarSugestao('aventuras')">aventuras</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="valor">Valor ou virtude a ensinar *</label>
+                    <select id="valor" name="valor" required>
+                        <option value="">Selecione um valor</option>
+                        <option value="respeitar os pais">Respeitar os pais</option>
+                        <option value="falar a verdade">Falar a verdade</option>
+                        <option value="dividir brinquedos">Dividir brinquedos</option>
+                        <option value="não mentir">Não mentir</option>
+                        <option value="coragem">Coragem</option>
+                        <option value="gentileza">Gentileza</option>
+                        <option value="paciência">Paciência</option>
+                        <option value="amizade">Amizade</option>
+                        <option value="responsabilidade">Responsabilidade</option>
+                        <option value="perseverança">Perseverança</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="desafio">Desafio atual (opcional)</label>
+                    <textarea id="desafio" name="desafio" rows="3" 
+                              placeholder="Descreva algum desafio que a criança está enfrentando..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-gerar" id="btn-gerar">
+                    <span class="btn-text">✨ Gerar História Mágica</span>
+                    <div class="loading" style="display: none;">
+                        <div class="spinner"></div>
+                        Criando sua história...
+                    </div>
+                </button>
+            </form>
+
+            <!-- Resultado -->
+            <div id="resultado" class="resultado" style="display: none;">
+                <div class="historia-container">
+                    <div id="historia-content"></div>
+                    <div class="acoes">
+                        <button class="btn-acao" onclick="copiarHistoria()">📋 Copiar História</button>
+                        <button class="btn-acao" onclick="novaHistoria()">🔄 Gerar Nova História</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Ludo Conto. Criando histórias mágicas para educar com amor.</p>
+            <div class="footer-links">
+                <a href="#" onclick="alert('Em desenvolvimento')">Contato</a>
+                <a href="#" onclick="alert('Em desenvolvimento')">Política de Privacidade</a>
+                <a href="#" onclick="alert('Em desenvolvimento')">Termos de Uso</a>
+            </div>
+        </div>
+    </footer>
+
+        <!-- Modal Minhas Histórias -->
+        <div id="modal-historias" class="modal">
+            <div class="modal-content modal-large">
+                <span class="close" onclick="toggleHistorias()">&times;</span>
+                <h2>Minhas Histórias</h2>
+                <div id="historias-list" class="historias-list">
+                    <div class="loading-historias">
+                        <div class="spinner"></div>
+                        Carregando suas histórias...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="auth.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

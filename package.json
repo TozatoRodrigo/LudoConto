@@ -1,0 +1,27 @@
+{
+  "name": "ludo-conto",
+  "version": "1.0.0",
+  "description": "Site para gerar histórias infantis personalizadas",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "build": "echo 'Build completed - Static files ready'",
+    "deploy": "firebase deploy",
+    "deploy:hosting": "firebase deploy --only hosting",
+    "deploy:firestore": "firebase deploy --only firestore",
+    "serve": "firebase serve",
+    "check": "node verificar-config.js",
+    "setup": "npm install && echo 'Setup completed - Configure .env and run npm start'"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "openai": "^4.20.1",
+    "firebase-admin": "^12.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

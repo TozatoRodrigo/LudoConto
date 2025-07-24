@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Regras para a coleção de histórias
+    match /historias/{document} {
+      // Permitir leitura e escrita apenas se o usuário estiver autenticado
+      // e for o dono da história (userId == auth.uid)
+      allow read, write: if request.auth != null && 
+                         request.auth.uid == resource.data.userId;
+      
+      // Permitir criação apenas se o usuário estiver autenticado
+      // e estiver criando uma história para si mesmo
+      allow create: if request.auth != null && 
+                    request.auth.uid == request.resource.data.userId &&
+                    request.resource.data.keys().hasAll(['userId', 'userEmail', 'nome', 'idade', 'preferencias', 'valor', 'historia', 'criadaEm']);
+    }
+    
+    // Negar acesso a qualquer outra coleção por padrão
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
