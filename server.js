@@ -5,7 +5,7 @@ const { db, auth } = require('./firebase-config');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
 // Middleware
 app.use(cors());
@@ -17,7 +17,18 @@ app.get('/health', (req, res) => {
   res.status(200).json({ 
     status: 'healthy', 
     timestamp: new Date().toISOString(),
-    service: 'Ludo Conto API'
+    service: 'Ludo Conto API',
+    port: PORT,
+    uptime: process.uptime()
+  });
+});
+
+// Root endpoint
+app.get('/', (req, res) => {
+  res.status(200).json({
+    message: 'Ludo Conto API está funcionando!',
+    status: 'online',
+    timestamp: new Date().toISOString()
   });
 });
 
@@ -244,8 +255,23 @@ app.delete('/api/historia/:id', verificarAuth, async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
   console.log(`📱 Acesse: http://localhost:${PORT}`);
   console.log('🔥 Firebase configurado para projeto: ludoconto');
+  console.log('✅ Servidor pronto para receber conexões');
+});
+
+server.on('error', (error) => {
+  console.error('❌ Erro no servidor:', error);
+  process.exit(1);
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('🔄 Recebido SIGTERM, fechando servidor...');
+  server.close(() => {
+    console.log('✅ Servidor fechado');
+    process.exit(0);
+  });
 });
