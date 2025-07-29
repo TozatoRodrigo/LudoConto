@@ -152,6 +152,92 @@ exports.minhasHistorias = onCall(async (request) => {
   }
 });
 
+// Função para obter uma história específica
+exports.obterHistoria = onCall(async (request) => {
+  try {
+    if (!request.auth) {
+      throw new Error("Usuário não autenticado");
+    }
+
+    const {historiaId} = request.data;
+    const userId = request.auth.uid;
+
+    if (!historiaId) {
+      throw new Error("ID da história é obrigatório");
+    }
+
+    const doc = await admin.firestore()
+        .collection("historias")
+        .doc(historiaId)
+        .get();
+
+    if (!doc.exists) {
+      throw new Error("História não encontrada");
+    }
+
+    const data = doc.data();
+
+    // Verificar se a história pertence ao usuário
+    if (data.userId !== userId) {
+      throw new Error("Acesso negado");
+    }
+
+    return {
+      historia: data.historia,
+      id: doc.id,
+      nome: data.nome,
+      idade: data.idade,
+      preferencias: data.preferencias,
+      valor: data.valor,
+      criadaEm: data.criadaEm ? data.criadaEm.toDate() : null,
+    };
+  } catch (error) {
+    logger.error("Erro ao obter história:", error);
+    throw new Error("Erro ao carregar história");
+  }
+});
+
+// Função para deletar história
+exports.deletarHistoria = onCall(async (request) => {
+  try {
+    if (!request.auth) {
+      throw new Error("Usuário não autenticado");
+    }
+
+    const {historiaId} = request.data;
+    const userId = request.auth.uid;
+
+    if (!historiaId) {
+      throw new Error("ID da história é obrigatório");
+    }
+
+    const doc = await admin.firestore()
+        .collection("historias")
+        .doc(historiaId)
+        .get();
+
+    if (!doc.exists) {
+      throw new Error("História não encontrada");
+    }
+
+    const data = doc.data();
+
+    // Verificar se a história pertence ao usuário
+    if (data.userId !== userId) {
+      throw new Error("Acesso negado");
+    }
+
+    await admin.firestore().collection("historias").doc(historiaId).delete();
+
+    logger.info("História deletada com sucesso", {historiaId, userId});
+
+    return {message: "História deletada com sucesso"};
+  } catch (error) {
+    logger.error("Erro ao deletar história:", error);
+    throw new Error("Erro ao deletar história");
+  }
+});
+
 // Health check
 exports.health = onRequest((req, res) => {
   cors(req, res, () => {

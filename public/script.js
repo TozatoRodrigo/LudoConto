@@ -1,3 +1,5 @@
+// Ludo Conto - Histórias personalizadas com IA
+
 // Elementos do DOM
 const form = document.getElementById('historia-form');
 const btnGerar = document.getElementById('btn-gerar');
@@ -71,20 +73,18 @@ async function gerarHistoria(e) {
     mostrarLoading(true);
     
     try {
-        console.log('🚀 Iniciando geração de história com Firebase Functions...');
-        console.log('📊 Dados enviados:', dados);
+        // Verificar se o usuário está autenticado
+        if (!window.currentUser) {
+            throw new Error('Usuário não autenticado');
+        }
         
-        // Usar Firebase Functions
+        // Importar Firebase Functions
         const { getFunctions, httpsCallable } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js');
         
         const functions = getFunctions();
         const gerarHistoriaFunction = httpsCallable(functions, 'gerarHistoria');
         
-        console.log('📞 Chamando função gerarHistoria...');
         const result = await gerarHistoriaFunction(dados);
-        
-        console.log('✅ Resposta recebida:', result);
-        console.log('📖 História gerada:', result.data.historia);
         
         // Exibir história
         exibirHistoria(result.data.historia);
@@ -203,6 +203,8 @@ document.getElementById('idade').addEventListener('input', function(e) {
     }
 });
 
+
+
 // Animação suave para os elementos quando carregam
 document.addEventListener('DOMContentLoaded', function() {
     // Adicionar classe de animação aos elementos
@@ -243,6 +245,11 @@ async function carregarHistorias() {
     `;
     
     try {
+        // Verificar se o usuário está autenticado
+        if (!window.currentUser) {
+            throw new Error('Usuário não autenticado');
+        }
+        
         // Usar Firebase Functions
         const { getFunctions, httpsCallable } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js');
         
@@ -311,23 +318,24 @@ function exibirHistorias(historias) {
 // Função para ver história completa
 async function verHistoriaCompleta(historiaId) {
     try {
-        const response = await fetch(`/api/historia/${historiaId}`, {
-            headers: {
-                'Authorization': `Bearer ${window.userToken}`
-            }
-        });
-        
-        const data = await response.json();
-        
-        if (!response.ok) {
-            throw new Error(data.error || 'Erro ao carregar história');
+        // Verificar se o usuário está autenticado
+        if (!window.currentUser) {
+            throw new Error('Usuário não autenticado');
         }
+        
+        // Usar Firebase Functions
+        const { getFunctions, httpsCallable } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js');
+        
+        const functions = getFunctions();
+        const obterHistoriaFunction = httpsCallable(functions, 'obterHistoria');
+        
+        const result = await obterHistoriaFunction({ historiaId });
         
         // Fechar modal de histórias
         document.getElementById('modal-historias').style.display = 'none';
         
         // Exibir história no resultado principal
-        exibirHistoria(data.historia);
+        exibirHistoria(result.data.historia);
         
     } catch (error) {
         console.error('Erro ao carregar história:', error);
@@ -342,18 +350,18 @@ async function deletarHistoria(historiaId) {
     }
     
     try {
-        const response = await fetch(`/api/historia/${historiaId}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${window.userToken}`
-            }
-        });
-        
-        const data = await response.json();
-        
-        if (!response.ok) {
-            throw new Error(data.error || 'Erro ao deletar história');
+        // Verificar se o usuário está autenticado
+        if (!window.currentUser) {
+            throw new Error('Usuário não autenticado');
         }
+        
+        // Usar Firebase Functions
+        const { getFunctions, httpsCallable } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js');
+        
+        const functions = getFunctions();
+        const deletarHistoriaFunction = httpsCallable(functions, 'deletarHistoria');
+        
+        await deletarHistoriaFunction({ historiaId });
         
         // Recarregar lista de histórias
         carregarHistorias();
