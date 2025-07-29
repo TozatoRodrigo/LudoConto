@@ -118,37 +118,64 @@ infantil cuidadoso e empático.`;
 // Função para buscar histórias do usuário
 exports.minhasHistorias = onCall(async (request) => {
   try {
+    logger.info("🔍 Iniciando busca de histórias", {
+      userId: request.auth ? request.auth.uid : null,
+    });
+
     if (!request.auth) {
+      logger.error("❌ Usuário não autenticado");
       throw new Error("Usuário não autenticado");
     }
 
     const userId = request.auth.uid;
+
+    logger.info("📚 Buscando histórias no Firestore", {userId});
+
+    // Buscar histórias sem orderBy para evitar problemas de índice
     const snapshot = await admin.firestore()
         .collection("historias")
         .where("userId", "==", userId)
-        .orderBy("criadaEm", "desc")
         .limit(50)
         .get();
 
     const historias = [];
     snapshot.forEach((doc) => {
-      const data = doc.data();
-      historias.push({
-        id: doc.id,
-        nome: data.nome,
-        idade: data.idade,
-        preferencias: data.preferencias,
-        valor: data.valor,
-        criadaEm: data.criadaEm ? data.criadaEm.toDate() : null,
-        preview: data.historia ?
-          data.historia.substring(0, 200) + "..." : "Sem conteúdo",
-      });
+      try {
+        const data = doc.data();
+        historias.push({
+          id: doc.id,
+          nome: data.nome || "Nome não informado",
+          idade: data.idade || 0,
+          preferencias: data.preferencias || "Não informado",
+          valor: data.valor || "Não informado",
+          criadaEm: data.criadaEm ? data.criadaEm.toDate() : new Date(),
+          preview: data.historia ?
+            data.historia.substring(0, 200) + "..." : "Sem conteúdo",
+        });
+      } catch (docError) {
+        logger.error("Erro ao processar documento", {
+          docId: doc.id,
+          error: docError.message,
+        });
+      }
+    });
+
+    // Ordenar manualmente se não conseguiu ordenar no Firestore
+    historias.sort((a, b) => new Date(b.criadaEm) - new Date(a.criadaEm));
+
+    logger.info("✅ Histórias encontradas", {
+      count: historias.length,
+      userId,
     });
 
     return {historias};
   } catch (error) {
-    logger.error("Erro ao buscar histórias:", error);
-    throw new Error("Erro ao buscar histórias");
+    logger.error("❌ Erro ao buscar histórias:", {
+      error: error.message,
+      stack: error.stack,
+      userId: request.auth ? request.auth.uid : null,
+    });
+    throw new Error("Erro ao buscar histórias: " + error.message);
   }
 });
 
