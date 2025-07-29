@@ -71,13 +71,20 @@ async function gerarHistoria(e) {
     mostrarLoading(true);
     
     try {
+        console.log('🚀 Iniciando geração de história com Firebase Functions...');
+        console.log('📊 Dados enviados:', dados);
+        
         // Usar Firebase Functions
         const { getFunctions, httpsCallable } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js');
         
         const functions = getFunctions();
         const gerarHistoriaFunction = httpsCallable(functions, 'gerarHistoria');
         
+        console.log('📞 Chamando função gerarHistoria...');
         const result = await gerarHistoriaFunction(dados);
+        
+        console.log('✅ Resposta recebida:', result);
+        console.log('📖 História gerada:', result.data.historia);
         
         // Exibir história
         exibirHistoria(result.data.historia);

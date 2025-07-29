@@ -13,8 +13,14 @@ setGlobalOptions({maxInstances: 10});
 // Função para gerar história
 exports.gerarHistoria = onCall(async (request) => {
   try {
+    logger.info("🚀 Iniciando geração de história", {
+      userId: request.auth ? request.auth.uid : null,
+      data: request.data,
+    });
+
     // Verificar autenticação
     if (!request.auth) {
+      logger.error("❌ Usuário não autenticado");
       throw new Error("Usuário não autenticado");
     }
 
@@ -33,6 +39,8 @@ exports.gerarHistoria = onCall(async (request) => {
       "-FFqL799YyNfRiC8w86YexflBPGOU0krUhMJ6t9dIMA";
 
     const openai = new OpenAI({apiKey});
+
+    logger.info("🤖 Configurando OpenAI e gerando prompt...");
 
     const promptText = `Você é um contador de histórias infantis encantador, 
 inspirado por autores como Antoine de Saint-Exupéry, J.K. Rowling, 
@@ -75,6 +83,11 @@ infantil cuidadoso e empático.`;
     });
 
     const historia = completion.choices[0].message.content;
+
+    logger.info("✅ História gerada com sucesso", {
+      historiaLength: historia.length,
+      preview: historia.substring(0, 100),
+    });
 
     // Salvar história no Firestore
     const historiaData = {
