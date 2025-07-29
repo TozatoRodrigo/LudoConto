@@ -396,8 +396,9 @@ window.onclick = function(event) {
     if (event.target === modalHistorias) {
         modalHistorias.style.display = 'none';
     }
-}// Função 
-para mostrar mensagem do mascote
+}
+
+// Função para mostrar mensagem do mascote
 function showMascotMessage() {
     const messages = [
         "Olá! Eu sou o Ludo, seu amigo preguiça! 🦥",
