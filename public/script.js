@@ -684,4 +684,62 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(verificarStatusPlano, 1000);
 });/
 / Configuração do Stripe
+window.STRIPE_PUBLISHABLE_KEY = 'pk_live_51RqI6J0Tz9khDe1D2y1mIuJYbbqbZGcZdQFW4sTXDYf5o8PJMG8mKXCR2Slkpt7iA4uN9IgYvGHwTt7PYD4aHuQP00B6DsbnJl';//
+ Função para mostrar mensagem do mascote
+function showMascotMessage() {
+    const messages = [
+        "Olá! Eu sou o Ludo, seu amigo preguiça! 🦥",
+        "Vamos criar uma história incrível juntos! ✨",
+        "Que tal uma aventura na floresta mágica? 🌳",
+        "Estou aqui para te ajudar com as histórias! 📚",
+        "Lembre-se: toda criança merece uma história especial! 💖"
+    ];
+    
+    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+    
+    // Criar tooltip temporário
+    const tooltip = document.createElement('div');
+    tooltip.style.cssText = `
+        position: fixed;
+        bottom: 120px;
+        right: 30px;
+        background: linear-gradient(45deg, #ff6b6b, #feca57);
+        color: white;
+        padding: 12px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        z-index: 1001;
+        max-width: 200px;
+        text-align: center;
+        animation: fadeIn 0.3s ease-out;
+    `;
+    
+    tooltip.textContent = randomMessage;
+    document.body.appendChild(tooltip);
+    
+    // Remover tooltip após 3 segundos
+    setTimeout(() => {
+        tooltip.style.animation = 'fadeOut 0.3s ease-out';
+        setTimeout(() => {
+            if (tooltip.parentNode) {
+                document.body.removeChild(tooltip);
+            }
+        }, 300);
+    }, 3000);
+}
+
+// Verificar status do plano quando o usuário faz login
+if (typeof window !== 'undefined') {
+    window.addEventListener('userLoggedIn', verificarStatusPlano);
+    
+    // Verificar status do plano quando a página carrega
+    document.addEventListener('DOMContentLoaded', function() {
+        // Aguardar um pouco para garantir que o usuário foi carregado
+        setTimeout(verificarStatusPlano, 1000);
+    });
+}
+
+// Configuração do Stripe
 window.STRIPE_PUBLISHABLE_KEY = 'pk_live_51RqI6J0Tz9khDe1D2y1mIuJYbbqbZGcZdQFW4sTXDYf5o8PJMG8mKXCR2Slkpt7iA4uN9IgYvGHwTt7PYD4aHuQP00B6DsbnJl';
