@@ -507,8 +507,9 @@ style.textContent = `
         to { opacity: 0; transform: translateY(-10px); }
     }
 `;
-document.head.appendChild(style);/
-/ Variáveis globais para controle de plano
+document.head.appendChild(style);
+
+// Variáveis globais para controle de plano
 window.planoUsuario = 'gratuito';
 window.podeGerarImagem = true;
 

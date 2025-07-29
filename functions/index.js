@@ -490,14 +490,18 @@ exports.health = onRequest((req, res) => {
     });
   });
 });
-// Configuração do Stripe (comentado temporariamente)
-// const stripe = require("stripe")(
-//     functions.config().stripe && functions.config().stripe.secret_key ?
-//       functions.config().stripe.secret_key : "sk_test_placeholder",
-// );
+// Configuração do Stripe (com fallback)
+let stripe;
+try {
+  stripe = require("stripe")(
+      functions.config().stripe && functions.config().stripe.secret_key ?
+        functions.config().stripe.secret_key : "sk_test_placeholder",
+  );
+} catch (error) {
+  logger.warn("Stripe não configurado:", error.message);
+}
 
-// Função para criar sessão de checkout (comentada temporariamente)
-/*
+// Função para criar sessão de checkout
 exports.criarCheckoutSession = onCall(async (request) => {
   try {
     if (!request.auth) {
