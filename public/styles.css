@@ -1392,4 +1392,120 @@ Seção de Resultado */
 
 .modal-header svg {
     animation: bounce 2s ease-in-out infinite;
+}/* Est
+ilos para imagens das histórias */
+.historia-imagem {
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.imagem-historia {
+    max-width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 4px solid #ffeaa7;
+    transition: transform 0.3s ease;
+}
+
+.imagem-historia:hover {
+    transform: scale(1.02);
+}
+
+@keyframes fadeInImage {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.imagem-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+    background: rgba(255, 234, 167, 0.2);
+    border-radius: 15px;
+    border: 2px dashed #ffeaa7;
+}
+
+.imagem-loading p {
+    color: #ff6b6b;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Thumbnails na lista de histórias */
+.historia-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.historia-thumbnail {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 3px solid #ff6b6b;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.thumbnail-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.thumbnail-img:hover {
+    transform: scale(1.1);
+}
+
+/* Responsividade para imagens */
+@media (max-width: 768px) {
+    .historia-header {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .historia-thumbnail {
+        width: 60px;
+        height: 60px;
+        align-self: center;
+    }
+    
+    .imagem-historia {
+        max-width: 100%;
+        border-width: 2px;
+    }
+}
+
+/* Animação especial para quando a imagem carrega */
+.historia-container {
+    position: relative;
+}
+
+.historia-container::after {
+    content: '🎨';
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    font-size: 1.5rem;
+    opacity: 0.3;
+    animation: paintBrush 3s ease-in-out infinite;
+}
+
+@keyframes paintBrush {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-10deg); }
+    75% { transform: rotate(10deg); }
 }

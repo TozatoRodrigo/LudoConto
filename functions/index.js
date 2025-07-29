@@ -89,6 +89,66 @@ infantil cuidadoso e empático.`;
       preview: historia.substring(0, 100),
     });
 
+    // Gerar prompt para a imagem baseado na história
+    logger.info("🎨 Gerando imagem ilustrativa...");
+
+    const imagePrompt = `Create a whimsical children's book illustration ` +
+      `in the style of Nicole Rubel, William Steig, and Sven Nordqvist. ` +
+      `The illustration should depict: a ${idade}-year-old child named ` +
+      `${nome} in a magical story about ${preferencias}. ` +
+      `The scene should teach about ${valor}. ` +
+      `Style: colorful, warm, hand-drawn feel, soft watercolor-like ` +
+      `textures, expressive characters, cozy and inviting atmosphere. ` +
+      `The illustration should be suitable for children aged ${idade}, ` +
+      `with bright colors, friendly characters, and a storybook quality. ` +
+      `No text or words in the image.`;
+
+    let imagemUrl = null;
+    try {
+      const imageResponse = await openai.images.generate({
+        model: "dall-e-3",
+        prompt: imagePrompt,
+        n: 1,
+        size: "1024x1024",
+        quality: "standard",
+        style: "natural",
+      });
+
+      imagemUrl = imageResponse.data[0].url;
+      logger.info("✅ Imagem gerada com sucesso", {imagemUrl});
+
+      // Fazer download da imagem e salvar no Firebase Storage
+      const fetch = require("node-fetch");
+      const imageBuffer = await fetch(imagemUrl).then((res) => res.buffer());
+
+      const bucket = admin.storage().bucket();
+      const fileName = `historias/${userId}/${Date.now()}_` +
+        `${nome.replace(/\s+/g, "_")}.png`;
+      const file = bucket.file(fileName);
+
+      await file.save(imageBuffer, {
+        metadata: {
+          contentType: "image/png",
+          metadata: {
+            historiaId: "temp", // Será atualizado depois
+            userId: userId,
+            nome: nome,
+          },
+        },
+      });
+
+      // Tornar a imagem pública
+      await file.makePublic();
+
+      // URL pública da imagem
+      imagemUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
+
+      logger.info("✅ Imagem salva no Storage", {imagemUrl});
+    } catch (imageError) {
+      logger.error("⚠️ Erro ao gerar imagem:", imageError);
+      // Continuar sem imagem se houver erro
+    }
+
     // Salvar história no Firestore
     const historiaData = {
       userId,
@@ -98,6 +158,7 @@ infantil cuidadoso e empático.`;
       valor,
       desafio: desafio || "",
       historia,
+      imagemUrl: imagemUrl || null,
       criadaEm: admin.firestore.FieldValue.serverTimestamp(),
       userEmail: request.auth.token.email,
     };
@@ -105,8 +166,27 @@ infantil cuidadoso e empático.`;
     const docRef = await admin.firestore()
         .collection("historias").add(historiaData);
 
+    // Atualizar metadata da imagem com o ID da história
+    if (imagemUrl) {
+      try {
+        const bucket = admin.storage().bucket();
+        const fileName = imagemUrl.split("/").pop();
+        const file = bucket.file(`historias/${userId}/${fileName}`);
+        await file.setMetadata({
+          metadata: {
+            historiaId: docRef.id,
+            userId: userId,
+            nome: nome,
+          },
+        });
+      } catch (metaError) {
+        logger.warn("⚠️ Erro ao atualizar metadata da imagem:", metaError);
+      }
+    }
+
     return {
       historia,
+      imagemUrl,
       historiaId: docRef.id,
     };
   } catch (error) {
@@ -151,6 +231,7 @@ exports.minhasHistorias = onCall(async (request) => {
           criadaEm: data.criadaEm ? data.criadaEm.toDate() : new Date(),
           preview: data.historia ?
             data.historia.substring(0, 200) + "..." : "Sem conteúdo",
+          imagemUrl: data.imagemUrl || null,
         });
       } catch (docError) {
         logger.error("Erro ao processar documento", {
@@ -211,6 +292,7 @@ exports.obterHistoria = onCall(async (request) => {
 
     return {
       historia: data.historia,
+      imagemUrl: data.imagemUrl || null,
       id: doc.id,
       nome: data.nome,
       idade: data.idade,

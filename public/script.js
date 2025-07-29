@@ -86,8 +86,8 @@ async function gerarHistoria(e) {
         
         const result = await gerarHistoriaFunction(dados);
         
-        // Exibir história
-        exibirHistoria(result.data.historia);
+        // Exibir história com imagem
+        exibirHistoria(result.data.historia, result.data.imagemUrl);
         
     } catch (error) {
         console.error('Erro:', error);
@@ -117,11 +117,48 @@ function mostrarLoading(show) {
 }
 
 // Função para exibir a história gerada
-function exibirHistoria(historia) {
+function exibirHistoria(historia, imagemUrl = null) {
     // Processar o texto da história para melhor formatação
     const historiaFormatada = formatarHistoria(historia);
     
-    historiaContent.innerHTML = historiaFormatada;
+    // Criar HTML com imagem se disponível
+    let htmlCompleto = '';
+    
+    if (imagemUrl) {
+        htmlCompleto += `
+            <div class="historia-imagem">
+                <img src="${imagemUrl}" alt="Ilustração da história" class="imagem-historia" />
+                <div class="imagem-loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Carregando ilustração mágica...</p>
+                </div>
+            </div>
+        `;
+    }
+    
+    htmlCompleto += `<div class="historia-texto">${historiaFormatada}</div>`;
+    
+    historiaContent.innerHTML = htmlCompleto;
+    
+    // Adicionar evento de carregamento da imagem
+    if (imagemUrl) {
+        const img = historiaContent.querySelector('.imagem-historia');
+        const loadingDiv = historiaContent.querySelector('.imagem-loading');
+        
+        img.style.display = 'none';
+        loadingDiv.style.display = 'block';
+        
+        img.onload = function() {
+            loadingDiv.style.display = 'none';
+            img.style.display = 'block';
+            img.style.animation = 'fadeInImage 0.8s ease-out';
+        };
+        
+        img.onerror = function() {
+            loadingDiv.innerHTML = '<p>🎨 Ilustração não disponível</p>';
+        };
+    }
+    
     resultado.style.display = 'block';
     
     // Scroll suave para o resultado
@@ -297,16 +334,21 @@ function exibirHistorias(historias) {
                         <strong>Preferências:</strong> ${historia.preferencias}
                     </div>
                 </div>
+                ${historia.imagemUrl ? `
+                    <div class="historia-thumbnail">
+                        <img src="${historia.imagemUrl}" alt="Ilustração" class="thumbnail-img" />
+                    </div>
+                ` : ''}
             </div>
             <div class="historia-preview">
                 ${historia.preview}
             </div>
             <div class="historia-actions">
                 <button class="btn-small" onclick="verHistoriaCompleta('${historia.id}')">
-                    Ver História Completa
+                    📖 Ver História Completa
                 </button>
                 <button class="btn-small btn-danger" onclick="deletarHistoria('${historia.id}')">
-                    Deletar
+                    🗑️ Deletar
                 </button>
             </div>
         </div>
@@ -335,7 +377,7 @@ async function verHistoriaCompleta(historiaId) {
         document.getElementById('modal-historias').style.display = 'none';
         
         // Exibir história no resultado principal
-        exibirHistoria(result.data.historia);
+        exibirHistoria(result.data.historia, result.data.imagemUrl);
         
     } catch (error) {
         console.error('Erro ao carregar história:', error);
