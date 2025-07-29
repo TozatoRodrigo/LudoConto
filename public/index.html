@@ -106,6 +106,7 @@
                 </h1>
                 <div class="header-actions">
                     <button class="btn-historias" onclick="toggleHistorias()">📚 Minhas Histórias</button>
+                    <button class="btn-plano" onclick="togglePlano()" id="btn-plano">⭐ Premium</button>
                     <button class="btn-sobre" onclick="toggleSobre()">ℹ️ Sobre</button>
                     <button class="btn-logout" onclick="logout()">👋 Sair</button>
                 </div>
@@ -290,6 +291,46 @@
             </div>
         </div>
     </footer>
+
+        <!-- Modal Plano Premium -->
+        <div id="modal-plano" class="modal">
+            <div class="modal-content modal-premium">
+                <span class="close" onclick="togglePlano()">&times;</span>
+                <div class="premium-header">
+                    <div class="premium-icon">⭐</div>
+                    <h2>Ludo Conto Premium</h2>
+                    <p class="premium-subtitle">Ilustrações ilimitadas para suas histórias!</p>
+                </div>
+                
+                <div class="plano-status" id="plano-status">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        Verificando seu plano...
+                    </div>
+                </div>
+                
+                <div class="premium-features">
+                    <h3>🎨 O que você ganha:</h3>
+                    <ul>
+                        <li>✨ <strong>Ilustrações ilimitadas</strong> em todas as histórias</li>
+                        <li>🎭 <strong>Arte profissional</strong> estilo livro infantil</li>
+                        <li>🚀 <strong>Histórias mais mágicas</strong> para sua criança</li>
+                        <li>💖 <strong>Experiência completa</strong> sem limitações</li>
+                    </ul>
+                </div>
+                
+                <div class="premium-pricing">
+                    <div class="price-card">
+                        <div class="price">R$ 9,99<span>/mês</span></div>
+                        <p>Cancele quando quiser</p>
+                    </div>
+                </div>
+                
+                <button class="btn-premium" id="btn-assinar" onclick="assinarPremium()">
+                    ⭐ Assinar Premium
+                </button>
+            </div>
+        </div>
 
         <!-- Modal Minhas Histórias -->
         <div id="modal-historias" class="modal">

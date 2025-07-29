@@ -89,6 +89,17 @@ async function gerarHistoria(e) {
         // Exibir história com imagem
         exibirHistoria(result.data.historia, result.data.imagemUrl);
         
+        // Atualizar status do plano
+        window.planoUsuario = result.data.planoUsuario;
+        window.podeGerarImagem = result.data.podeGerarMaisImagens;
+        
+        // Mostrar aviso se não pode gerar mais imagens
+        if (!result.data.podeGerarMaisImagens && result.data.planoUsuario === 'gratuito') {
+            setTimeout(() => {
+                mostrarAvisoLimiteImagem();
+            }, 2000);
+        }
+        
     } catch (error) {
         console.error('Erro:', error);
         if (error.message.includes('Token')) {
@@ -496,4 +507,180 @@ style.textContent = `
         to { opacity: 0; transform: translateY(-10px); }
     }
 `;
-document.head.appendChild(style);
+document.head.appendChild(style);/
+/ Variáveis globais para controle de plano
+window.planoUsuario = 'gratuito';
+window.podeGerarImagem = true;
+
+// Função para verificar status do plano
+async function verificarStatusPlano() {
+    try {
+        if (!window.currentUser) return;
+        
+        const { getFunctions, httpsCallable } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js');
+        
+        const functions = getFunctions();
+        const obterStatusPlanoFunction = httpsCallable(functions, 'obterStatusPlano');
+        
+        const result = await obterStatusPlanoFunction();
+        
+        window.planoUsuario = result.data.plano;
+        window.podeGerarImagem = result.data.podeGerarImagem;
+        
+        // Atualizar interface
+        atualizarInterfacePlano(result.data);
+        
+    } catch (error) {
+        console.error('Erro ao verificar plano:', error);
+    }
+}
+
+// Função para atualizar interface baseada no plano
+function atualizarInterfacePlano(statusPlano) {
+    const btnPlano = document.getElementById('btn-plano');
+    
+    if (statusPlano.plano === 'premium') {
+        btnPlano.innerHTML = '⭐ Premium Ativo';
+        btnPlano.style.background = 'linear-gradient(45deg, #ffd700, #ffed4e)';
+        btnPlano.style.color = '#2d3748';
+    } else {
+        btnPlano.innerHTML = '⭐ Upgrade Premium';
+        btnPlano.style.background = 'linear-gradient(45deg, #667eea, #764ba2)';
+        btnPlano.style.color = 'white';
+    }
+    
+    // Mostrar aviso se não pode gerar mais imagens
+    if (!statusPlano.podeGerarImagem && statusPlano.plano === 'gratuito') {
+        mostrarAvisoLimiteImagem();
+    }
+}
+
+// Função para mostrar aviso de limite de imagem
+function mostrarAvisoLimiteImagem() {
+    const aviso = document.createElement('div');
+    aviso.className = 'aviso-limite';
+    aviso.innerHTML = `
+        <div class="aviso-content">
+            <span class="aviso-icon">🎨</span>
+            <div class="aviso-text">
+                <strong>Limite de ilustrações atingido!</strong>
+                <p>Você já usou sua ilustração gratuita. Assine o Premium para ilustrações ilimitadas!</p>
+            </div>
+            <button class="btn-upgrade-small" onclick="togglePlano()">⭐ Upgrade</button>
+        </div>
+    `;
+    
+    // Inserir antes do formulário
+    const formContainer = document.querySelector('.form-container');
+    formContainer.parentNode.insertBefore(aviso, formContainer);
+}
+
+// Função para toggle do modal de plano
+function togglePlano() {
+    const modal = document.getElementById('modal-plano');
+    if (modal.style.display === 'block') {
+        modal.style.display = 'none';
+    } else {
+        modal.style.display = 'block';
+        carregarStatusPlano();
+    }
+}
+
+// Função para carregar status do plano no modal
+async function carregarStatusPlano() {
+    const statusContainer = document.getElementById('plano-status');
+    const btnAssinar = document.getElementById('btn-assinar');
+    
+    try {
+        if (!window.currentUser) {
+            throw new Error('Usuário não autenticado');
+        }
+        
+        const { getFunctions, httpsCallable } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js');
+        
+        const functions = getFunctions();
+        const obterStatusPlanoFunction = httpsCallable(functions, 'obterStatusPlano');
+        
+        const result = await obterStatusPlanoFunction();
+        const status = result.data;
+        
+        if (status.plano === 'premium') {
+            statusContainer.innerHTML = `
+                <div class="plano-ativo">
+                    <span class="status-icon">✅</span>
+                    <div class="status-text">
+                        <strong>Premium Ativo!</strong>
+                        <p>Você tem acesso a ilustrações ilimitadas</p>
+                    </div>
+                </div>
+            `;
+            btnAssinar.style.display = 'none';
+        } else {
+            const imagensRestantes = status.podeGerarImagem ? 1 : 0;
+            statusContainer.innerHTML = `
+                <div class="plano-gratuito">
+                    <span class="status-icon">🎁</span>
+                    <div class="status-text">
+                        <strong>Plano Gratuito</strong>
+                        <p>Ilustrações restantes: ${imagensRestantes}</p>
+                    </div>
+                </div>
+            `;
+            btnAssinar.style.display = 'block';
+        }
+        
+    } catch (error) {
+        console.error('Erro ao carregar status:', error);
+        statusContainer.innerHTML = `
+            <div class="erro-status">
+                <span class="status-icon">⚠️</span>
+                <p>Erro ao carregar status do plano</p>
+            </div>
+        `;
+    }
+}
+
+// Função para assinar premium
+async function assinarPremium() {
+    try {
+        if (!window.currentUser) {
+            alert('Você precisa estar logado para assinar o Premium.');
+            return;
+        }
+        
+        const btnAssinar = document.getElementById('btn-assinar');
+        btnAssinar.innerHTML = '<div class="spinner"></div> Processando...';
+        btnAssinar.disabled = true;
+        
+        const { getFunctions, httpsCallable } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js');
+        
+        const functions = getFunctions();
+        const criarCheckoutFunction = httpsCallable(functions, 'criarCheckoutSession');
+        
+        const result = await criarCheckoutFunction({
+            origin: window.location.origin
+        });
+        
+        // Redirecionar para o Stripe Checkout
+        window.location.href = result.data.url;
+        
+    } catch (error) {
+        console.error('Erro ao criar checkout:', error);
+        alert('Erro ao processar pagamento. Tente novamente.');
+        
+        const btnAssinar = document.getElementById('btn-assinar');
+        btnAssinar.innerHTML = '⭐ Assinar Premium';
+        btnAssinar.disabled = false;
+    }
+}
+
+// Verificar status do plano quando o usuário faz login
+window.addEventListener('userLoggedIn', verificarStatusPlano);
+
+// Verificar status do plano quando a página carrega
+document.addEventListener('DOMContentLoaded', function() {
+    // Aguardar um pouco para garantir que o usuário foi carregado
+    setTimeout(verificarStatusPlano, 1000);
+});/
+/ Configuração do Stripe
+window.STRIPE_PUBLISHABLE_KEY = 'pk_live_51RqI6J0Tz9khDe1D2y1mIuJYbbqbZGcZdQFW4sTXDYf5o8PJMG8mKXCR2Slkpt7iA4uN9IgYvGHwTt7PYD4aHuQP00B6DsbnJl';
