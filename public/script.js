@@ -682,10 +682,12 @@ window.addEventListener('userLoggedIn', verificarStatusPlano);
 document.addEventListener('DOMContentLoaded', function() {
     // Aguardar um pouco para garantir que o usuário foi carregado
     setTimeout(verificarStatusPlano, 1000);
-});/
-/ Configuração do Stripe
-window.STRIPE_PUBLISHABLE_KEY = 'pk_live_51RqI6J0Tz9khDe1D2y1mIuJYbbqbZGcZdQFW4sTXDYf5o8PJMG8mKXCR2Slkpt7iA4uN9IgYvGHwTt7PYD4aHuQP00B6DsbnJl';//
- Função para mostrar mensagem do mascote
+});
+
+// Configuração do Stripe
+window.STRIPE_PUBLISHABLE_KEY = 'pk_live_51RqI6J0Tz9khDe1D2y1mIuJYbbqbZGcZdQFW4sTXDYf5o8PJMG8mKXCR2Slkpt7iA4uN9IgYvGHwTt7PYD4aHuQP00B6DsbnJl';
+
+// Função para mostrar mensagem do mascote
 function showMascotMessage() {
     const messages = [
         "Olá! Eu sou o Ludo, seu amigo preguiça! 🦥",
