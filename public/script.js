@@ -71,30 +71,16 @@ async function gerarHistoria(e) {
     mostrarLoading(true);
     
     try {
-        // Modo temporário - usar função simulada
-        if (window.TEMP_MODE && window.gerarHistoriaTemp) {
-            const data = await window.gerarHistoriaTemp(dados);
-            exibirHistoria(data.historia);
-            return;
-        }
-
-        const response = await fetch('/api/gerar-historia', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${window.userToken}`
-            },
-            body: JSON.stringify(dados)
-        });
+        // Usar Firebase Functions
+        const { getFunctions, httpsCallable } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js');
         
-        const data = await response.json();
+        const functions = getFunctions();
+        const gerarHistoriaFunction = httpsCallable(functions, 'gerarHistoria');
         
-        if (!response.ok) {
-            throw new Error(data.error || 'Erro ao gerar história');
-        }
+        const result = await gerarHistoriaFunction(dados);
         
         // Exibir história
-        exibirHistoria(data.historia);
+        exibirHistoria(result.data.historia);
         
     } catch (error) {
         console.error('Erro:', error);
@@ -250,19 +236,15 @@ async function carregarHistorias() {
     `;
     
     try {
-        const response = await fetch('/api/minhas-historias', {
-            headers: {
-                'Authorization': `Bearer ${window.userToken}`
-            }
-        });
+        // Usar Firebase Functions
+        const { getFunctions, httpsCallable } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js');
         
-        const data = await response.json();
+        const functions = getFunctions();
+        const minhasHistoriasFunction = httpsCallable(functions, 'minhasHistorias');
         
-        if (!response.ok) {
-            throw new Error(data.error || 'Erro ao carregar histórias');
-        }
+        const result = await minhasHistoriasFunction();
         
-        exibirHistorias(data.historias);
+        exibirHistorias(result.data.historias);
         
     } catch (error) {
         console.error('Erro ao carregar histórias:', error);
