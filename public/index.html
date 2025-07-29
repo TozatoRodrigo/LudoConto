@@ -64,30 +64,147 @@
         <!-- Header -->
         <header class="header">
             <div class="container">
-                <h1 class="logo">✨ Ludo Conto</h1>
+                <h1 class="logo">
+                    <svg class="logo-mascot" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Corpo do bicho-preguiça -->
+                        <ellipse cx="50" cy="65" rx="25" ry="20" fill="#8B4513" stroke="#654321" stroke-width="2"/>
+                        
+                        <!-- Cabeça -->
+                        <circle cx="50" cy="35" r="18" fill="#D2691E" stroke="#8B4513" stroke-width="2"/>
+                        
+                        <!-- Braços -->
+                        <ellipse cx="30" cy="55" rx="8" ry="15" fill="#8B4513" transform="rotate(-30 30 55)"/>
+                        <ellipse cx="70" cy="55" rx="8" ry="15" fill="#8B4513" transform="rotate(30 70 55)"/>
+                        
+                        <!-- Pernas -->
+                        <ellipse cx="40" cy="80" rx="6" ry="12" fill="#8B4513"/>
+                        <ellipse cx="60" cy="80" rx="6" ry="12" fill="#8B4513"/>
+                        
+                        <!-- Rosto -->
+                        <!-- Olhos -->
+                        <circle cx="44" cy="30" r="4" fill="white"/>
+                        <circle cx="56" cy="30" r="4" fill="white"/>
+                        <circle cx="44" cy="30" r="2" fill="black"/>
+                        <circle cx="56" cy="30" r="2" fill="black"/>
+                        
+                        <!-- Nariz -->
+                        <ellipse cx="50" cy="38" rx="2" ry="1.5" fill="black"/>
+                        
+                        <!-- Boca sorridente -->
+                        <path d="M 45 42 Q 50 47 55 42" stroke="black" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        
+                        <!-- Manchas características -->
+                        <circle cx="42" cy="60" r="3" fill="#654321"/>
+                        <circle cx="58" cy="68" r="2.5" fill="#654321"/>
+                        <circle cx="35" cy="70" r="2" fill="#654321"/>
+                        
+                        <!-- Garras -->
+                        <path d="M 25 65 L 22 68 M 27 67 L 24 70 M 29 69 L 26 72" stroke="black" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M 75 65 L 78 68 M 73 67 L 76 70 M 71 69 L 74 72" stroke="black" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    Ludo Conto
+                </h1>
                 <div class="header-actions">
-                    <button class="btn-historias" onclick="toggleHistorias()">Minhas Histórias</button>
-                    <button class="btn-sobre" onclick="toggleSobre()">Sobre</button>
-                    <button class="btn-logout" onclick="logout()">Sair</button>
+                    <button class="btn-historias" onclick="toggleHistorias()">📚 Minhas Histórias</button>
+                    <button class="btn-sobre" onclick="toggleSobre()">ℹ️ Sobre</button>
+                    <button class="btn-logout" onclick="logout()">👋 Sair</button>
                 </div>
             </div>
         </header>
 
     <!-- Modal Sobre -->
     <div id="modal-sobre" class="modal">
-        <div class="modal-content">
+        <div class="modal-content modal-about">
             <span class="close" onclick="toggleSobre()">&times;</span>
-            <h2>Sobre o Ludo Conto</h2>
-            <p>O Ludo Conto é uma plataforma que cria histórias infantis personalizadas usando inteligência artificial. Nosso objetivo é ajudar pais a educar seus filhos através de contos mágicos e envolventes.</p>
-            <p>Cada história é cuidadosamente gerada para ser segura, educativa e adaptada à idade da criança, ensinando valores importantes de forma lúdica e divertida.</p>
+            <div class="about-header">
+                <svg width="60" height="60" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Mascote menor para o modal -->
+                    <ellipse cx="50" cy="65" rx="25" ry="20" fill="#8B4513" stroke="#654321" stroke-width="2"/>
+                    <circle cx="50" cy="35" r="18" fill="#D2691E" stroke="#8B4513" stroke-width="2"/>
+                    <ellipse cx="30" cy="55" rx="8" ry="15" fill="#8B4513" transform="rotate(-30 30 55)"/>
+                    <ellipse cx="70" cy="55" rx="8" ry="15" fill="#8B4513" transform="rotate(30 70 55)"/>
+                    <ellipse cx="40" cy="80" rx="6" ry="12" fill="#8B4513"/>
+                    <ellipse cx="60" cy="80" rx="6" ry="12" fill="#8B4513"/>
+                    <circle cx="44" cy="30" r="4" fill="white"/>
+                    <circle cx="56" cy="30" r="4" fill="white"/>
+                    <circle cx="44" cy="30" r="2" fill="black"/>
+                    <circle cx="56" cy="30" r="2" fill="black"/>
+                    <ellipse cx="50" cy="38" rx="2" ry="1.5" fill="black"/>
+                    <path d="M 45 42 Q 50 47 55 42" stroke="black" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    <circle cx="42" cy="60" r="3" fill="#654321"/>
+                    <circle cx="58" cy="68" r="2.5" fill="#654321"/>
+                    <circle cx="35" cy="70" r="2" fill="#654321"/>
+                </svg>
+                <h2>🌟 Sobre o Ludo Conto 🌟</h2>
+            </div>
+            <div class="about-content">
+                <p>Oi! Eu sou o <strong>Ludo</strong>, seu amigo bicho-preguiça! 🦥</p>
+                <p>O Ludo Conto é uma plataforma mágica que cria histórias infantis personalizadas usando inteligência artificial. Nosso objetivo é ajudar pais a educar seus filhos através de contos mágicos e envolventes.</p>
+                <p>Cada história é cuidadosamente gerada para ser:</p>
+                <ul class="about-features">
+                    <li>🛡️ <strong>100% Segura</strong> para crianças</li>
+                    <li>📚 <strong>Educativa</strong> e cheia de valores</li>
+                    <li>🎯 <strong>Adaptada</strong> à idade da criança</li>
+                    <li>✨ <strong>Mágica</strong> e divertida</li>
+                    <li>💖 <strong>Única</strong> para cada criança</li>
+                </ul>
+                <p>Vamos criar histórias incríveis juntos! 🌈</p>
+            </div>
         </div>
+    </div>
+
+    <!-- Elementos decorativos -->
+    <div class="decorative-elements">
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+    </div>
+
+    <!-- Mascote flutuante -->
+    <div class="mascot-float" onclick="showMascotMessage()">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <!-- Corpo do bicho-preguiça -->
+            <ellipse cx="50" cy="65" rx="25" ry="20" fill="#8B4513" stroke="#654321" stroke-width="2"/>
+            
+            <!-- Cabeça -->
+            <circle cx="50" cy="35" r="18" fill="#D2691E" stroke="#8B4513" stroke-width="2"/>
+            
+            <!-- Braços -->
+            <ellipse cx="30" cy="55" rx="8" ry="15" fill="#8B4513" transform="rotate(-30 30 55)"/>
+            <ellipse cx="70" cy="55" rx="8" ry="15" fill="#8B4513" transform="rotate(30 70 55)"/>
+            
+            <!-- Pernas -->
+            <ellipse cx="40" cy="80" rx="6" ry="12" fill="#8B4513"/>
+            <ellipse cx="60" cy="80" rx="6" ry="12" fill="#8B4513"/>
+            
+            <!-- Rosto -->
+            <!-- Olhos -->
+            <circle cx="44" cy="30" r="4" fill="white"/>
+            <circle cx="56" cy="30" r="4" fill="white"/>
+            <circle cx="44" cy="30" r="2" fill="black"/>
+            <circle cx="56" cy="30" r="2" fill="black"/>
+            
+            <!-- Nariz -->
+            <ellipse cx="50" cy="38" rx="2" ry="1.5" fill="black"/>
+            
+            <!-- Boca sorridente -->
+            <path d="M 45 42 Q 50 47 55 42" stroke="black" stroke-width="2" fill="none" stroke-linecap="round"/>
+            
+            <!-- Manchas características -->
+            <circle cx="42" cy="60" r="3" fill="#654321"/>
+            <circle cx="58" cy="68" r="2.5" fill="#654321"/>
+            <circle cx="35" cy="70" r="2" fill="#654321"/>
+            
+            <!-- Garras -->
+            <path d="M 25 65 L 22 68 M 27 67 L 24 70 M 29 69 L 26 72" stroke="black" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M 75 65 L 78 68 M 73 67 L 76 70 M 71 69 L 74 72" stroke="black" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
     </div>
 
     <!-- Main Content -->
     <main class="main">
         <div class="container">
             <div class="hero">
-                <h2>Crie histórias mágicas personalizadas para sua criança</h2>
+                <h2>🌟 Crie histórias mágicas personalizadas para sua criança! 🌟</h2>
                 <p>Preencha o formulário abaixo e receba uma história única, educativa e encantadora!</p>
             </div>
 

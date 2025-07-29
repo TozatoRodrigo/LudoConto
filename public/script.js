@@ -396,4 +396,61 @@ window.onclick = function(event) {
     if (event.target === modalHistorias) {
         modalHistorias.style.display = 'none';
     }
+}// Função 
+para mostrar mensagem do mascote
+function showMascotMessage() {
+    const messages = [
+        "Olá! Eu sou o Ludo, seu amigo preguiça! 🦥",
+        "Vamos criar uma história incrível juntos! ✨",
+        "Que tal uma aventura na floresta mágica? 🌳",
+        "Estou aqui para te ajudar com as histórias! 📚",
+        "Lembre-se: toda criança merece uma história especial! 💖"
+    ];
+    
+    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+    
+    // Criar tooltip temporário
+    const tooltip = document.createElement('div');
+    tooltip.style.cssText = `
+        position: fixed;
+        bottom: 120px;
+        right: 30px;
+        background: linear-gradient(45deg, #ff6b6b, #feca57);
+        color: white;
+        padding: 12px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        z-index: 1001;
+        max-width: 200px;
+        text-align: center;
+        animation: fadeIn 0.3s ease-out;
+    `;
+    
+    tooltip.textContent = randomMessage;
+    document.body.appendChild(tooltip);
+    
+    // Remover tooltip após 3 segundos
+    setTimeout(() => {
+        tooltip.style.animation = 'fadeOut 0.3s ease-out';
+        setTimeout(() => {
+            document.body.removeChild(tooltip);
+        }, 300);
+    }, 3000);
 }
+
+// Adicionar animações CSS dinamicamente
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeOut {
+        from { opacity: 1; transform: translateY(0); }
+        to { opacity: 0; transform: translateY(-10px); }
+    }
+`;
+document.head.appendChild(style);
