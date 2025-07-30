@@ -128,11 +128,8 @@
         });
     </script>
 
-    <!-- Stripe Checkout -->
+    <!-- Checkout via Firebase Functions -->
     <script>
-        // Inicializar Stripe
-        const stripe = Stripe('pk_live_51RqI6J0Tz9khDe1D2y1mIuJYbbqbZGcZdQFW4sTXDYf5o8PJMG8mKXCR2Slkpt7iA4uN9IgYvGHwTt7PYD4aHuQP00B6DsbnJl');
-
         // Funcao para assinar premium
         document.getElementById('premium-checkout').addEventListener('click', async function() {
             const btn = this;
@@ -153,22 +150,20 @@
                 btnLoading.style.display = 'flex';
                 errorMessage.style.display = 'none';
 
-                // Redirecionar para Stripe Checkout
-                const { error } = await stripe.redirectToCheckout({
-                    lineItems: [{
-                        price: 'price_1RqIPF0Tz9khDe1DHsKNCcwu',
-                        quantity: 1,
-                    }],
-                    mode: 'subscription',
+                // Importar Firebase Functions
+                const { getFunctions, httpsCallable } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js');
+                
+                const functions = getFunctions();
+                const criarCheckoutFunction = httpsCallable(functions, 'criarCheckoutSession');
+                
+                const result = await criarCheckoutFunction({
+                    priceId: 'price_1RqIPF0Tz9khDe1DHsKNCcwu',
                     successUrl: window.location.origin + '/sucesso.html',
-                    cancelUrl: window.location.origin + '/premium.html',
-                    customerEmail: window.currentUser.email,
-                    clientReferenceId: window.currentUser.uid,
+                    cancelUrl: window.location.origin + '/premium.html'
                 });
-
-                if (error) {
-                    throw new Error(error.message);
-                }
+                
+                // Redirecionar para Stripe Checkout
+                window.location.href = result.data.url;
 
             } catch (error) {
                 console.error('Erro ao assinar:', error);
