@@ -312,12 +312,14 @@
                         🧠 Desenvolvido com Base em Estudos Cientificos
                     </h3>
                     <p style="text-align: center; margin-bottom: 2rem; color: #666; font-style: italic;">
-                        Nossas historias sao criadas com orientacao de profissionais em psicopedagogia e psicologia infantil
+                        Nossas historias sao criadas com orientacao de profissionais em psicopedagogia e psicologia
+                        infantil
                     </p>
 
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
                         <!-- 2-3 anos -->
-                        <div style="background: linear-gradient(135deg, #ffeaa7, #fab1a0); padding: 2rem; border-radius: 20px; color: #2d3748;">
+                        <div
+                            style="background: linear-gradient(135deg, #ffeaa7, #fab1a0); padding: 2rem; border-radius: 20px; color: #2d3748;">
                             <div style="text-align: center; margin-bottom: 1.5rem;">
                                 <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">👶</div>
                                 <h4 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem;">2-3 Anos</h4>
@@ -344,7 +346,8 @@
                         </div>
 
                         <!-- 4-5 anos -->
-                        <div style="background: linear-gradient(135deg, #74b9ff, #0984e3); padding: 2rem; border-radius: 20px; color: white;">
+                        <div
+                            style="background: linear-gradient(135deg, #74b9ff, #0984e3); padding: 2rem; border-radius: 20px; color: white;">
                             <div style="text-align: center; margin-bottom: 1.5rem;">
                                 <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🧒</div>
                                 <h4 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem;">4-5 Anos</h4>
@@ -371,7 +374,8 @@
                         </div>
 
                         <!-- 6-8 anos -->
-                        <div style="background: linear-gradient(135deg, #a29bfe, #6c5ce7); padding: 2rem; border-radius: 20px; color: white;">
+                        <div
+                            style="background: linear-gradient(135deg, #a29bfe, #6c5ce7); padding: 2rem; border-radius: 20px; color: white;">
                             <div style="text-align: center; margin-bottom: 1.5rem;">
                                 <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">👧</div>
                                 <h4 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem;">6-8 Anos</h4>
@@ -399,16 +403,20 @@
                     </div>
 
                     <!-- Credibilidade Cientifica -->
-                    <div style="background: #f8fafc; border-left: 4px solid #667eea; padding: 1.5rem; margin-top: 2rem; border-radius: 10px;">
+                    <div
+                        style="background: #f8fafc; border-left: 4px solid #667eea; padding: 1.5rem; margin-top: 2rem; border-radius: 10px;">
                         <div style="display: flex; align-items: center; margin-bottom: 1rem;">
                             <span style="font-size: 1.5rem; margin-right: 10px;">🎓</span>
                             <h4 style="color: #2d3748; margin: 0;">Fundamentacao Cientifica</h4>
                         </div>
                         <p style="color: #555; margin-bottom: 1rem;">
-                            Nossas historias seguem principios da <strong>Teoria do Desenvolvimento Cognitivo de Piaget</strong> 
-                            e diretrizes da <strong>Academia Americana de Pediatria</strong> para desenvolvimento da linguagem.
+                            Nossas historias seguem principios da <strong>Teoria do Desenvolvimento Cognitivo de
+                                Piaget</strong>
+                            e diretrizes da <strong>Academia Americana de Pediatria</strong> para desenvolvimento da
+                            linguagem.
                         </p>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
                             <div style="display: flex; align-items: center;">
                                 <span style="color: #10b981; margin-right: 8px;">✓</span>
                                 <span style="font-size: 0.9rem;">Psicopedagogia aplicada</span>
@@ -653,9 +661,22 @@
     </div>
 
     <script type="module" src="auth.js?v=4"></script>
-    <script src="script.js?v=4"></script>
 
     <script>
+        // Funcao para toggle do modal sobre
+        function toggleSobre() {
+            const modal = document.getElementById('modal-sobre');
+            modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Fechar modal clicando fora
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal-sobre');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
         // Funcao para assinar premium
         async function assinarPremium() {
             const btn = document.getElementById('premium-checkout');
