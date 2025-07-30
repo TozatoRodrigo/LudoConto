@@ -1,4 +1,4 @@
-// Ludo Conto - Histórias personalizadas com IA
+// Ludo Conto - Historias personalizadas com IA
 
 // Elementos do DOM
 const form = document.getElementById('historia-form');
@@ -12,7 +12,7 @@ const modalSobre = document.getElementById('modal-sobre');
 // Event Listeners
 form.addEventListener('submit', gerarHistoria);
 
-// Função para toggle do modal sobre
+// Funcao para toggle do modal sobre
 function toggleSobre() {
     modalSobre.style.display = modalSobre.style.display === 'block' ? 'none' : 'block';
 }
@@ -24,7 +24,7 @@ window.onclick = function(event) {
     }
 }
 
-// Função para adicionar sugestões ao campo de preferências
+// Funcao para adicionar sugestoes ao campo de preferencias
 function adicionarSugestao(sugestao) {
     const preferencasInput = document.getElementById('preferencias');
     const valorAtual = preferencasInput.value.trim();
@@ -38,17 +38,17 @@ function adicionarSugestao(sugestao) {
     preferencasInput.focus();
 }
 
-// Função principal para gerar história
+// Funcao principal para gerar historia
 async function gerarHistoria(e) {
     e.preventDefault();
     
-    // Verificar se o usuário está logado
+    // Verificar se o usuario esta logado
     if (!window.userToken) {
-        alert('Você precisa estar logado para gerar histórias.');
+        alert('Voce precisa estar logado para gerar historias.');
         return;
     }
     
-    // Coletar dados do formulário
+    // Coletar dados do formulario
     const formData = new FormData(form);
     const dados = {
         nome: formData.get('nome').trim(),
@@ -58,9 +58,9 @@ async function gerarHistoria(e) {
         desafio: formData.get('desafio').trim()
     };
     
-    // Validação básica
+    // Validacao basica
     if (!dados.nome || !dados.idade || !dados.preferencias || !dados.valor) {
-        alert('Por favor, preencha todos os campos obrigatórios.');
+        alert('Por favor, preencha todos os campos obrigatorios.');
         return;
     }
     
@@ -73,9 +73,9 @@ async function gerarHistoria(e) {
     mostrarLoading(true);
     
     try {
-        // Verificar se o usuário está autenticado
+        // Verificar se o usuario esta autenticado
         if (!window.currentUser) {
-            throw new Error('Usuário não autenticado');
+            throw new Error('Usuario nao autenticado');
         }
         
         // Importar Firebase Functions
@@ -86,17 +86,17 @@ async function gerarHistoria(e) {
         
         const result = await gerarHistoriaFunction(dados);
         
-        // Exibir história com imagem
+        // Exibir historia com imagem
         exibirHistoria(result.data.historia, result.data.imagemUrl);
         
         // Atualizar status do plano
         window.planoUsuario = result.data.planoUsuario;
         window.podeGerarImagem = result.data.podeGerarMaisImagens;
         
-        // Verificar status do plano após gerar história
+        // Verificar status do plano apos gerar historia
         setTimeout(verificarStatusPlano, 1000);
         
-        // Mostrar nudges de conversão baseados no uso
+        // Mostrar nudges de conversao baseados no uso
         setTimeout(() => {
             mostrarNudgeConversao(result.data);
         }, 3000);
@@ -106,17 +106,17 @@ async function gerarHistoria(e) {
         if (error.message.includes('LIMITE_HISTORIAS_ATINGIDO')) {
             mostrarPaywallHistoria();
         } else if (error.message.includes('Token')) {
-            alert('Sua sessão expirou. Faça login novamente.');
+            alert('Sua sessao expirou. Faça login novamente.');
             window.logout();
         } else {
-            alert('Ops! Algo deu errado ao gerar sua história. Tente novamente em alguns instantes.');
+            alert('Ops! Algo deu errado ao gerar sua historia. Tente novamente em alguns instantes.');
         }
     } finally {
         mostrarLoading(false);
     }
 }
 
-// Função para mostrar/esconder loading
+// Funcao para mostrar/esconder loading
 function mostrarLoading(show) {
     if (show) {
         btnText.style.display = 'none';
@@ -130,21 +130,21 @@ function mostrarLoading(show) {
     }
 }
 
-// Função para exibir a história gerada
+// Funcao para exibir a historia gerada
 function exibirHistoria(historia, imagemUrl = null) {
-    // Processar o texto da história para melhor formatação
+    // Processar o texto da historia para melhor formatacao
     const historiaFormatada = formatarHistoria(historia);
     
-    // Criar HTML com imagem se disponível
+    // Criar HTML com imagem se disponivel
     let htmlCompleto = '';
     
     if (imagemUrl) {
         htmlCompleto += `
             <div class="historia-imagem">
-                <img src="${imagemUrl}" alt="Ilustração da história" class="imagem-historia" />
+                <img src="${imagemUrl}" alt="Ilustracao da historia" class="imagem-historia" />
                 <div class="imagem-loading" style="display: none;">
                     <div class="spinner"></div>
-                    <p>Carregando ilustração mágica...</p>
+                    <p>Carregando ilustracao magica...</p>
                 </div>
             </div>
         `;
@@ -169,7 +169,7 @@ function exibirHistoria(historia, imagemUrl = null) {
         };
         
         img.onerror = function() {
-            loadingDiv.innerHTML = '<p>🎨 Ilustração não disponível</p>';
+            loadingDiv.innerHTML = '<p>🎨 Ilustracao nao disponivel</p>';
         };
     }
     
@@ -182,7 +182,7 @@ function exibirHistoria(historia, imagemUrl = null) {
     });
 }
 
-// Função para formatar a história
+// Funcao para formatar a historia
 function formatarHistoria(texto) {
     // Dividir em linhas e processar
     const linhas = texto.split('\n').filter(linha => linha.trim() !== '');
@@ -191,8 +191,8 @@ function formatarHistoria(texto) {
     linhas.forEach((linha, index) => {
         linha = linha.trim();
         
-        // Se a primeira linha parece ser um título
-        if (index === 0 && (linha.length < 100 || linha.includes('História') || linha.includes('Aventura'))) {
+        // Se a primeira linha parece ser um titulo
+        if (index === 0 && (linha.length < 100 || linha.includes('Historia') || linha.includes('Aventura'))) {
             htmlFormatado += `<h3>${linha}</h3>`;
         } else {
             htmlFormatado += `<p>${linha}</p>`;
@@ -202,7 +202,7 @@ function formatarHistoria(texto) {
     return htmlFormatado;
 }
 
-// Função para copiar história
+// Funcao para copiar historia
 async function copiarHistoria() {
     try {
         const textoHistoria = historiaContent.innerText;
@@ -221,15 +221,15 @@ async function copiarHistoria() {
         
     } catch (error) {
         console.error('Erro ao copiar:', error);
-        alert('Não foi possível copiar a história. Tente selecionar o texto manualmente.');
+        alert('Nao foi possivel copiar a historia. Tente selecionar o texto manualmente.');
     }
 }
 
-// Função para gerar nova história
+// Funcao para gerar nova historia
 function novaHistoria() {
     resultado.style.display = 'none';
     
-    // Scroll suave para o formulário
+    // Scroll suave para o formulario
     form.scrollIntoView({ 
         behavior: 'smooth',
         block: 'start'
@@ -239,7 +239,7 @@ function novaHistoria() {
     document.getElementById('nome').focus();
 }
 
-// Função para validação em tempo real
+// Funcao para validacao em tempo real
 document.getElementById('nome').addEventListener('input', function(e) {
     // Remover caracteres especiais do nome
     e.target.value = e.target.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, '');
@@ -256,9 +256,9 @@ document.getElementById('idade').addEventListener('input', function(e) {
 
 
 
-// Animação suave para os elementos quando carregam
+// Animacao suave para os elementos quando carregam
 document.addEventListener('DOMContentLoaded', function() {
-    // Adicionar classe de animação aos elementos
+    // Adicionar classe de animacao aos elementos
     const elementos = document.querySelectorAll('.form-container, .hero');
     elementos.forEach((el, index) => {
         el.style.opacity = '0';
@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Função para toggle do modal de histórias
+// Funcao para toggle do modal de historias
 function toggleHistorias() {
     const modal = document.getElementById('modal-historias');
     if (modal.style.display === 'block') {
@@ -283,7 +283,7 @@ function toggleHistorias() {
     }
 }
 
-// Função para carregar histórias do usuário
+// Funcao para carregar historias do usuario
 async function carregarHistorias() {
     const historiasContainer = document.getElementById('historias-list');
     
@@ -291,14 +291,14 @@ async function carregarHistorias() {
     historiasContainer.innerHTML = `
         <div class="loading-historias">
             <div class="spinner"></div>
-            Carregando suas histórias...
+            Carregando suas historias...
         </div>
     `;
     
     try {
-        // Verificar se o usuário está autenticado
+        // Verificar se o usuario esta autenticado
         if (!window.currentUser) {
-            throw new Error('Usuário não autenticado');
+            throw new Error('Usuario nao autenticado');
         }
         
         // Usar Firebase Functions
@@ -309,31 +309,31 @@ async function carregarHistorias() {
         
         const result = await minhasHistoriasFunction();
         
-        // Armazenar histórias globalmente para filtros
+        // Armazenar historias globalmente para filtros
         window.todasHistorias = result.data.historias;
         
         exibirHistorias(result.data.historias);
         
     } catch (error) {
-        console.error('Erro ao carregar histórias:', error);
+        console.error('Erro ao carregar historias:', error);
         historiasContainer.innerHTML = `
             <div class="empty-state">
-                <h3>Erro ao carregar histórias</h3>
+                <h3>Erro ao carregar historias</h3>
                 <p>Tente novamente em alguns instantes.</p>
             </div>
         `;
     }
 }
 
-// Função para exibir lista de histórias
+// Funcao para exibir lista de historias
 function exibirHistorias(historias) {
     const historiasContainer = document.getElementById('historias-list');
     
     if (historias.length === 0) {
         historiasContainer.innerHTML = `
             <div class="empty-state">
-                <h3>Nenhuma história encontrada</h3>
-                <p>Que tal criar sua primeira história mágica?</p>
+                <h3>Nenhuma historia encontrada</h3>
+                <p>Que tal criar sua primeira historia magica?</p>
             </div>
         `;
         return;
@@ -343,17 +343,17 @@ function exibirHistorias(historias) {
         <div class="historia-item">
             <div class="historia-header">
                 <div class="historia-info">
-                    <h4>História para ${historia.nome}</h4>
+                    <h4>Historia para ${historia.nome}</h4>
                     <div class="historia-meta">
                         ${historia.idade} anos • ${historia.valor} • ${formatarData(historia.criadaEm)}
                     </div>
                     <div class="historia-meta">
-                        <strong>Preferências:</strong> ${historia.preferencias}
+                        <strong>Preferencias:</strong> ${historia.preferencias}
                     </div>
                 </div>
                 ${historia.imagemUrl ? `
                     <div class="historia-thumbnail">
-                        <img src="${historia.imagemUrl}" alt="Ilustração" class="thumbnail-img" />
+                        <img src="${historia.imagemUrl}" alt="Ilustracao" class="thumbnail-img" />
                     </div>
                 ` : ''}
             </div>
@@ -362,7 +362,7 @@ function exibirHistorias(historias) {
             </div>
             <div class="historia-actions">
                 <button class="btn-small" onclick="verHistoriaCompleta('${historia.id}')">
-                    📖 Ver História Completa
+                    📖 Ver Historia Completa
                 </button>
                 <button class="btn-small ${historia.favorita ? 'btn-favorito-ativo' : 'btn-favorito'}" 
                         onclick="toggleFavorito('${historia.id}')">
@@ -381,12 +381,12 @@ function exibirHistorias(historias) {
     historiasContainer.innerHTML = historiasHtml;
 }
 
-// Função para ver história completa
+// Funcao para ver historia completa
 async function verHistoriaCompleta(historiaId) {
     try {
-        // Verificar se o usuário está autenticado
+        // Verificar se o usuario esta autenticado
         if (!window.currentUser) {
-            throw new Error('Usuário não autenticado');
+            throw new Error('Usuario nao autenticado');
         }
         
         // Usar Firebase Functions
@@ -397,28 +397,28 @@ async function verHistoriaCompleta(historiaId) {
         
         const result = await obterHistoriaFunction({ historiaId });
         
-        // Fechar modal de histórias
+        // Fechar modal de historias
         document.getElementById('modal-historias').style.display = 'none';
         
-        // Exibir história no resultado principal
+        // Exibir historia no resultado principal
         exibirHistoria(result.data.historia, result.data.imagemUrl);
         
     } catch (error) {
-        console.error('Erro ao carregar história:', error);
-        alert('Erro ao carregar história. Tente novamente.');
+        console.error('Erro ao carregar historia:', error);
+        alert('Erro ao carregar historia. Tente novamente.');
     }
 }
 
-// Função para deletar história
+// Funcao para deletar historia
 async function deletarHistoria(historiaId) {
-    if (!confirm('Tem certeza que deseja deletar esta história? Esta ação não pode ser desfeita.')) {
+    if (!confirm('Tem certeza que deseja deletar esta historia? Esta acao nao pode ser desfeita.')) {
         return;
     }
     
     try {
-        // Verificar se o usuário está autenticado
+        // Verificar se o usuario esta autenticado
         if (!window.currentUser) {
-            throw new Error('Usuário não autenticado');
+            throw new Error('Usuario nao autenticado');
         }
         
         // Usar Firebase Functions
@@ -429,16 +429,16 @@ async function deletarHistoria(historiaId) {
         
         await deletarHistoriaFunction({ historiaId });
         
-        // Recarregar lista de histórias
+        // Recarregar lista de historias
         carregarHistorias();
         
     } catch (error) {
-        console.error('Erro ao deletar história:', error);
-        alert('Erro ao deletar história. Tente novamente.');
+        console.error('Erro ao deletar historia:', error);
+        alert('Erro ao deletar historia. Tente novamente.');
     }
 }
 
-// Função para formatar data
+// Funcao para formatar data
 function formatarData(data) {
     const dataObj = new Date(data);
     return dataObj.toLocaleDateString('pt-BR', {
@@ -464,19 +464,19 @@ window.onclick = function(event) {
     }
 }
 
-// Função para mostrar mensagem do mascote
+// Funcao para mostrar mensagem do mascote
 function showMascotMessage() {
     const messages = [
-        "Olá! Eu sou o Ludo, seu amigo preguiça! 🦥",
-        "Vamos criar uma história incrível juntos! ✨",
-        "Que tal uma aventura na floresta mágica? 🌳",
-        "Estou aqui para te ajudar com as histórias! 📚",
-        "Lembre-se: toda criança merece uma história especial! 💖"
+        "Ola! Eu sou o Ludo, seu amigo preguiça! 🦥",
+        "Vamos criar uma historia incrivel juntos! ✨",
+        "Que tal uma aventura na floresta magica? 🌳",
+        "Estou aqui para te ajudar com as historias! 📚",
+        "Lembre-se: toda criança merece uma historia especial! 💖"
     ];
     
     const randomMessage = messages[Math.floor(Math.random() * messages.length)];
     
-    // Criar tooltip temporário
+    // Criar tooltip temporario
     const tooltip = document.createElement('div');
     tooltip.style.cssText = `
         position: fixed;
@@ -498,7 +498,7 @@ function showMascotMessage() {
     tooltip.textContent = randomMessage;
     document.body.appendChild(tooltip);
     
-    // Remover tooltip após 3 segundos
+    // Remover tooltip apos 3 segundos
     setTimeout(() => {
         tooltip.style.animation = 'fadeOut 0.3s ease-out';
         setTimeout(() => {
@@ -507,7 +507,7 @@ function showMascotMessage() {
     }, 3000);
 }
 
-// Adicionar animações CSS dinamicamente
+// Adicionar animaçoes CSS dinamicamente
 const style = document.createElement('style');
 style.textContent = `
     @keyframes fadeIn {
@@ -522,11 +522,11 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Variáveis globais para controle de plano
+// Variaveis globais para controle de plano
 window.planoUsuario = 'gratuito';
 window.podeGerarImagem = true;
 
-// Função para verificar status do plano
+// Funcao para verificar status do plano
 async function verificarStatusPlano() {
     try {
         if (!window.currentUser) return;
@@ -549,7 +549,7 @@ async function verificarStatusPlano() {
     }
 }
 
-// Função para atualizar interface baseada no plano
+// Funcao para atualizar interface baseada no plano
 function atualizarInterfacePlano(statusPlano) {
     const btnPlano = document.getElementById('btn-plano');
     
@@ -563,13 +563,13 @@ function atualizarInterfacePlano(statusPlano) {
         btnPlano.style.color = 'white';
     }
     
-    // Mostrar aviso se não pode gerar mais imagens
+    // Mostrar aviso se nao pode gerar mais imagens
     if (!statusPlano.podeGerarImagem && statusPlano.plano === 'gratuito') {
         mostrarAvisoLimiteImagem();
     }
 }
 
-// Função para mostrar aviso de limite de imagem
+// Funcao para mostrar aviso de limite de imagem
 function mostrarAvisoLimiteImagem() {
     const aviso = document.createElement('div');
     aviso.className = 'aviso-limite';
@@ -577,19 +577,19 @@ function mostrarAvisoLimiteImagem() {
         <div class="aviso-content">
             <span class="aviso-icon">🎨</span>
             <div class="aviso-text">
-                <strong>Limite de ilustrações atingido!</strong>
-                <p>Você já usou sua ilustração gratuita. Assine o Premium para ilustrações ilimitadas!</p>
+                <strong>Limite de ilustraçoes atingido!</strong>
+                <p>Voce ja usou sua ilustracao gratuita. Assine o Premium para ilustraçoes ilimitadas!</p>
             </div>
             <button class="btn-upgrade-small" onclick="togglePlano()">⭐ Upgrade</button>
         </div>
     `;
     
-    // Inserir antes do formulário
+    // Inserir antes do formulario
     const formContainer = document.querySelector('.form-container');
     formContainer.parentNode.insertBefore(aviso, formContainer);
 }
 
-// Função para toggle do modal de plano
+// Funcao para toggle do modal de plano
 function togglePlano() {
     const modal = document.getElementById('modal-plano');
     if (modal.style.display === 'block') {
@@ -600,14 +600,14 @@ function togglePlano() {
     }
 }
 
-// Função para carregar status do plano no modal
+// Funcao para carregar status do plano no modal
 async function carregarStatusPlano() {
     const statusContainer = document.getElementById('plano-status');
     const btnAssinar = document.getElementById('btn-assinar');
     
     try {
         if (!window.currentUser) {
-            throw new Error('Usuário não autenticado');
+            throw new Error('Usuario nao autenticado');
         }
         
         const { getFunctions, httpsCallable } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js');
@@ -624,7 +624,7 @@ async function carregarStatusPlano() {
                     <span class="status-icon">✅</span>
                     <div class="status-text">
                         <strong>Premium Ativo!</strong>
-                        <p>Você tem acesso a ilustrações ilimitadas</p>
+                        <p>Voce tem acesso a ilustraçoes ilimitadas</p>
                     </div>
                 </div>
             `;
@@ -636,7 +636,7 @@ async function carregarStatusPlano() {
                     <span class="status-icon">🎁</span>
                     <div class="status-text">
                         <strong>Plano Gratuito</strong>
-                        <p>Ilustrações restantes: ${imagensRestantes}</p>
+                        <p>Ilustraçoes restantes: ${imagensRestantes}</p>
                     </div>
                 </div>
             `;
@@ -654,11 +654,11 @@ async function carregarStatusPlano() {
     }
 }
 
-// Função para assinar premium
+// Funcao para assinar premium
 async function assinarPremium() {
     try {
         if (!window.currentUser) {
-            alert('Você precisa estar logado para assinar o Premium.');
+            alert('Voce precisa estar logado para assinar o Premium.');
             return;
         }
         
@@ -688,31 +688,31 @@ async function assinarPremium() {
     }
 }
 
-// Verificar status do plano quando o usuário faz login
+// Verificar status do plano quando o usuario faz login
 window.addEventListener('userLoggedIn', verificarStatusPlano);
 
-// Verificar status do plano quando a página carrega
+// Verificar status do plano quando a pagina carrega
 document.addEventListener('DOMContentLoaded', function() {
-    // Aguardar um pouco para garantir que o usuário foi carregado
+    // Aguardar um pouco para garantir que o usuario foi carregado
     setTimeout(verificarStatusPlano, 1000);
 });
 
-// Configuração do Stripe
+// Configuracao do Stripe
 window.STRIPE_PUBLISHABLE_KEY = 'pk_live_51RqI6J0Tz9khDe1D2y1mIuJYbbqbZGcZdQFW4sTXDYf5o8PJMG8mKXCR2Slkpt7iA4uN9IgYvGHwTt7PYD4aHuQP00B6DsbnJl';
 
-// Função para mostrar mensagem do mascote
+// Funcao para mostrar mensagem do mascote
 function showMascotMessage() {
     const messages = [
-        "Olá! Eu sou o Ludo, seu amigo preguiça! 🦥",
-        "Vamos criar uma história incrível juntos! ✨",
-        "Que tal uma aventura na floresta mágica? 🌳",
-        "Estou aqui para te ajudar com as histórias! 📚",
-        "Lembre-se: toda criança merece uma história especial! 💖"
+        "Ola! Eu sou o Ludo, seu amigo preguiça! 🦥",
+        "Vamos criar uma historia incrivel juntos! ✨",
+        "Que tal uma aventura na floresta magica? 🌳",
+        "Estou aqui para te ajudar com as historias! 📚",
+        "Lembre-se: toda criança merece uma historia especial! 💖"
     ];
     
     const randomMessage = messages[Math.floor(Math.random() * messages.length)];
     
-    // Criar tooltip temporário
+    // Criar tooltip temporario
     const tooltip = document.createElement('div');
     tooltip.style.cssText = `
         position: fixed;
@@ -734,7 +734,7 @@ function showMascotMessage() {
     tooltip.textContent = randomMessage;
     document.body.appendChild(tooltip);
     
-    // Remover tooltip após 3 segundos
+    // Remover tooltip apos 3 segundos
     setTimeout(() => {
         tooltip.style.animation = 'fadeOut 0.3s ease-out';
         setTimeout(() => {
@@ -745,24 +745,25 @@ function showMascotMessage() {
     }, 3000);
 }
 
-// Verificar status do plano quando o usuário faz login
+// Verificar status do plano quando o usuario faz login
 if (typeof window !== 'undefined') {
     window.addEventListener('userLoggedIn', verificarStatusPlano);
     
-    // Verificar status do plano quando a página carrega
+    // Verificar status do plano quando a pagina carrega
     document.addEventListener('DOMContentLoaded', function() {
-        // Aguardar um pouco para garantir que o usuário foi carregado
+        // Aguardar um pouco para garantir que o usuario foi carregado
         setTimeout(verificarStatusPlano, 1000);
     });
 }
 
-// Configuração do Stripe
-window.STRIPE_PUBLISHABLE_KEY = 'pk_live_51RqI6J0Tz9khDe1D2y1mIuJYbbqbZGcZdQFW4sTXDYf5o8PJMG8mKXCR2Slkpt7iA4uN9IgYvGHwTt7PYD4aHuQP00B6DsbnJl';//
- Função para toggle favorito
+// Configuracao do Stripe
+window.STRIPE_PUBLISHABLE_KEY = 'pk_live_51RqI6J0Tz9khDe1D2y1mIuJYbbqbZGcZdQFW4sTXDYf5o8PJMG8mKXCR2Slkpt7iA4uN9IgYvGHwTt7PYD4aHuQP00B6DsbnJl';
+
+// Funcao para toggle favorito
 async function toggleFavorito(historiaId) {
     try {
         if (!window.currentUser) {
-            throw new Error('Usuário não autenticado');
+            throw new Error('Usuario nao autenticado');
         }
         
         const { getFunctions, httpsCallable } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js');
@@ -775,7 +776,7 @@ async function toggleFavorito(historiaId) {
         // Mostrar feedback
         mostrarNotificacao(result.data.message, 'sucesso');
         
-        // Recarregar lista de histórias
+        // Recarregar lista de historias
         carregarHistorias();
         
     } catch (error) {
@@ -784,11 +785,11 @@ async function toggleFavorito(historiaId) {
     }
 }
 
-// Função para compartilhar história
+// Funcao para compartilhar historia
 async function compartilharHistoria(historiaId) {
     try {
         if (!window.currentUser) {
-            throw new Error('Usuário não autenticado');
+            throw new Error('Usuario nao autenticado');
         }
         
         const { getFunctions, httpsCallable } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js');
@@ -805,12 +806,12 @@ async function compartilharHistoria(historiaId) {
         mostrarModalCompartilhamento(result.data.shareUrl);
         
     } catch (error) {
-        console.error('Erro ao compartilhar história:', error);
+        console.error('Erro ao compartilhar historia:', error);
         mostrarNotificacao('Erro ao gerar link de compartilhamento.', 'erro');
     }
 }
 
-// Função para mostrar modal de compartilhamento
+// Funcao para mostrar modal de compartilhamento
 function mostrarModalCompartilhamento(shareUrl) {
     const modal = document.createElement('div');
     modal.className = 'modal';
@@ -819,8 +820,8 @@ function mostrarModalCompartilhamento(shareUrl) {
         <div class="modal-content modal-share">
             <span class="close" onclick="this.parentElement.parentElement.remove()">&times;</span>
             <div class="share-header">
-                <h2>📤 Compartilhar História</h2>
-                <p>Link copiado para a área de transferência!</p>
+                <h2>📤 Compartilhar Historia</h2>
+                <p>Link copiado para a area de transferencia!</p>
             </div>
             <div class="share-content">
                 <div class="share-url">
@@ -843,7 +844,7 @@ function mostrarModalCompartilhamento(shareUrl) {
     
     document.body.appendChild(modal);
     
-    // Remover modal após 10 segundos
+    // Remover modal apos 10 segundos
     setTimeout(() => {
         if (modal.parentNode) {
             modal.remove();
@@ -851,20 +852,20 @@ function mostrarModalCompartilhamento(shareUrl) {
     }, 10000);
 }
 
-// Função para compartilhar no WhatsApp
+// Funcao para compartilhar no WhatsApp
 function compartilharWhatsApp(shareUrl) {
-    const texto = encodeURIComponent(`Olha que história mágica eu criei no Ludo Conto! 🦥✨\n\n${shareUrl}`);
+    const texto = encodeURIComponent(`Olha que historia magica eu criei no Ludo Conto! 🦥✨\n\n${shareUrl}`);
     window.open(`https://wa.me/?text=${texto}`, '_blank');
 }
 
-// Função para compartilhar por email
+// Funcao para compartilhar por email
 function compartilharEmail(shareUrl) {
-    const assunto = encodeURIComponent('História Mágica do Ludo Conto');
-    const corpo = encodeURIComponent(`Olá!\n\nCriei uma história mágica no Ludo Conto e queria compartilhar com você!\n\nVeja aqui: ${shareUrl}\n\nO Ludo Conto cria histórias personalizadas para crianças com ilustrações incríveis!\n\nAbraços! 🦥✨`);
+    const assunto = encodeURIComponent('Historia Magica do Ludo Conto');
+    const corpo = encodeURIComponent(`Ola!\n\nCriei uma historia magica no Ludo Conto e queria compartilhar com voce!\n\nVeja aqui: ${shareUrl}\n\nO Ludo Conto cria historias personalizadas para crianças com ilustraçoes incriveis!\n\nAbraços! 🦥✨`);
     window.open(`mailto:?subject=${assunto}&body=${corpo}`);
 }
 
-// Função para mostrar notificações
+// Funcao para mostrar notificaçoes
 function mostrarNotificacao(mensagem, tipo = 'info') {
     const notificacao = document.createElement('div');
     notificacao.className = `notificacao notificacao-${tipo}`;
@@ -885,7 +886,7 @@ function mostrarNotificacao(mensagem, tipo = 'info') {
         notificacao.style.opacity = '1';
     }, 100);
     
-    // Remover após 3 segundos
+    // Remover apos 3 segundos
     setTimeout(() => {
         notificacao.style.transform = 'translateX(100%)';
         notificacao.style.opacity = '0';
@@ -895,13 +896,14 @@ function mostrarNotificacao(mensagem, tipo = 'info') {
             }
         }, 300);
     }, 3000);
-}/
-/ Variável global para armazenar todas as histórias
+}
+
+// Variavel global para armazenar todas as historias
 window.todasHistorias = [];
 
-// Função para filtrar histórias
+// Funcao para filtrar historias
 function filtrarHistorias(filtro) {
-    // Atualizar botões ativos
+    // Atualizar botoes ativos
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.classList.remove('active');
     });
@@ -924,8 +926,9 @@ function filtrarHistorias(filtro) {
     }
     
     exibirHistorias(historiasFiltradas);
-}// Si
-stema de Dashboard e Paywall
+}
+
+// Sistema de Dashboard e Paywall
 let statusUsuario = {
     plano: 'gratuito',
     historiasRestantes: 3,
@@ -934,7 +937,7 @@ let statusUsuario = {
     podeGerarImagem: true
 };
 
-// Função para mostrar/esconder dashboard baseado no login
+// Funcao para mostrar/esconder dashboard baseado no login
 function toggleDashboard(mostrar) {
     const dashboard = document.getElementById('dashboard');
     const heroSection = document.getElementById('hero-section');
@@ -952,7 +955,7 @@ function toggleDashboard(mostrar) {
     }
 }
 
-// Função para atualizar dashboard com dados do usuário
+// Funcao para atualizar dashboard com dados do usuario
 async function atualizarDashboard() {
     try {
         const status = await obterStatusUsuario();
@@ -997,7 +1000,7 @@ async function atualizarDashboard() {
     }
 }
 
-// Função para obter status do usuário
+// Funcao para obter status do usuario
 async function obterStatusUsuario() {
     if (!window.currentUser) return statusUsuario;
     
@@ -1013,26 +1016,26 @@ async function obterStatusUsuario() {
     }
 }
 
-// Função para mostrar formulário
+// Funcao para mostrar formulario
 function mostrarFormulario() {
-    // Verificar se pode gerar história
+    // Verificar se pode gerar historia
     if (!statusUsuario.podeGerarHistoria) {
         mostrarPaywallHistoria();
         return;
     }
     
-    // Mostrar formulário
+    // Mostrar formulario
     document.getElementById('dashboard').style.display = 'none';
     document.querySelector('.form-container').style.display = 'block';
     
-    // Scroll para o formulário
+    // Scroll para o formulario
     document.querySelector('.form-container').scrollIntoView({
         behavior: 'smooth',
         block: 'start'
     });
 }
 
-// Função para mostrar paywall de história
+// Funcao para mostrar paywall de historia
 function mostrarPaywallHistoria() {
     const modal = document.createElement('div');
     modal.className = 'modal';
@@ -1045,13 +1048,13 @@ function mostrarPaywallHistoria() {
                 <h2>Limite Atingido</h2>
             </div>
             <div class="paywall-content">
-                <p>Você já gerou todas as <strong>3 histórias gratuitas</strong> deste mês.</p>
-                <p>Assine o <strong>LudoConto+</strong> por apenas <strong>R$ 9,99/mês</strong> e tenha:</p>
+                <p>Voce ja gerou todas as <strong>3 historias gratuitas</strong> deste mes.</p>
+                <p>Assine o <strong>LudoConto+</strong> por apenas <strong>R$ 9,99/mes</strong> e tenha:</p>
                 <ul class="paywall-benefits">
-                    <li>✨ <strong>Histórias ilimitadas</strong> (uso justo: 1 por dia)</li>
-                    <li>🎨 <strong>Ilustrações em todas as histórias</strong> (até 30/mês)</li>
-                    <li>👨‍👩‍👧‍👦 <strong>Perfis adicionais</strong> (até 3 crianças)</li>
-                    <li>🚫 <strong>Sem anúncios</strong></li>
+                    <li>✨ <strong>Historias ilimitadas</strong> (uso justo: 1 por dia)</li>
+                    <li>🎨 <strong>Ilustraçoes em todas as historias</strong> (ate 30/mes)</li>
+                    <li>👨‍👩‍👧‍👦 <strong>Perfis adicionais</strong> (ate 3 crianças)</li>
+                    <li>🚫 <strong>Sem anuncios</strong></li>
                 </ul>
             </div>
             <div class="paywall-actions">
@@ -1068,7 +1071,7 @@ function mostrarPaywallHistoria() {
     document.body.appendChild(modal);
 }
 
-// Função para mostrar paywall de ilustração
+// Funcao para mostrar paywall de ilustracao
 function mostrarPaywallIlustracao() {
     const modal = document.createElement('div');
     modal.className = 'modal';
@@ -1078,26 +1081,26 @@ function mostrarPaywallIlustracao() {
             <span class="close" onclick="this.parentElement.parentElement.remove()">&times;</span>
             <div class="paywall-header">
                 <div class="paywall-icon">🎨</div>
-                <h2>Ilustrações Ilimitadas no LudoConto+</h2>
+                <h2>Ilustraçoes Ilimitadas no LudoConto+</h2>
             </div>
             <div class="paywall-content">
-                <p>Somente a <strong>primeira história grátis</strong> inclui ilustração.</p>
-                <p>Assine o <strong>LudoConto+</strong> e tenha <strong>ilustrações em todas as histórias</strong> (até 30 por mês)!</p>
+                <p>Somente a <strong>primeira historia gratis</strong> inclui ilustracao.</p>
+                <p>Assine o <strong>LudoConto+</strong> e tenha <strong>ilustraçoes em todas as historias</strong> (ate 30 por mes)!</p>
                 <div class="paywall-comparison">
                     <div class="plan-comparison">
                         <div class="plan-free">
                             <h4>🆓 Gratuito</h4>
                             <ul>
-                                <li>3 histórias/mês</li>
-                                <li>1 ilustração/mês</li>
+                                <li>3 historias/mes</li>
+                                <li>1 ilustracao/mes</li>
                             </ul>
                         </div>
                         <div class="plan-premium">
                             <h4>⭐ LudoConto+</h4>
                             <ul>
-                                <li>Histórias ilimitadas</li>
-                                <li>30 ilustrações/mês</li>
-                                <li>Sem anúncios</li>
+                                <li>Historias ilimitadas</li>
+                                <li>30 ilustraçoes/mes</li>
+                                <li>Sem anuncios</li>
                             </ul>
                         </div>
                     </div>
@@ -1105,10 +1108,10 @@ function mostrarPaywallIlustracao() {
             </div>
             <div class="paywall-actions">
                 <button class="btn-premium-large" onclick="assinarPremium(); this.parentElement.parentElement.parentElement.remove();">
-                    ⭐ Assinar por R$ 9,99/mês
+                    ⭐ Assinar por R$ 9,99/mes
                 </button>
                 <button class="btn-secondary" onclick="this.parentElement.parentElement.parentElement.remove();">
-                    Continuar sem Ilustração
+                    Continuar sem Ilustracao
                 </button>
             </div>
         </div>
@@ -1117,20 +1120,21 @@ function mostrarPaywallIlustracao() {
     document.body.appendChild(modal);
 }
 
-// Atualizar verificação de status quando usuário faz login
+// Atualizar verificacao de status quando usuario faz login
 window.addEventListener('userLoggedIn', () => {
     toggleDashboard(true);
 });
 
-// Verificar status quando página carrega
+// Verificar status quando pagina carrega
 document.addEventListener('DOMContentLoaded', () => {
     if (window.currentUser) {
         toggleDashboard(true);
     }
-});//
- Função para gerar ilustração
+});
+
+// Funcao para gerar ilustracao
 async function gerarIlustracao() {
-    // Verificar se pode gerar ilustração
+    // Verificar se pode gerar ilustracao
     if (!statusUsuario.podeGerarImagem) {
         mostrarPaywallIlustracao();
         return;
@@ -1141,42 +1145,42 @@ async function gerarIlustracao() {
     
     try {
         // Mostrar loading
-        btnIlustracao.innerHTML = '<div class="spinner"></div> Gerando ilustração...';
+        btnIlustracao.innerHTML = '<div class="spinner"></div> Gerando ilustracao...';
         btnIlustracao.disabled = true;
         
-        // Aqui você implementaria a chamada para gerar ilustração
+        // Aqui voce implementaria a chamada para gerar ilustracao
         // Por enquanto, vou simular
         await new Promise(resolve => setTimeout(resolve, 3000));
         
-        mostrarNotificacao('Ilustração gerada com sucesso!', 'sucesso');
+        mostrarNotificacao('Ilustracao gerada com sucesso!', 'sucesso');
         
         // Atualizar status
         await atualizarDashboard();
         
     } catch (error) {
-        console.error('Erro ao gerar ilustração:', error);
-        mostrarNotificacao('Erro ao gerar ilustração. Tente novamente.', 'erro');
+        console.error('Erro ao gerar ilustracao:', error);
+        mostrarNotificacao('Erro ao gerar ilustracao. Tente novamente.', 'erro');
     } finally {
         btnIlustracao.innerHTML = textoOriginal;
         btnIlustracao.disabled = false;
     }
 }
 
-// Função para voltar ao dashboard
+// Funcao para voltar ao dashboard
 function voltarDashboard() {
     document.getElementById('resultado').style.display = 'none';
     document.querySelector('.form-container').style.display = 'none';
     toggleDashboard(true);
 }
 
-// Atualizar função de nova história para voltar ao dashboard
+// Atualizar funcao de nova historia para voltar ao dashboard
 function novaHistoria() {
     if (window.currentUser) {
         voltarDashboard();
     } else {
         resultado.style.display = 'none';
         
-        // Scroll suave para o formulário
+        // Scroll suave para o formulario
         form.scrollIntoView({ 
             behavior: 'smooth',
             block: 'start'

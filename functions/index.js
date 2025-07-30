@@ -139,14 +139,14 @@ Gere uma história personalizada com base:
 ### Diretrizes por Idade:
 ${idade <= 3 ? `
 **2-3 anos:** Frases curtas, repetição, vocabulário concreto, ` +
-      `180-300 palavras, moral explícita.
+        `180-300 palavras, moral explícita.
 - Use padrões repetitivos ("E então... E então...")
 - Personagens simples e familiares
 - Ações concretas e visuais
 - Final feliz óbvio com moral clara
 ` : idade <= 5 ? `
 **4-5 anos:** Parágrafos curtos, 250-450 palavras, humor leve, ` +
-      `moral clara e contextualizada.
+        `moral clara e contextualizada.
 - Diálogos simples entre personagens
 - Pequenos problemas com soluções claras
 - Elementos de fantasia leve
@@ -219,7 +219,7 @@ Inclua um box separado:
       deveGerarImagem = true;
       logger.info("✨ Usuário premium - gerando imagem");
     } else if (planoInfo.plano === "gratuito" &&
-               !planoInfo.historiaComImagemUsada) {
+      !planoInfo.historiaComImagemUsada) {
       deveGerarImagem = true;
       logger.info("🎁 Primeira história gratuita - gerando imagem");
     } else {
@@ -264,7 +264,7 @@ Inclua um box separado:
 
         const bucket = admin.storage().bucket();
         const fileName = `historias/${userId}/${Date.now()}_` +
-        `${nome.replace(/\s+/g, "_")}.png`;
+          `${nome.replace(/\s+/g, "_")}.png`;
         const file = bucket.file(fileName);
 
         await file.save(imageBuffer, {
@@ -298,9 +298,9 @@ Inclua um box separado:
             logger.info("🔄 Tentando novamente com prompt simplificado...");
 
             const simplePrompt = `A happy child reading a magical storybook ` +
-            `in a cozy library setting. Warm colors, friendly atmosphere, ` +
-            `children's book illustration style, watercolor textures. ` +
-            `Safe and appropriate for young children.`;
+              `in a cozy library setting. Warm colors, friendly atmosphere, ` +
+              `children's book illustration style, watercolor textures. ` +
+              `Safe and appropriate for young children.`;
 
             const retryResponse = await openai.images.generate({
               model: "dall-e-3",
@@ -321,7 +321,7 @@ Inclua um box separado:
 
             const bucket = admin.storage().bucket();
             const fileName = `historias/${userId}/${Date.now()}_` +
-            `${nome.replace(/\s+/g, "_")}_retry.png`;
+              `${nome.replace(/\s+/g, "_")}_retry.png`;
             const file = bucket.file(fileName);
 
             await file.save(imageBuffer, {
@@ -364,7 +364,7 @@ Inclua um box separado:
 
     // Atualizar status do usuário se usou a imagem gratuita
     if (imagemUrl && planoInfo.plano === "gratuito" &&
-        !planoInfo.historiaComImagemUsada) {
+      !planoInfo.historiaComImagemUsada) {
       await admin.firestore()
           .collection("usuarios")
           .doc(userId)
@@ -399,7 +399,7 @@ Inclua um box separado:
       planoUsuario: planoInfo.plano,
       podeGerarMaisImagens: planoInfo.plano === "premium" ||
         (planoInfo.plano === "gratuito" &&
-         !planoInfo.historiaComImagemUsada),
+          !planoInfo.historiaComImagemUsada),
     };
   } catch (error) {
     logger.error("Erro ao gerar história:", error);
@@ -574,8 +574,8 @@ exports.health = onRequest((req, res) => {
 let stripe;
 try {
   stripe = require("stripe")(
-      functions.config().stripe && functions.config().stripe.secret_key ?
-        functions.config().stripe.secret_key : "sk_test_placeholder",
+    functions.config().stripe && functions.config().stripe.secret_key ?
+      functions.config().stripe.secret_key : "sk_test_placeholder",
   );
 } catch (error) {
   logger.warn("Stripe não configurado:", error.message);
