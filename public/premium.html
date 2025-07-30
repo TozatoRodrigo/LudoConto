@@ -3,418 +3,228 @@
 <head>
     <meta charset=\"UTF-8\">
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
-    <title>Ludo Conto Premium - Historias Ilimitadas para seu Filho</title>
+    <title>Ludo Conto Premium - Historias Ilimitadas</title>
     <link rel=\"stylesheet\" href=\"styles.css\">
     <link href=\"https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap\" rel=\"stylesheet\">
-    <style>
-        /* Estilos específicos para a página premium */
-        .premium-hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-align: center;
-            padding: 4rem 0;
-            margin-bottom: 0;
-        }
-        
-        .premium-hero h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        .premium-hero .subtitle {
-            font-size: 1.3rem;
-            opacity: 0.9;
-            margin-bottom: 2rem;
-        }
-        
-        .premium-hero .highlight {
-            background: rgba(255,255,255,0.2);
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            display: inline-block;
-            font-weight: 600;
-        }
-        
-        .comparison-section {
-            background: white;
-            padding: 4rem 0;
-        }
-        
-        .comparison-table {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .plan-card {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            text-align: center;
-            position: relative;
-            transition: transform 0.3s ease;
-        }
-        
-        .plan-card.premium {
-            border: 3px solid #ffd700;
-            transform: scale(1.05);
-            box-shadow: 0 20px 60px rgba(255,215,0,0.3);
-        }
-        
-        .plan-card.premium::before {
-            content: \"MAIS POPULAR\";
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #ffd700;
-            color: #2d3748;
-            padding: 0.5rem 1.5rem;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.8rem;
-        }
-        
-        .plan-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #2d3748;
-        }
-        
-        .plan-price {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #ff6b6b;
-            margin-bottom: 0.5rem;
-        }
-        
-        .plan-period {
-            color: #666;
-            margin-bottom: 2rem;
-        }
-        
-        .plan-features {
-            list-style: none;
-            margin-bottom: 2rem;
-        }
-        
-        .plan-features li {
-            padding: 0.5rem 0;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .plan-features .check {
-            color: #10b981;
-            font-weight: bold;
-        }
-        
-        .plan-features .cross {
-            color: #ef4444;
-            font-weight: bold;
-        }
-        
-        .social-proof {
-            background: #f8fafc;
-            padding: 3rem 0;
-            text-align: center;
-        }
-        
-        .testimonials {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            max-width: 1000px;
-            margin: 2rem auto 0;
-        }
-        
-        .testimonial {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-        
-        .testimonial-text {
-            font-style: italic;
-            margin-bottom: 1rem;
-            color: #555;
-        }
-        
-        .testimonial-author {
-            font-weight: 600;
-            color: #2d3748;
-        }
-        
-        .urgency-section {
-            background: linear-gradient(135deg, #ff6b6b, #feca57);
-            color: white;
-            padding: 3rem 0;
-            text-align: center;
-        }
-        
-        .urgency-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-        
-        .urgency-subtitle {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-        
-        .cta-button {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            border: none;
-            padding: 1.2rem 3rem;
-            font-size: 1.3rem;
-            font-weight: 700;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(16,185,129,0.4);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(16,185,129,0.5);
-        }
-        
-        .cta-button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .guarantee {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            margin: 2rem auto;
-            max-width: 600px;
-            text-align: center;
-            border: 2px dashed #10b981;
-        }
-        
-        .guarantee-title {
-            color: #10b981;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-        
-        .loading {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .spinner {
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-top: 2px solid white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .error-message {
-            background: #fee2e2;
-            color: #dc2626;
-            padding: 1rem;
-            border-radius: 10px;
-            margin: 1rem 0;
-            display: none;
-        }
-        
-        .back-link {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: rgba(255,255,255,0.9);
-            color: #667eea;
-            padding: 0.8rem 1.5rem;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            z-index: 1000;
-        }
-        
-        .back-link:hover {
-            background: white;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-        
-        @media (max-width: 768px) {
-            .comparison-table {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            
-            .plan-card.premium {
-                transform: none;
-            }
-            
-            .premium-hero h1 {
-                font-size: 2rem;
-            }
-            
-            .testimonials {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <script src=\"https://js.stripe.com/v3/\"></script>
 </head>
 <body>
-    <a href=\"/\" class=\"back-link\">← Voltar ao Ludo Conto</a>
-    
-    <!-- Hero Section -->
-    <section class=\"premium-hero\">
+    <!-- Header igual ao app principal -->
+    <header class=\"header\">
         <div class=\"container\">
-            <h1>🦥 Desbloqueie a Magia Completa</h1>
-            <p class=\"subtitle\">Transforme a hora da historia em momentos inesqueciveis com seu filho</p>
-            <div class=\"highlight\">Mais de 1.000 familias ja escolheram o Premium</div>
-        </div>
-    </section>
-    
-    <!-- Comparison Section -->
-    <section class=\"comparison-section\">
-        <div class=\"container\">
-            <h2 style=\"text-align: center; margin-bottom: 3rem; font-size: 2.5rem; color: #2d3748;\">
-                Escolha o Melhor para seu Filho
-            </h2>
-            
-            <div class=\"comparison-table\">
-                <!-- Plano Gratuito -->
-                <div class=\"plan-card\">
-                    <h3 class=\"plan-title\">Plano Gratuito</h3>
-                    <div class=\"plan-price\">R$ 0</div>
-                    <div class=\"plan-period\">para sempre</div>
-                    
-                    <ul class=\"plan-features\">
-                        <li><span class=\"check\">✓</span> 3 historias por mes</li>
-                        <li><span class=\"check\">✓</span> 1 ilustracao gratis</li>
-                        <li><span class=\"cross\">✗</span> Historias limitadas</li>
-                        <li><span class=\"cross\">✗</span> Sem ilustracoes extras</li>
-                        <li><span class=\"cross\">✗</span> Apenas 1 perfil</li>
-                        <li><span class=\"cross\">✗</span> Com anuncios</li>
-                    </ul>
-                    
-                    <button class=\"cta-button\" style=\"background: #e2e8f0; color: #64748b; cursor: not-allowed;\">
-                        Plano Atual
-                    </button>
+            <div class=\"header-content\">
+                <h1 class=\"logo\">
+                    <svg class=\"logo-mascot\" viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\">
+                        <!-- Corpo do bicho-preguiça -->
+                        <ellipse cx=\"50\" cy=\"60\" rx=\"35\" ry=\"25\" fill=\"#D2B48C\"/>
+                        
+                        <!-- Braços -->
+                        <ellipse cx=\"25\" cy=\"55\" rx=\"8\" ry=\"20\" fill=\"#D2B48C\" transform=\"rotate(-30 25 55)\"/>
+                        <ellipse cx=\"75\" cy=\"55\" rx=\"8\" ry=\"20\" fill=\"#D2B48C\" transform=\"rotate(30 75 55)\"/>
+                        
+                        <!-- Cabeça -->
+                        <circle cx=\"50\" cy=\"35\" r=\"20\" fill=\"#D2B48C\"/>
+                        
+                        <!-- Pernas -->
+                        <ellipse cx=\"40\" cy=\"80\" rx=\"6\" ry=\"12\" fill=\"#8B4513\"/>
+                        <ellipse cx=\"60\" cy=\"80\" rx=\"6\" ry=\"12\" fill=\"#8B4513\"/>
+                        
+                        <!-- Rosto -->
+                        <!-- Olhos -->
+                        <circle cx=\"44\" cy=\"30\" r=\"4\" fill=\"white\"/>
+                        <circle cx=\"56\" cy=\"30\" r=\"4\" fill=\"white\"/>
+                        <circle cx=\"44\" cy=\"30\" r=\"2\" fill=\"black\"/>
+                        <circle cx=\"56\" cy=\"30\" r=\"2\" fill=\"black\"/>
+                        
+                        <!-- Nariz -->
+                        <ellipse cx=\"50\" cy=\"38\" rx=\"2\" ry=\"1.5\" fill=\"black\"/>
+                        
+                        <!-- Boca sorridente -->
+                        <path d=\"M 45 42 Q 50 47 55 42\" stroke=\"black\" stroke-width=\"2\" fill=\"none\" stroke-linecap=\"round\"/>
+                        
+                        <!-- Manchas características -->
+                        <circle cx=\"42\" cy=\"60\" r=\"3\" fill=\"#654321\"/>
+                        <circle cx=\"58\" cy=\"68\" r=\"2.5\" fill=\"#654321\"/>
+                        <circle cx=\"35\" cy=\"70\" r=\"2\" fill=\"#654321\"/>
+                        
+                        <!-- Garras -->
+                        <path d=\"M 25 65 L 22 68 M 27 67 L 24 70 M 29 69 L 26 72\" stroke=\"black\" stroke-width=\"1.5\" stroke-linecap=\"round\"/>
+                        <path d=\"M 75 65 L 78 68 M 73 67 L 76 70 M 71 69 L 74 72\" stroke=\"black\" stroke-width=\"1.5\" stroke-linecap=\"round\"/>
+                    </svg>
+                    Ludo Conto Premium
+                </h1>
+                <div class=\"header-actions\">
+                    <button class=\"btn-historias\" onclick=\"window.location.href='/'\">🏠 Voltar</button>
+                    <button class=\"btn-sobre\" onclick=\"toggleSobre()\">ℹ️ Sobre</button>
                 </div>
-                
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class=\"main\">
+        <div class=\"container\">
+            <!-- Hero Section -->
+            <section class=\"hero\" style=\"margin-bottom: 2rem;\">
+                <h2 style=\"color: #2d3748; font-size: 2.5rem; margin-bottom: 1rem;\">
+                    🌟 Desbloqueie Todo o Potencial do Ludo Conto
+                </h2>
+                <p style=\"color: #666; font-size: 1.2rem; margin-bottom: 2rem;\">
+                    Transforme a hora da historia em momentos magicos e inesqueciveis com seu filho
+                </p>
+                <div style=\"background: rgba(255,107,107,0.1); padding: 1rem; border-radius: 15px; display: inline-block;\">
+                    <strong style=\"color: #ff6b6b;\">Mais de 1.000 familias ja escolheram o Premium!</strong>
+                </div>
+            </section>
+
+            <!-- Comparison Cards -->
+            <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem;\">
+                <!-- Plano Gratuito -->
+                <div class=\"form-container\" style=\"position: relative; opacity: 0.7;\">
+                    <div style=\"text-align: center; margin-bottom: 2rem;\">
+                        <h3 style=\"font-size: 1.5rem; color: #666; margin-bottom: 1rem;\">Plano Atual</h3>
+                        <div style=\"font-size: 2rem; font-weight: 700; color: #666;\">GRATUITO</div>
+                        <div style=\"color: #888; margin-bottom: 2rem;\">Limitado</div>
+                    </div>
+                    
+                    <div style=\"text-align: left;\">
+                        <div style=\"display: flex; align-items: center; margin-bottom: 1rem; color: #666;\">
+                            <span style=\"color: #10b981; margin-right: 10px; font-weight: bold;\">✓</span>
+                            <span>3 historias por mes</span>
+                        </div>
+                        <div style=\"display: flex; align-items: center; margin-bottom: 1rem; color: #666;\">
+                            <span style=\"color: #10b981; margin-right: 10px; font-weight: bold;\">✓</span>
+                            <span>1 ilustracao gratis</span>
+                        </div>
+                        <div style=\"display: flex; align-items: center; margin-bottom: 1rem; color: #ccc;\">
+                            <span style=\"color: #ef4444; margin-right: 10px; font-weight: bold;\">✗</span>
+                            <span>Historias limitadas</span>
+                        </div>
+                        <div style=\"display: flex; align-items: center; margin-bottom: 1rem; color: #ccc;\">
+                            <span style=\"color: #ef4444; margin-right: 10px; font-weight: bold;\">✗</span>
+                            <span>Sem ilustracoes extras</span>
+                        </div>
+                        <div style=\"display: flex; align-items: center; margin-bottom: 1rem; color: #ccc;\">
+                            <span style=\"color: #ef4444; margin-right: 10px; font-weight: bold;\">✗</span>
+                            <span>Apenas 1 perfil</span>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Plano Premium -->
-                <div class=\"plan-card premium\">
-                    <h3 class=\"plan-title\">Ludo Conto Premium</h3>
-                    <div class=\"plan-price\">R$ 9,99</div>
-                    <div class=\"plan-period\">por mes</div>
+                <div class=\"form-container\" style=\"border: 3px solid #ffd700; position: relative; transform: scale(1.05); box-shadow: 0 20px 60px rgba(255,215,0,0.3);\">
+                    <div style=\"position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: #ffd700; color: #2d3748; padding: 0.5rem 1.5rem; border-radius: 20px; font-weight: 700; font-size: 0.8rem;\">
+                        MAIS POPULAR
+                    </div>
                     
-                    <ul class=\"plan-features\">
-                        <li><span class=\"check\">✓</span> Historias ILIMITADAS</li>
-                        <li><span class=\"check\">✓</span> 30 ilustracoes por mes</li>
-                        <li><span class=\"check\">✓</span> Ate 3 perfis de criancas</li>
-                        <li><span class=\"check\">✓</span> Sem anuncios</li>
-                        <li><span class=\"check\">✓</span> Suporte prioritario</li>
-                        <li><span class=\"check\">✓</span> Novidades em primeira mao</li>
-                    </ul>
+                    <div style=\"text-align: center; margin-bottom: 2rem;\">
+                        <h3 style=\"font-size: 1.5rem; color: #2d3748; margin-bottom: 1rem;\">Ludo Conto Premium</h3>
+                        <div style=\"font-size: 2.5rem; font-weight: 700; color: #ff6b6b;\">R$ 9,99</div>
+                        <div style=\"color: #666; margin-bottom: 2rem;\">por mes</div>
+                    </div>
                     
-                    <div class=\"error-message\" id=\"error-message\"></div>
+                    <div style=\"text-align: left; margin-bottom: 2rem;\">
+                        <div style=\"display: flex; align-items: center; margin-bottom: 1rem;\">
+                            <span style=\"color: #10b981; margin-right: 10px; font-weight: bold;\">✓</span>
+                            <span><strong>Historias ILIMITADAS</strong></span>
+                        </div>
+                        <div style=\"display: flex; align-items: center; margin-bottom: 1rem;\">
+                            <span style=\"color: #10b981; margin-right: 10px; font-weight: bold;\">✓</span>
+                            <span><strong>30 ilustracoes por mes</strong></span>
+                        </div>
+                        <div style=\"display: flex; align-items: center; margin-bottom: 1rem;\">
+                            <span style=\"color: #10b981; margin-right: 10px; font-weight: bold;\">✓</span>
+                            <span><strong>Ate 3 perfis de criancas</strong></span>
+                        </div>
+                        <div style=\"display: flex; align-items: center; margin-bottom: 1rem;\">
+                            <span style=\"color: #10b981; margin-right: 10px; font-weight: bold;\">✓</span>
+                            <span><strong>Sem anuncios</strong></span>
+                        </div>
+                        <div style=\"display: flex; align-items: center; margin-bottom: 1rem;\">
+                            <span style=\"color: #10b981; margin-right: 10px; font-weight: bold;\">✓</span>
+                            <span><strong>Suporte prioritario</strong></span>
+                        </div>
+                    </div>
+
+                    <!-- Stripe Express Checkout -->
+                    <div id=\"express-checkout-element\" style=\"margin-bottom: 1rem;\">
+                        <!-- Stripe Express Checkout buttons will appear here -->
+                    </div>
                     
-                    <button class=\"cta-button\" id=\"subscribe-btn\" onclick=\"assinarPremium()\">
+                    <!-- Fallback button -->
+                    <button id=\"fallback-checkout\" class=\"btn-gerar\" style=\"width: 100%; margin-bottom: 1rem; display: none;\">
                         <span class=\"btn-text\">Assinar Premium Agora</span>
-                        <div class=\"loading\" id=\"btn-loading\">
+                        <div class=\"loading\" style=\"display: none;\">
                             <div class=\"spinner\"></div>
                             <span>Processando...</span>
                         </div>
                     </button>
+                    
+                    <div id=\"error-message\" style=\"background: #fee2e2; color: #dc2626; padding: 1rem; border-radius: 10px; margin-bottom: 1rem; display: none;\"></div>
                 </div>
             </div>
-        </div>
-    </section>
-    
-    <!-- Social Proof -->
-    <section class=\"social-proof\">
-        <div class=\"container\">
-            <h2 style=\"font-size: 2rem; margin-bottom: 1rem; color: #2d3748;\">
-                O que os Pais Estao Dizendo
-            </h2>
-            <p style=\"color: #666; margin-bottom: 2rem;\">
-                Mais de 1.000 familias ja transformaram a hora da historia
-            </p>
-            
-            <div class=\"testimonials\">
-                <div class=\"testimonial\">
-                    <div class=\"testimonial-text\">
-                        \"Minha filha de 5 anos fica encantada com as historias personalizadas. 
-                        Ela se ve como protagonista e aprende valores importantes. Vale cada centavo!\"
-                    </div>
-                    <div class=\"testimonial-author\">- Marina, mae da Sofia</div>
-                </div>
+
+            <!-- Social Proof -->
+            <div class=\"form-container\" style=\"margin-bottom: 2rem;\">
+                <h3 style=\"text-align: center; margin-bottom: 2rem; color: #2d3748;\">
+                    💬 O que os Pais Estao Dizendo
+                </h3>
                 
-                <div class=\"testimonial\">
-                    <div class=\"testimonial-text\">
-                        \"O Premium mudou nossa rotina noturna. Agora temos historias novas toda noite, 
-                        com ilustracoes lindas. Meu filho dorme mais tranquilo.\"
+                <div style=\"display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;\">
+                    <div style=\"background: #f8fafc; padding: 1.5rem; border-radius: 15px;\">
+                        <p style=\"font-style: italic; margin-bottom: 1rem; color: #555;\">
+                            \"Minha filha de 5 anos fica encantada com as historias personalizadas. 
+                            Ela se ve como protagonista e aprende valores importantes!\"
+                        </p>
+                        <div style=\"font-weight: 600; color: #2d3748;\">- Marina, mae da Sofia</div>
                     </div>
-                    <div class=\"testimonial-author\">- Carlos, pai do Miguel</div>
-                </div>
-                
-                <div class=\"testimonial\">
-                    <div class=\"testimonial-text\">
-                        \"Como educadora, recomendo o Ludo Conto Premium. As historias ensinam valores 
-                        de forma ludica e as criancas adoram se ver nas ilustracoes.\"
+                    
+                    <div style=\"background: #f8fafc; padding: 1.5rem; border-radius: 15px;\">
+                        <p style=\"font-style: italic; margin-bottom: 1rem; color: #555;\">
+                            \"O Premium mudou nossa rotina noturna. Agora temos historias novas toda noite, 
+                            com ilustracoes lindas. Meu filho dorme mais tranquilo.\"
+                        </p>
+                        <div style=\"font-weight: 600; color: #2d3748;\">- Carlos, pai do Miguel</div>
                     </div>
-                    <div class=\"testimonial-author\">- Ana Paula, pedagoga</div>
+                    
+                    <div style=\"background: #f8fafc; padding: 1.5rem; border-radius: 15px;\">
+                        <p style=\"font-style: italic; margin-bottom: 1rem; color: #555;\">
+                            \"Como educadora, recomendo o Ludo Conto Premium. As historias ensinam valores 
+                            de forma ludica e as criancas adoram se ver nas ilustracoes.\"
+                        </p>
+                        <div style=\"font-weight: 600; color: #2d3748;\">- Ana Paula, pedagoga</div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-    
-    <!-- Urgency Section -->
-    <section class=\"urgency-section\">
-        <div class=\"container\">
-            <h2 class=\"urgency-title\">Nao Perca Mais Nenhuma Historia Magica</h2>
-            <p class=\"urgency-subtitle\">
-                Seu filho merece historias ilimitadas. Comece hoje mesmo!
-            </p>
-            
-            <div class=\"guarantee\">
-                <h3 class=\"guarantee-title\">🛡️ Garantia de 7 Dias</h3>
-                <p>Nao ficou satisfeito? Devolvemos 100% do seu dinheiro, sem perguntas.</p>
+
+            <!-- Guarantee -->
+            <div style=\"background: #f0fff4; border: 2px dashed #10b981; padding: 2rem; border-radius: 15px; text-align: center; margin-bottom: 2rem;\">
+                <h3 style=\"color: #10b981; margin-bottom: 1rem;\">🛡️ Garantia de 7 Dias</h3>
+                <p style=\"color: #666;\">Nao ficou satisfeito? Devolvemos 100% do seu dinheiro, sem perguntas.</p>
             </div>
-            
-            <button class=\"cta-button\" onclick=\"assinarPremium()\" style=\"font-size: 1.5rem; padding: 1.5rem 4rem;\">
-                Quero Historias Ilimitadas Agora!
-            </button>
-            
-            <p style=\"margin-top: 1rem; opacity: 0.8; font-size: 0.9rem;\">
-                Cancele quando quiser • Sem taxas ocultas • Ativacao imediata
-            </p>
         </div>
-    </section>
-    
+    </main>
+
+    <!-- Modal Sobre (igual ao app principal) -->
+    <div id=\"modal-sobre\" class=\"modal\">
+        <div class=\"modal-content modal-about\">
+            <span class=\"close\" onclick=\"toggleSobre()\">&times;</span>
+            <div class=\"about-header\">
+                <h2>🦥 Sobre o Ludo Conto Premium</h2>
+            </div>
+            <div class=\"about-content\">
+                <p>O Ludo Conto Premium oferece historias ilimitadas e ilustracoes profissionais para criar momentos magicos com seu filho.</p>
+                <ul>
+                    <li>Historias personalizadas ilimitadas</li>
+                    <li>30 ilustracoes profissionais por mes</li>
+                    <li>Ate 3 perfis de criancas</li>
+                    <li>Experiencia sem anuncios</li>
+                    <li>Suporte prioritario</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <!-- Firebase SDKs -->
     <script type=\"module\">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
@@ -441,40 +251,127 @@
         // Verificar se usuario esta logado
         onAuthStateChanged(auth, (user) => {
             if (!user) {
-                // Redirecionar para login se nao estiver logado
                 window.location.href = '/';
             } else {
                 window.currentUser = user;
+                initializeStripe();
             }
         });
     </script>
     
     <script>
+        // Funcao para toggle do modal sobre
+        function toggleSobre() {
+            const modal = document.getElementById('modal-sobre');
+            modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Fechar modal clicando fora
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal-sobre');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Inicializar Stripe
+        let stripe;
+        let elements;
+        let expressCheckoutElement;
+
+        async function initializeStripe() {
+            try {
+                // Inicializar Stripe
+                stripe = Stripe('pk_live_51RqI6J0Tz9khDe1D2y1mIuJYbbqbZGcZdQFW4sTXDYf5o8PJMG8mKXCR2Slkpt7iA4uN9IgYvGHwTt7PYD4aHuQP00B6DsbnJl');
+                
+                // Criar Elements
+                elements = stripe.elements({
+                    mode: 'subscription',
+                    currency: 'brl',
+                    amount: 999, // R$ 9,99 em centavos
+                    appearance: {
+                        theme: 'stripe',
+                        variables: {
+                            colorPrimary: '#ff6b6b',
+                            borderRadius: '15px'
+                        }
+                    }
+                });
+
+                // Criar Express Checkout Element
+                expressCheckoutElement = elements.create('expressCheckout', {
+                    buttonType: {
+                        googlePay: 'subscribe',
+                        applePay: 'subscribe'
+                    },
+                    buttonTheme: {
+                        googlePay: 'black',
+                        applePay: 'black'
+                    },
+                    buttonHeight: 50
+                });
+
+                // Montar o elemento
+                expressCheckoutElement.mount('#express-checkout-element');
+
+                // Event listener para quando o usuario clica no botao
+                expressCheckoutElement.on('click', async (event) => {
+                    try {
+                        // Criar sessao de checkout
+                        const criarCheckoutFunction = httpsCallable(window.functions, 'criarCheckoutSession');
+                        const result = await criarCheckoutFunction({
+                            priceId: 'price_1RqIPF0Tz9khDe1DHsKNCcwu',
+                            successUrl: window.location.origin + '/sucesso.html',
+                            cancelUrl: window.location.origin + '/premium.html'
+                        });
+
+                        // Confirmar pagamento
+                        const { error } = await stripe.confirmPayment({
+                            elements,
+                            confirmParams: {
+                                return_url: result.data.url
+                            }
+                        });
+
+                        if (error) {
+                            showError(error.message);
+                        }
+                    } catch (error) {
+                        console.error('Erro no Express Checkout:', error);
+                        showError('Erro ao processar pagamento. Tente novamente.');
+                    }
+                });
+
+                // Mostrar botao fallback se Express Checkout nao estiver disponivel
+                expressCheckoutElement.on('ready', (event) => {
+                    if (!event.availablePaymentMethods || event.availablePaymentMethods.length === 0) {
+                        document.getElementById('fallback-checkout').style.display = 'block';
+                    }
+                });
+
+            } catch (error) {
+                console.error('Erro ao inicializar Stripe:', error);
+                document.getElementById('fallback-checkout').style.display = 'block';
+            }
+        }
+
+        // Funcao fallback para checkout tradicional
         async function assinarPremium() {
-            const btns = document.querySelectorAll('.cta-button');
+            const btn = document.getElementById('fallback-checkout');
+            const btnText = btn.querySelector('.btn-text');
+            const btnLoading = btn.querySelector('.loading');
             const errorMessage = document.getElementById('error-message');
             
             try {
-                // Verificar se usuario esta logado
                 if (!window.currentUser) {
                     throw new Error('Voce precisa estar logado para assinar o Premium');
                 }
                 
-                // Mostrar loading em todos os botoes
-                btns.forEach(btn => {
-                    if (!btn.disabled && btn.onclick) {
-                        btn.disabled = true;
-                        const btnText = btn.querySelector('.btn-text');
-                        const btnLoading = btn.querySelector('.loading');
-                        if (btnText) btnText.style.display = 'none';
-                        if (btnLoading) btnLoading.style.display = 'flex';
-                        if (!btnText && !btnLoading) {
-                            btn.innerHTML = '<div class=\"spinner\"></div> Processando...';
-                        }
-                    }
-                });
-                
-                if (errorMessage) errorMessage.style.display = 'none';
+                // Mostrar loading
+                btn.disabled = true;
+                btnText.style.display = 'none';
+                btnLoading.style.display = 'flex';
+                errorMessage.style.display = 'none';
                 
                 // Criar sessao de checkout
                 const criarCheckoutFunction = httpsCallable(window.functions, 'criarCheckoutSession');
@@ -489,36 +386,26 @@
                 
             } catch (error) {
                 console.error('Erro ao assinar:', error);
+                showError(error.message || 'Erro ao processar pagamento. Tente novamente.');
                 
-                // Mostrar erro
-                if (errorMessage) {
-                    errorMessage.textContent = error.message || 'Erro ao processar pagamento. Tente novamente.';
-                    errorMessage.style.display = 'block';
-                }
-                
-                // Restaurar botoes
-                btns.forEach(btn => {
-                    if (btn.onclick) {
-                        btn.disabled = false;
-                        const btnText = btn.querySelector('.btn-text');
-                        const btnLoading = btn.querySelector('.loading');
-                        if (btnText) btnText.style.display = 'inline';
-                        if (btnLoading) btnLoading.style.display = 'none';
-                        if (!btnText && !btnLoading) {
-                            btn.innerHTML = 'Quero Historias Ilimitadas Agora!';
-                        }
-                    }
-                });
+                // Restaurar botao
+                btn.disabled = false;
+                btnText.style.display = 'inline';
+                btnLoading.style.display = 'none';
             }
         }
-        
-        // Adicionar efeitos de scroll
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallax = document.querySelector('.premium-hero');
-            if (parallax) {
-                const speed = scrolled * 0.5;
-                parallax.style.transform = `translateY(${speed}px)`;
+
+        function showError(message) {
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+        }
+
+        // Adicionar event listener ao botao fallback
+        document.addEventListener('DOMContentLoaded', () => {
+            const fallbackBtn = document.getElementById('fallback-checkout');
+            if (fallbackBtn) {
+                fallbackBtn.addEventListener('click', assinarPremium);
             }
         });
     </script>
