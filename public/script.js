@@ -93,16 +93,19 @@ async function gerarHistoria(e) {
         window.planoUsuario = result.data.planoUsuario;
         window.podeGerarImagem = result.data.podeGerarMaisImagens;
         
-        // Mostrar aviso se não pode gerar mais imagens
-        if (!result.data.podeGerarMaisImagens && result.data.planoUsuario === 'gratuito') {
-            setTimeout(() => {
-                mostrarAvisoLimiteImagem();
-            }, 2000);
-        }
+        // Verificar status do plano após gerar história
+        setTimeout(verificarStatusPlano, 1000);
+        
+        // Mostrar nudges de conversão baseados no uso
+        setTimeout(() => {
+            mostrarNudgeConversao(result.data);
+        }, 3000);
         
     } catch (error) {
         console.error('Erro:', error);
-        if (error.message.includes('Token')) {
+        if (error.message.includes('LIMITE_HISTORIAS_ATINGIDO')) {
+            mostrarPaywallHistoria();
+        } else if (error.message.includes('Token')) {
             alert('Sua sessão expirou. Faça login novamente.');
             window.logout();
         } else {
@@ -306,6 +309,9 @@ async function carregarHistorias() {
         
         const result = await minhasHistoriasFunction();
         
+        // Armazenar histórias globalmente para filtros
+        window.todasHistorias = result.data.historias;
+        
         exibirHistorias(result.data.historias);
         
     } catch (error) {
@@ -357,6 +363,13 @@ function exibirHistorias(historias) {
             <div class="historia-actions">
                 <button class="btn-small" onclick="verHistoriaCompleta('${historia.id}')">
                     📖 Ver História Completa
+                </button>
+                <button class="btn-small ${historia.favorita ? 'btn-favorito-ativo' : 'btn-favorito'}" 
+                        onclick="toggleFavorito('${historia.id}')">
+                    ${historia.favorita ? '❤️ Favorita' : '🤍 Favoritar'}
+                </button>
+                <button class="btn-small btn-share" onclick="compartilharHistoria('${historia.id}')">
+                    📤 Compartilhar
                 </button>
                 <button class="btn-small btn-danger" onclick="deletarHistoria('${historia.id}')">
                     🗑️ Deletar
@@ -744,4 +757,432 @@ if (typeof window !== 'undefined') {
 }
 
 // Configuração do Stripe
-window.STRIPE_PUBLISHABLE_KEY = 'pk_live_51RqI6J0Tz9khDe1D2y1mIuJYbbqbZGcZdQFW4sTXDYf5o8PJMG8mKXCR2Slkpt7iA4uN9IgYvGHwTt7PYD4aHuQP00B6DsbnJl';
+window.STRIPE_PUBLISHABLE_KEY = 'pk_live_51RqI6J0Tz9khDe1D2y1mIuJYbbqbZGcZdQFW4sTXDYf5o8PJMG8mKXCR2Slkpt7iA4uN9IgYvGHwTt7PYD4aHuQP00B6DsbnJl';//
+ Função para toggle favorito
+async function toggleFavorito(historiaId) {
+    try {
+        if (!window.currentUser) {
+            throw new Error('Usuário não autenticado');
+        }
+        
+        const { getFunctions, httpsCallable } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js');
+        
+        const functions = getFunctions();
+        const toggleFavoritoFunction = httpsCallable(functions, 'toggleFavorito');
+        
+        const result = await toggleFavoritoFunction({ historiaId });
+        
+        // Mostrar feedback
+        mostrarNotificacao(result.data.message, 'sucesso');
+        
+        // Recarregar lista de histórias
+        carregarHistorias();
+        
+    } catch (error) {
+        console.error('Erro ao atualizar favorito:', error);
+        mostrarNotificacao('Erro ao atualizar favorito. Tente novamente.', 'erro');
+    }
+}
+
+// Função para compartilhar história
+async function compartilharHistoria(historiaId) {
+    try {
+        if (!window.currentUser) {
+            throw new Error('Usuário não autenticado');
+        }
+        
+        const { getFunctions, httpsCallable } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js');
+        
+        const functions = getFunctions();
+        const gerarLinkFunction = httpsCallable(functions, 'gerarLinkCompartilhamento');
+        
+        const result = await gerarLinkFunction({ historiaId });
+        
+        // Copiar link para clipboard
+        await navigator.clipboard.writeText(result.data.shareUrl);
+        
+        // Mostrar modal de compartilhamento
+        mostrarModalCompartilhamento(result.data.shareUrl);
+        
+    } catch (error) {
+        console.error('Erro ao compartilhar história:', error);
+        mostrarNotificacao('Erro ao gerar link de compartilhamento.', 'erro');
+    }
+}
+
+// Função para mostrar modal de compartilhamento
+function mostrarModalCompartilhamento(shareUrl) {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.display = 'block';
+    modal.innerHTML = `
+        <div class="modal-content modal-share">
+            <span class="close" onclick="this.parentElement.parentElement.remove()">&times;</span>
+            <div class="share-header">
+                <h2>📤 Compartilhar História</h2>
+                <p>Link copiado para a área de transferência!</p>
+            </div>
+            <div class="share-content">
+                <div class="share-url">
+                    <input type="text" value="${shareUrl}" readonly onclick="this.select()">
+                    <button onclick="navigator.clipboard.writeText('${shareUrl}'); mostrarNotificacao('Link copiado!', 'sucesso')">
+                        📋 Copiar
+                    </button>
+                </div>
+                <div class="share-buttons">
+                    <button onclick="compartilharWhatsApp('${shareUrl}')" class="btn-whatsapp">
+                        📱 WhatsApp
+                    </button>
+                    <button onclick="compartilharEmail('${shareUrl}')" class="btn-email">
+                        📧 Email
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Remover modal após 10 segundos
+    setTimeout(() => {
+        if (modal.parentNode) {
+            modal.remove();
+        }
+    }, 10000);
+}
+
+// Função para compartilhar no WhatsApp
+function compartilharWhatsApp(shareUrl) {
+    const texto = encodeURIComponent(`Olha que história mágica eu criei no Ludo Conto! 🦥✨\n\n${shareUrl}`);
+    window.open(`https://wa.me/?text=${texto}`, '_blank');
+}
+
+// Função para compartilhar por email
+function compartilharEmail(shareUrl) {
+    const assunto = encodeURIComponent('História Mágica do Ludo Conto');
+    const corpo = encodeURIComponent(`Olá!\n\nCriei uma história mágica no Ludo Conto e queria compartilhar com você!\n\nVeja aqui: ${shareUrl}\n\nO Ludo Conto cria histórias personalizadas para crianças com ilustrações incríveis!\n\nAbraços! 🦥✨`);
+    window.open(`mailto:?subject=${assunto}&body=${corpo}`);
+}
+
+// Função para mostrar notificações
+function mostrarNotificacao(mensagem, tipo = 'info') {
+    const notificacao = document.createElement('div');
+    notificacao.className = `notificacao notificacao-${tipo}`;
+    notificacao.innerHTML = `
+        <div class="notificacao-content">
+            <span class="notificacao-icon">
+                ${tipo === 'sucesso' ? '✅' : tipo === 'erro' ? '❌' : 'ℹ️'}
+            </span>
+            <span class="notificacao-texto">${mensagem}</span>
+        </div>
+    `;
+    
+    document.body.appendChild(notificacao);
+    
+    // Animar entrada
+    setTimeout(() => {
+        notificacao.style.transform = 'translateX(0)';
+        notificacao.style.opacity = '1';
+    }, 100);
+    
+    // Remover após 3 segundos
+    setTimeout(() => {
+        notificacao.style.transform = 'translateX(100%)';
+        notificacao.style.opacity = '0';
+        setTimeout(() => {
+            if (notificacao.parentNode) {
+                notificacao.remove();
+            }
+        }, 300);
+    }, 3000);
+}/
+/ Variável global para armazenar todas as histórias
+window.todasHistorias = [];
+
+// Função para filtrar histórias
+function filtrarHistorias(filtro) {
+    // Atualizar botões ativos
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    
+    let historiasFiltradas = [];
+    
+    switch(filtro) {
+        case 'todas':
+            historiasFiltradas = window.todasHistorias;
+            break;
+        case 'favoritas':
+            historiasFiltradas = window.todasHistorias.filter(h => h.favorita);
+            break;
+        case 'com-imagem':
+            historiasFiltradas = window.todasHistorias.filter(h => h.imagemUrl);
+            break;
+        default:
+            historiasFiltradas = window.todasHistorias;
+    }
+    
+    exibirHistorias(historiasFiltradas);
+}// Si
+stema de Dashboard e Paywall
+let statusUsuario = {
+    plano: 'gratuito',
+    historiasRestantes: 3,
+    ilustracoesRestantes: 1,
+    podeGerarHistoria: true,
+    podeGerarImagem: true
+};
+
+// Função para mostrar/esconder dashboard baseado no login
+function toggleDashboard(mostrar) {
+    const dashboard = document.getElementById('dashboard');
+    const heroSection = document.getElementById('hero-section');
+    const formContainer = document.querySelector('.form-container');
+    
+    if (mostrar && window.currentUser) {
+        dashboard.style.display = 'block';
+        heroSection.style.display = 'none';
+        formContainer.style.display = 'none';
+        atualizarDashboard();
+    } else {
+        dashboard.style.display = 'none';
+        heroSection.style.display = 'block';
+        formContainer.style.display = 'block';
+    }
+}
+
+// Função para atualizar dashboard com dados do usuário
+async function atualizarDashboard() {
+    try {
+        const status = await obterStatusUsuario();
+        statusUsuario = status;
+        
+        // Atualizar badge do plano
+        const planoBadge = document.getElementById('plano-badge');
+        const planoNome = planoBadge.querySelector('.plano-nome');
+        
+        if (status.plano === 'premium') {
+            planoBadge.className = 'plano-badge premium';
+            planoNome.textContent = 'LudoConto+';
+        } else {
+            planoBadge.className = 'plano-badge gratuito';
+            planoNome.textContent = 'Plano Gratuito';
+        }
+        
+        // Atualizar contadores
+        document.getElementById('historias-restantes').textContent = 
+            status.historiasRestantes === 999 ? '∞' : status.historiasRestantes;
+        document.getElementById('ilustracoes-restantes').textContent = 
+            status.ilustracoesRestantes === 30 ? '30' : status.ilustracoesRestantes;
+        
+        // Atualizar cor dos contadores baseado no status
+        const historiasCard = document.getElementById('historias-restantes').closest('.stat-card');
+        const ilustracoesCard = document.getElementById('ilustracoes-restantes').closest('.stat-card');
+        
+        if (status.historiasRestantes <= 0) {
+            historiasCard.classList.add('stat-card-warning');
+        } else {
+            historiasCard.classList.remove('stat-card-warning');
+        }
+        
+        if (status.ilustracoesRestantes <= 0) {
+            ilustracoesCard.classList.add('stat-card-warning');
+        } else {
+            ilustracoesCard.classList.remove('stat-card-warning');
+        }
+        
+    } catch (error) {
+        console.error('Erro ao atualizar dashboard:', error);
+    }
+}
+
+// Função para obter status do usuário
+async function obterStatusUsuario() {
+    if (!window.currentUser) return statusUsuario;
+    
+    try {
+        const { getFunctions, httpsCallable } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js');
+        const functions = getFunctions();
+        const obterStatusFunction = httpsCallable(functions, 'obterStatusPlano');
+        const result = await obterStatusFunction();
+        return result.data;
+    } catch (error) {
+        console.error('Erro ao obter status:', error);
+        return statusUsuario;
+    }
+}
+
+// Função para mostrar formulário
+function mostrarFormulario() {
+    // Verificar se pode gerar história
+    if (!statusUsuario.podeGerarHistoria) {
+        mostrarPaywallHistoria();
+        return;
+    }
+    
+    // Mostrar formulário
+    document.getElementById('dashboard').style.display = 'none';
+    document.querySelector('.form-container').style.display = 'block';
+    
+    // Scroll para o formulário
+    document.querySelector('.form-container').scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+    });
+}
+
+// Função para mostrar paywall de história
+function mostrarPaywallHistoria() {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.display = 'block';
+    modal.innerHTML = `
+        <div class="modal-content modal-paywall">
+            <span class="close" onclick="this.parentElement.parentElement.remove()">&times;</span>
+            <div class="paywall-header">
+                <div class="paywall-icon">🚫</div>
+                <h2>Limite Atingido</h2>
+            </div>
+            <div class="paywall-content">
+                <p>Você já gerou todas as <strong>3 histórias gratuitas</strong> deste mês.</p>
+                <p>Assine o <strong>LudoConto+</strong> por apenas <strong>R$ 9,99/mês</strong> e tenha:</p>
+                <ul class="paywall-benefits">
+                    <li>✨ <strong>Histórias ilimitadas</strong> (uso justo: 1 por dia)</li>
+                    <li>🎨 <strong>Ilustrações em todas as histórias</strong> (até 30/mês)</li>
+                    <li>👨‍👩‍👧‍👦 <strong>Perfis adicionais</strong> (até 3 crianças)</li>
+                    <li>🚫 <strong>Sem anúncios</strong></li>
+                </ul>
+            </div>
+            <div class="paywall-actions">
+                <button class="btn-premium-large" onclick="assinarPremium(); this.parentElement.parentElement.parentElement.remove();">
+                    ⭐ Assinar LudoConto+
+                </button>
+                <button class="btn-secondary" onclick="this.parentElement.parentElement.parentElement.remove();">
+                    Voltar ao Painel
+                </button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+}
+
+// Função para mostrar paywall de ilustração
+function mostrarPaywallIlustracao() {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.display = 'block';
+    modal.innerHTML = `
+        <div class="modal-content modal-paywall">
+            <span class="close" onclick="this.parentElement.parentElement.remove()">&times;</span>
+            <div class="paywall-header">
+                <div class="paywall-icon">🎨</div>
+                <h2>Ilustrações Ilimitadas no LudoConto+</h2>
+            </div>
+            <div class="paywall-content">
+                <p>Somente a <strong>primeira história grátis</strong> inclui ilustração.</p>
+                <p>Assine o <strong>LudoConto+</strong> e tenha <strong>ilustrações em todas as histórias</strong> (até 30 por mês)!</p>
+                <div class="paywall-comparison">
+                    <div class="plan-comparison">
+                        <div class="plan-free">
+                            <h4>🆓 Gratuito</h4>
+                            <ul>
+                                <li>3 histórias/mês</li>
+                                <li>1 ilustração/mês</li>
+                            </ul>
+                        </div>
+                        <div class="plan-premium">
+                            <h4>⭐ LudoConto+</h4>
+                            <ul>
+                                <li>Histórias ilimitadas</li>
+                                <li>30 ilustrações/mês</li>
+                                <li>Sem anúncios</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="paywall-actions">
+                <button class="btn-premium-large" onclick="assinarPremium(); this.parentElement.parentElement.parentElement.remove();">
+                    ⭐ Assinar por R$ 9,99/mês
+                </button>
+                <button class="btn-secondary" onclick="this.parentElement.parentElement.parentElement.remove();">
+                    Continuar sem Ilustração
+                </button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+}
+
+// Atualizar verificação de status quando usuário faz login
+window.addEventListener('userLoggedIn', () => {
+    toggleDashboard(true);
+});
+
+// Verificar status quando página carrega
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.currentUser) {
+        toggleDashboard(true);
+    }
+});//
+ Função para gerar ilustração
+async function gerarIlustracao() {
+    // Verificar se pode gerar ilustração
+    if (!statusUsuario.podeGerarImagem) {
+        mostrarPaywallIlustracao();
+        return;
+    }
+    
+    const btnIlustracao = document.getElementById('btn-ilustracao');
+    const textoOriginal = btnIlustracao.innerHTML;
+    
+    try {
+        // Mostrar loading
+        btnIlustracao.innerHTML = '<div class="spinner"></div> Gerando ilustração...';
+        btnIlustracao.disabled = true;
+        
+        // Aqui você implementaria a chamada para gerar ilustração
+        // Por enquanto, vou simular
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        
+        mostrarNotificacao('Ilustração gerada com sucesso!', 'sucesso');
+        
+        // Atualizar status
+        await atualizarDashboard();
+        
+    } catch (error) {
+        console.error('Erro ao gerar ilustração:', error);
+        mostrarNotificacao('Erro ao gerar ilustração. Tente novamente.', 'erro');
+    } finally {
+        btnIlustracao.innerHTML = textoOriginal;
+        btnIlustracao.disabled = false;
+    }
+}
+
+// Função para voltar ao dashboard
+function voltarDashboard() {
+    document.getElementById('resultado').style.display = 'none';
+    document.querySelector('.form-container').style.display = 'none';
+    toggleDashboard(true);
+}
+
+// Atualizar função de nova história para voltar ao dashboard
+function novaHistoria() {
+    if (window.currentUser) {
+        voltarDashboard();
+    } else {
+        resultado.style.display = 'none';
+        
+        // Scroll suave para o formulário
+        form.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+        });
+        
+        // Focar no primeiro campo
+        document.getElementById('nome').focus();
+    }
+}

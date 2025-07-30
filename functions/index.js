@@ -12,6 +12,46 @@ admin.initializeApp();
 setGlobalOptions({maxInstances: 10});
 
 /**
+ * Função para contar histórias do usuário no mês atual
+ * @param {string} userId - ID do usuário
+ * @return {number} Número de histórias do mês
+ */
+async function contarHistoriasUsuarioMesAtual(userId) {
+  try {
+    const agora = new Date();
+    const inicioMes = new Date(agora.getFullYear(), agora.getMonth(), 1);
+
+    const snapshot = await admin.firestore()
+        .collection("historias")
+        .where("userId", "==", userId)
+        .where("criadaEm", ">=", inicioMes)
+        .get();
+    return snapshot.size;
+  } catch (error) {
+    logger.error("Erro ao contar histórias do mês:", error);
+    return 0;
+  }
+}
+
+/**
+ * Função para contar histórias do usuário (total)
+ * @param {string} userId - ID do usuário
+ * @return {number} Número total de histórias
+ */
+async function contarHistoriasUsuario(userId) {
+  try {
+    const snapshot = await admin.firestore()
+        .collection("historias")
+        .where("userId", "==", userId)
+        .get();
+    return snapshot.size;
+  } catch (error) {
+    logger.error("Erro ao contar histórias:", error);
+    return 0;
+  }
+}
+
+/**
  * Função para verificar plano do usuário
  * @param {string} userId - ID do usuário
  * @return {Object} Informações do plano
@@ -85,28 +125,59 @@ exports.gerarHistoria = onCall(async (request) => {
 
     logger.info("🤖 Configurando OpenAI e gerando prompt...");
 
-    const promptText = `Você é um contador de histórias infantis encantador, 
-inspirado por autores como Antoine de Saint-Exupéry, J.K. Rowling, 
-Roald Dahl e os Irmãos Grimm.
+    const promptText = `Você é um contador de histórias infantis seguro e ` +
+      `empático, inspirado por Antoine de Saint‑Exupéry, Roald Dahl, ` +
+      `J.K. Rowling e contos clássicos.
 
-Crie uma história cativante com base nas seguintes informações:
-Nome da criança: ${nome}
-Idade: ${idade}
-Preferências: ${preferencias}
-Valor a ser ensinado: ${valor}
-${desafio ? `Desafio atual: ${desafio}` : ""}
+Gere uma história personalizada com base:
+- Nome da criança: ${nome}
+- Idade: ${idade}
+- Preferências: ${preferencias}
+- Virtude: ${valor}
+- Desafio atual: ${desafio || "Nenhum desafio específico"}
 
-Regras:
-- A história deve ser 100% segura para crianças, sem qualquer conteúdo 
-inapropriado, político, ideológico, sexual, violento ou sensível.
-- A linguagem deve ser adaptada à idade da criança.
-- A história deve ter início, meio e fim, com uma lição de moral positiva.
-- O estilo deve lembrar "O Pequeno Príncipe" e "A Fantástica Fábrica de 
-Chocolate".
-- A história deve ser mágica, leve, divertida e encantadora.
-- Escreva em até 600 palavras.
-- Comece com um título lúdico e conte a história no estilo de um autor 
-infantil cuidadoso e empático.`;
+### Diretrizes por Idade:
+${idade <= 3 ? `
+**2-3 anos:** Frases curtas, repetição, vocabulário concreto, ` +
+      `180-300 palavras, moral explícita.
+- Use padrões repetitivos ("E então... E então...")
+- Personagens simples e familiares
+- Ações concretas e visuais
+- Final feliz óbvio com moral clara
+` : idade <= 5 ? `
+**4-5 anos:** Parágrafos curtos, 250-450 palavras, humor leve, ` +
+      `moral clara e contextualizada.
+- Diálogos simples entre personagens
+- Pequenos problemas com soluções claras
+- Elementos de fantasia leve
+- Moral integrada à ação
+` : `
+**6-8 anos:** Narrativa mais longa (até 600 palavras), ` +
+      `mini-arcos de superação, 1 reviravolta leve, moral integrada ao desfecho.
+- Desenvolvimento de personagem
+- Conflito mais elaborado
+- Reviravolta positiva
+- Moral sutil mas clara
+`}
+
+### Estrutura Obrigatória:
+1. **Início:** Apresentar ${nome} e cenário com ${preferencias}
+2. **Meio:** Conflito ou desafio relacionado à virtude ${valor}
+3. **Fim:** Resolução positiva + moral integrada
+
+### Segurança:
+- 100% seguro: proibido conteúdo adulto, ideológico, assustador, ` +
+      `violento ou político
+- Linguagem positiva e encorajadora
+- Personagens diversos e inclusivos
+
+### Final Obrigatório:
+Inclua um box separado:
+**💡 Dicas para o Adulto:**
+- 1-2 perguntas para leitura dialogada adequadas à idade ${idade}
+- Sugestões de conversa sobre a virtude ${valor}
+
+**Agora gere a história personalizada começando com um título criativo.**`;
 
     const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
@@ -131,6 +202,14 @@ infantil cuidadoso e empático.`;
       historiaLength: historia.length,
       preview: historia.substring(0, 100),
     });
+
+    // Verificar limite de histórias no plano gratuito (3 histórias por mês)
+    if (planoInfo.plano === "gratuito") {
+      const historiasCount = await contarHistoriasUsuarioMesAtual(userId);
+      if (historiasCount >= 3) {
+        throw new Error("LIMITE_HISTORIAS_ATINGIDO");
+      }
+    }
 
     // Determinar se deve gerar imagem baseado no plano
     let deveGerarImagem = false;
@@ -365,6 +444,7 @@ exports.minhasHistorias = onCall(async (request) => {
           preview: data.historia ?
             data.historia.substring(0, 200) + "..." : "Sem conteúdo",
           imagemUrl: data.imagemUrl || null,
+          favorita: data.favorita || false,
         });
       } catch (docError) {
         logger.error("Erro ao processar documento", {
@@ -720,15 +800,236 @@ exports.obterStatusPlano = onCall(async (request) => {
     const userId = request.auth.uid;
     const planoInfo = await verificarPlanoUsuario(userId);
 
+    const historiasCountMes = await contarHistoriasUsuarioMesAtual(userId);
+    const historiasCountTotal = await contarHistoriasUsuario(userId);
+
+    // Limites baseados no plano
+    const limites = {
+      gratuito: {
+        historias: 3,
+        ilustracoes: 1,
+      },
+      premium: {
+        historias: -1, // ilimitado (uso justo: 1/dia)
+        ilustracoes: 30, // 30 por mês
+      },
+    };
+
+    const planoLimites = limites[planoInfo.plano] || limites.gratuito;
+
     return {
       plano: planoInfo.plano,
+      // Contadores do mês atual
+      historiasRestantes: planoInfo.plano === "premium" ?
+        999 : Math.max(0, planoLimites.historias - historiasCountMes),
+      ilustracoesRestantes: planoInfo.plano === "premium" ?
+        30 : (planoInfo.historiaComImagemUsada ? 0 : 1),
+
+      // Status atual
+      podeGerarHistoria: planoInfo.plano === "premium" ||
+        historiasCountMes < planoLimites.historias,
       podeGerarImagem: planoInfo.plano === "premium" ||
-        (planoInfo.plano === "gratuito" &&
-         !planoInfo.historiaComImagemUsada),
+        (planoInfo.plano === "gratuito" && !planoInfo.historiaComImagemUsada),
+
+      // Estatísticas
+      historiasCountMes,
+      historiasCountTotal,
       historiaComImagemUsada: planoInfo.historiaComImagemUsada,
+      atingiuLimiteHistorias: planoInfo.plano === "gratuito" &&
+        historiasCountMes >= planoLimites.historias,
+      atingiuLimiteIlustracoes: planoInfo.plano === "gratuito" &&
+        planoInfo.historiaComImagemUsada,
     };
   } catch (error) {
     logger.error("❌ Erro ao obter status do plano:", error);
     throw new Error("Erro ao verificar plano");
+  }
+});
+/**
+ * Função para registrar métricas de uso
+ * @param {string} userId - ID do usuário
+ * @param {string} acao - Ação realizada
+ * @param {Object} dados - Dados adicionais
+ */
+async function registrarMetrica(userId, acao, dados = {}) {
+  try {
+    await admin.firestore()
+        .collection("metricas")
+        .add({
+          userId,
+          acao,
+          dados,
+          timestamp: admin.firestore.FieldValue.serverTimestamp(),
+          userAgent: dados.userAgent || null,
+        });
+  } catch (error) {
+    logger.warn("Erro ao registrar métrica:", error);
+  }
+}
+
+// Função para obter estatísticas do sistema
+exports.obterEstatisticas = onCall(async (request) => {
+  try {
+    if (!request.auth) {
+      throw new Error("Usuário não autenticado");
+    }
+
+    const userId = request.auth.uid;
+
+    // Estatísticas do usuário
+    const historiasSnapshot = await admin.firestore()
+        .collection("historias")
+        .where("userId", "==", userId)
+        .get();
+
+    const historiasComImagem = historiasSnapshot.docs.filter(
+        (doc) => doc.data().imagemUrl,
+    ).length;
+
+    const planoInfo = await verificarPlanoUsuario(userId);
+
+    return {
+      totalHistorias: historiasSnapshot.size,
+      historiasComImagem,
+      planoAtual: planoInfo.plano,
+      podeGerarImagem: planoInfo.plano === "premium" ||
+        (planoInfo.plano === "gratuito" && !planoInfo.historiaComImagemUsada),
+    };
+  } catch (error) {
+    logger.error("Erro ao obter estatísticas:", error);
+    throw new Error("Erro ao carregar estatísticas");
+  }
+});
+
+// Função para marcar/desmarcar história como favorita
+exports.toggleFavorito = onCall(async (request) => {
+  try {
+    if (!request.auth) {
+      throw new Error("Usuário não autenticado");
+    }
+
+    const {historiaId} = request.data;
+    const userId = request.auth.uid;
+
+    if (!historiaId) {
+      throw new Error("ID da história é obrigatório");
+    }
+
+    const doc = await admin.firestore()
+        .collection("historias")
+        .doc(historiaId)
+        .get();
+
+    if (!doc.exists) {
+      throw new Error("História não encontrada");
+    }
+
+    const data = doc.data();
+
+    // Verificar se a história pertence ao usuário
+    if (data.userId !== userId) {
+      throw new Error("Acesso negado");
+    }
+
+    const novoStatusFavorito = !data.favorita;
+
+    await admin.firestore()
+        .collection("historias")
+        .doc(historiaId)
+        .update({
+          favorita: novoStatusFavorito,
+          atualizadoEm: admin.firestore.FieldValue.serverTimestamp(),
+        });
+
+    // Registrar métrica
+    await registrarMetrica(userId, "toggle_favorito", {
+      historiaId,
+      favorita: novoStatusFavorito,
+    });
+
+    logger.info("Status de favorito atualizado", {
+      historiaId,
+      userId,
+      favorita: novoStatusFavorito,
+    });
+
+    return {
+      favorita: novoStatusFavorito,
+      message: novoStatusFavorito ?
+        "História adicionada aos favoritos" :
+        "História removida dos favoritos",
+    };
+  } catch (error) {
+    logger.error("Erro ao atualizar favorito:", error);
+    throw new Error("Erro ao atualizar favorito");
+  }
+});
+
+// Função para gerar link de compartilhamento
+exports.gerarLinkCompartilhamento = onCall(async (request) => {
+  try {
+    if (!request.auth) {
+      throw new Error("Usuário não autenticado");
+    }
+
+    const {historiaId} = request.data;
+    const userId = request.auth.uid;
+
+    if (!historiaId) {
+      throw new Error("ID da história é obrigatório");
+    }
+
+    const doc = await admin.firestore()
+        .collection("historias")
+        .doc(historiaId)
+        .get();
+
+    if (!doc.exists) {
+      throw new Error("História não encontrada");
+    }
+
+    const data = doc.data();
+
+    // Verificar se a história pertence ao usuário
+    if (data.userId !== userId) {
+      throw new Error("Acesso negado");
+    }
+
+    // Gerar token único para compartilhamento
+    const shareToken = require("crypto").randomBytes(32).toString("hex");
+
+    // Salvar token de compartilhamento
+    await admin.firestore()
+        .collection("compartilhamentos")
+        .doc(shareToken)
+        .set({
+          historiaId,
+          userId,
+          criadoEm: admin.firestore.FieldValue.serverTimestamp(),
+          ativo: true,
+        });
+
+    // Registrar métrica
+    await registrarMetrica(userId, "gerar_compartilhamento", {
+      historiaId,
+      shareToken,
+    });
+
+    const shareUrl = `https://ludoconto.web.app/historia/${shareToken}`;
+
+    logger.info("Link de compartilhamento gerado", {
+      historiaId,
+      userId,
+      shareToken,
+    });
+
+    return {
+      shareUrl,
+      shareToken,
+      message: "Link de compartilhamento gerado com sucesso",
+    };
+  } catch (error) {
+    logger.error("Erro ao gerar link de compartilhamento:", error);
+    throw new Error("Erro ao gerar link de compartilhamento");
   }
 });
