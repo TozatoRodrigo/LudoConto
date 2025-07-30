@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ludo Conto Premium - Historias Ilimitadas</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <!-- Tela de Login -->
     <div id="login-screen" class="login-screen">
         <div class="login-container">
             <h1 class="login-logo">✨ Ludo Conto</h1>
             <p class="login-subtitle">Entre para criar histórias mágicas</p>
-            
+
             <div class="auth-tabs">
                 <button class="tab-btn active" onclick="showLogin()">Entrar</button>
                 <button class="tab-btn" onclick="showRegister()">Cadastrar</button>
@@ -42,7 +45,8 @@
                     <input type="email" id="register-email" placeholder="Seu e-mail" required>
                 </div>
                 <div class="form-group">
-                    <input type="password" id="register-password" placeholder="Crie uma senha (min. 6 caracteres)" required minlength="6">
+                    <input type="password" id="register-password" placeholder="Crie uma senha (min. 6 caracteres)"
+                        required minlength="6">
                 </div>
                 <div class="form-group">
                     <input type="password" id="register-confirm" placeholder="Confirme sua senha" required>
@@ -67,40 +71,43 @@
                 <h1 class="logo">
                     <svg class="logo-mascot" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                         <!-- Corpo do bicho-preguiça -->
-                        <ellipse cx="50" cy="65" rx="25" ry="20" fill="#8B4513" stroke="#654321" stroke-width="2"/>
-                        
+                        <ellipse cx="50" cy="65" rx="25" ry="20" fill="#8B4513" stroke="#654321" stroke-width="2" />
+
                         <!-- Cabeça -->
-                        <circle cx="50" cy="35" r="18" fill="#D2691E" stroke="#8B4513" stroke-width="2"/>
-                        
+                        <circle cx="50" cy="35" r="18" fill="#D2691E" stroke="#8B4513" stroke-width="2" />
+
                         <!-- Braços -->
-                        <ellipse cx="30" cy="55" rx="8" ry="15" fill="#8B4513" transform="rotate(-30 30 55)"/>
-                        <ellipse cx="70" cy="55" rx="8" ry="15" fill="#8B4513" transform="rotate(30 70 55)"/>
-                        
+                        <ellipse cx="30" cy="55" rx="8" ry="15" fill="#8B4513" transform="rotate(-30 30 55)" />
+                        <ellipse cx="70" cy="55" rx="8" ry="15" fill="#8B4513" transform="rotate(30 70 55)" />
+
                         <!-- Pernas -->
-                        <ellipse cx="40" cy="80" rx="6" ry="12" fill="#8B4513"/>
-                        <ellipse cx="60" cy="80" rx="6" ry="12" fill="#8B4513"/>
-                        
+                        <ellipse cx="40" cy="80" rx="6" ry="12" fill="#8B4513" />
+                        <ellipse cx="60" cy="80" rx="6" ry="12" fill="#8B4513" />
+
                         <!-- Rosto -->
                         <!-- Olhos -->
-                        <circle cx="44" cy="30" r="4" fill="white"/>
-                        <circle cx="56" cy="30" r="4" fill="white"/>
-                        <circle cx="44" cy="30" r="2" fill="black"/>
-                        <circle cx="56" cy="30" r="2" fill="black"/>
-                        
+                        <circle cx="44" cy="30" r="4" fill="white" />
+                        <circle cx="56" cy="30" r="4" fill="white" />
+                        <circle cx="44" cy="30" r="2" fill="black" />
+                        <circle cx="56" cy="30" r="2" fill="black" />
+
                         <!-- Nariz -->
-                        <ellipse cx="50" cy="38" rx="2" ry="1.5" fill="black"/>
-                        
+                        <ellipse cx="50" cy="38" rx="2" ry="1.5" fill="black" />
+
                         <!-- Boca sorridente -->
-                        <path d="M 45 42 Q 50 47 55 42" stroke="black" stroke-width="2" fill="none" stroke-linecap="round"/>
-                        
+                        <path d="M 45 42 Q 50 47 55 42" stroke="black" stroke-width="2" fill="none"
+                            stroke-linecap="round" />
+
                         <!-- Manchas características -->
-                        <circle cx="42" cy="60" r="3" fill="#654321"/>
-                        <circle cx="58" cy="68" r="2.5" fill="#654321"/>
-                        <circle cx="35" cy="70" r="2" fill="#654321"/>
-                        
+                        <circle cx="42" cy="60" r="3" fill="#654321" />
+                        <circle cx="58" cy="68" r="2.5" fill="#654321" />
+                        <circle cx="35" cy="70" r="2" fill="#654321" />
+
                         <!-- Garras -->
-                        <path d="M 25 65 L 22 68 M 27 67 L 24 70 M 29 69 L 26 72" stroke="black" stroke-width="1.5" stroke-linecap="round"/>
-                        <path d="M 75 65 L 78 68 M 73 67 L 76 70 M 71 69 L 74 72" stroke="black" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M 25 65 L 22 68 M 27 67 L 24 70 M 29 69 L 26 72" stroke="black" stroke-width="1.5"
+                            stroke-linecap="round" />
+                        <path d="M 75 65 L 78 68 M 73 67 L 76 70 M 71 69 L 74 72" stroke="black" stroke-width="1.5"
+                            stroke-linecap="round" />
                     </svg>
                     Ludo Conto Premium
                 </h1>
@@ -111,339 +118,440 @@
             </div>
         </header>
 
-    <!-- Modal Sobre -->
-    <div id="modal-sobre" class="modal">
-        <div class="modal-content modal-about">
-            <span class="close" onclick="toggleSobre()">&times;</span>
-            <div class="about-header">
-                <svg width="60" height="60" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Mascote menor para o modal -->
-                    <ellipse cx="50" cy="65" rx="25" ry="20" fill="#8B4513" stroke="#654321" stroke-width="2"/>
-                    <circle cx="50" cy="35" r="18" fill="#D2691E" stroke="#8B4513" stroke-width="2"/>
-                    <ellipse cx="30" cy="55" rx="8" ry="15" fill="#8B4513" transform="rotate(-30 30 55)"/>
-                    <ellipse cx="70" cy="55" rx="8" ry="15" fill="#8B4513" transform="rotate(30 70 55)"/>
-                    <ellipse cx="40" cy="80" rx="6" ry="12" fill="#8B4513"/>
-                    <ellipse cx="60" cy="80" rx="6" ry="12" fill="#8B4513"/>
-                    <circle cx="44" cy="30" r="4" fill="white"/>
-                    <circle cx="56" cy="30" r="4" fill="white"/>
-                    <circle cx="44" cy="30" r="2" fill="black"/>
-                    <circle cx="56" cy="30" r="2" fill="black"/>
-                    <ellipse cx="50" cy="38" rx="2" ry="1.5" fill="black"/>
-                    <path d="M 45 42 Q 50 47 55 42" stroke="black" stroke-width="2" fill="none" stroke-linecap="round"/>
-                    <circle cx="42" cy="60" r="3" fill="#654321"/>
-                    <circle cx="58" cy="68" r="2.5" fill="#654321"/>
-                    <circle cx="35" cy="70" r="2" fill="#654321"/>
-                </svg>
-                <h2>🌟 Sobre o Ludo Conto 🌟</h2>
+        <!-- Modal Sobre -->
+        <div id="modal-sobre" class="modal">
+            <div class="modal-content modal-about">
+                <span class="close" onclick="toggleSobre()">&times;</span>
+                <div class="about-header">
+                    <svg width="60" height="60" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Mascote menor para o modal -->
+                        <ellipse cx="50" cy="65" rx="25" ry="20" fill="#8B4513" stroke="#654321" stroke-width="2" />
+                        <circle cx="50" cy="35" r="18" fill="#D2691E" stroke="#8B4513" stroke-width="2" />
+                        <ellipse cx="30" cy="55" rx="8" ry="15" fill="#8B4513" transform="rotate(-30 30 55)" />
+                        <ellipse cx="70" cy="55" rx="8" ry="15" fill="#8B4513" transform="rotate(30 70 55)" />
+                        <ellipse cx="40" cy="80" rx="6" ry="12" fill="#8B4513" />
+                        <ellipse cx="60" cy="80" rx="6" ry="12" fill="#8B4513" />
+                        <circle cx="44" cy="30" r="4" fill="white" />
+                        <circle cx="56" cy="30" r="4" fill="white" />
+                        <circle cx="44" cy="30" r="2" fill="black" />
+                        <circle cx="56" cy="30" r="2" fill="black" />
+                        <ellipse cx="50" cy="38" rx="2" ry="1.5" fill="black" />
+                        <path d="M 45 42 Q 50 47 55 42" stroke="black" stroke-width="2" fill="none"
+                            stroke-linecap="round" />
+                        <circle cx="42" cy="60" r="3" fill="#654321" />
+                        <circle cx="58" cy="68" r="2.5" fill="#654321" />
+                        <circle cx="35" cy="70" r="2" fill="#654321" />
+                    </svg>
+                    <h2>🌟 Sobre o Ludo Conto 🌟</h2>
+                </div>
+                <div class="about-content">
+                    <p>Oi! Eu sou o <strong>Ludo</strong>, seu amigo bicho-preguiça! 🦥</p>
+                    <p>O Ludo Conto é uma plataforma mágica que cria histórias infantis personalizadas usando
+                        inteligência artificial. Nosso objetivo é ajudar pais a educar seus filhos através de contos
+                        mágicos e envolventes.</p>
+                    <p>Cada história é cuidadosamente gerada para ser:</p>
+                    <ul class="about-features">
+                        <li>🛡️ <strong>100% Segura</strong> para crianças</li>
+                        <li>📚 <strong>Educativa</strong> e cheia de valores</li>
+                        <li>🎯 <strong>Adaptada</strong> à idade da criança</li>
+                        <li>✨ <strong>Mágica</strong> e divertida</li>
+                        <li>💖 <strong>Única</strong> para cada criança</li>
+                    </ul>
+                    <p>Vamos criar histórias incríveis juntos! 🌈</p>
+                </div>
             </div>
-            <div class="about-content">
-                <p>Oi! Eu sou o <strong>Ludo</strong>, seu amigo bicho-preguiça! 🦥</p>
-                <p>O Ludo Conto é uma plataforma mágica que cria histórias infantis personalizadas usando inteligência artificial. Nosso objetivo é ajudar pais a educar seus filhos através de contos mágicos e envolventes.</p>
-                <p>Cada história é cuidadosamente gerada para ser:</p>
-                <ul class="about-features">
-                    <li>🛡️ <strong>100% Segura</strong> para crianças</li>
-                    <li>📚 <strong>Educativa</strong> e cheia de valores</li>
-                    <li>🎯 <strong>Adaptada</strong> à idade da criança</li>
-                    <li>✨ <strong>Mágica</strong> e divertida</li>
-                    <li>💖 <strong>Única</strong> para cada criança</li>
-                </ul>
-                <p>Vamos criar histórias incríveis juntos! 🌈</p>
+        </div>
+
+        <!-- Elementos decorativos -->
+        <div class="decorative-elements">
+            <div class="cloud cloud1"></div>
+            <div class="cloud cloud2"></div>
+        </div>
+
+        <!-- Mascote flutuante -->
+        <div class="mascot-float" onclick="showMascotMessage()">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <!-- Corpo do bicho-preguiça -->
+                <ellipse cx="50" cy="65" rx="25" ry="20" fill="#8B4513" stroke="#654321" stroke-width="2" />
+
+                <!-- Cabeça -->
+                <circle cx="50" cy="35" r="18" fill="#D2691E" stroke="#8B4513" stroke-width="2" />
+
+                <!-- Braços -->
+                <ellipse cx="30" cy="55" rx="8" ry="15" fill="#8B4513" transform="rotate(-30 30 55)" />
+                <ellipse cx="70" cy="55" rx="8" ry="15" fill="#8B4513" transform="rotate(30 70 55)" />
+
+                <!-- Pernas -->
+                <ellipse cx="40" cy="80" rx="6" ry="12" fill="#8B4513" />
+                <ellipse cx="60" cy="80" rx="6" ry="12" fill="#8B4513" />
+
+                <!-- Rosto -->
+                <!-- Olhos -->
+                <circle cx="44" cy="30" r="4" fill="white" />
+                <circle cx="56" cy="30" r="4" fill="white" />
+                <circle cx="44" cy="30" r="2" fill="black" />
+                <circle cx="56" cy="30" r="2" fill="black" />
+
+                <!-- Nariz -->
+                <ellipse cx="50" cy="38" rx="2" ry="1.5" fill="black" />
+
+                <!-- Boca sorridente -->
+                <path d="M 45 42 Q 50 47 55 42" stroke="black" stroke-width="2" fill="none" stroke-linecap="round" />
+
+                <!-- Manchas características -->
+                <circle cx="42" cy="60" r="3" fill="#654321" />
+                <circle cx="58" cy="68" r="2.5" fill="#654321" />
+                <circle cx="35" cy="70" r="2" fill="#654321" />
+
+                <!-- Garras -->
+                <path d="M 25 65 L 22 68 M 27 67 L 24 70 M 29 69 L 26 72" stroke="black" stroke-width="1.5"
+                    stroke-linecap="round" />
+                <path d="M 75 65 L 78 68 M 73 67 L 76 70 M 71 69 L 74 72" stroke="black" stroke-width="1.5"
+                    stroke-linecap="round" />
+            </svg>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main">
+            <div class="container">
+                <!-- Hero Section -->
+                <section class="hero">
+                    <h2>🌟 Desbloqueie Todo o Potencial do Ludo Conto</h2>
+                    <p>Transforme a hora da historia em momentos magicos e inesqueciveis com seu filho</p>
+                </section>
+
+                <!-- Comparison Cards -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem;">
+                    <!-- Plano Gratuito -->
+                    <div class="form-container" style="opacity: 0.7;">
+                        <div style="text-align: center; margin-bottom: 2rem;">
+                            <h3 style="font-size: 1.5rem; color: #666; margin-bottom: 1rem;">Plano Atual</h3>
+                            <div style="font-size: 2rem; font-weight: 700; color: #666;">GRATUITO</div>
+                            <div style="color: #888; margin-bottom: 2rem;">Limitado</div>
+                        </div>
+
+                        <div class="form-group">
+                            <div style="display: flex; align-items: center; margin-bottom: 1rem; color: #666;">
+                                <span style="color: #10b981; margin-right: 10px; font-weight: bold;">✓</span>
+                                <span>3 historias por mes</span>
+                            </div>
+                            <div style="display: flex; align-items: center; margin-bottom: 1rem; color: #666;">
+                                <span style="color: #10b981; margin-right: 10px; font-weight: bold;">✓</span>
+                                <span>1 ilustracao gratis</span>
+                            </div>
+                            <div style="display: flex; align-items: center; margin-bottom: 1rem; color: #ccc;">
+                                <span style="color: #ef4444; margin-right: 10px; font-weight: bold;">✗</span>
+                                <span>Historias limitadas</span>
+                            </div>
+                            <div style="display: flex; align-items: center; margin-bottom: 1rem; color: #ccc;">
+                                <span style="color: #ef4444; margin-right: 10px; font-weight: bold;">✗</span>
+                                <span>Sem ilustracoes extras</span>
+                            </div>
+                            <div style="display: flex; align-items: center; margin-bottom: 1rem; color: #ccc;">
+                                <span style="color: #ef4444; margin-right: 10px; font-weight: bold;">✗</span>
+                                <span>Apenas 1 perfil</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Plano Premium -->
+                    <div class="form-container"
+                        style="border: 3px solid #ffd700; position: relative; transform: scale(1.05); box-shadow: 0 20px 60px rgba(255,215,0,0.3);">
+                        <div
+                            style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: #ffd700; color: #2d3748; padding: 0.5rem 1.5rem; border-radius: 20px; font-weight: 700; font-size: 0.8rem;">
+                            MAIS POPULAR
+                        </div>
+
+                        <div style="text-align: center; margin-bottom: 2rem;">
+                            <h3 style="font-size: 1.5rem; color: #2d3748; margin-bottom: 1rem;">Ludo Conto Premium</h3>
+                            <div style="font-size: 2.5rem; font-weight: 700; color: #ff6b6b;">R$ 9,99</div>
+                            <div style="color: #666; margin-bottom: 2rem;">por mes</div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 2rem;">
+                            <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                                <span style="color: #10b981; margin-right: 10px; font-weight: bold;">✓</span>
+                                <span><strong>Historias ILIMITADAS</strong></span>
+                            </div>
+                            <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                                <span style="color: #10b981; margin-right: 10px; font-weight: bold;">✓</span>
+                                <span><strong>30 ilustracoes por mes</strong></span>
+                            </div>
+                            <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                                <span style="color: #10b981; margin-right: 10px; font-weight: bold;">✓</span>
+                                <span><strong>Ate 3 perfis de criancas</strong></span>
+                            </div>
+                            <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                                <span style="color: #10b981; margin-right: 10px; font-weight: bold;">✓</span>
+                                <span><strong>Sem anuncios</strong></span>
+                            </div>
+                            <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                                <span style="color: #10b981; margin-right: 10px; font-weight: bold;">✓</span>
+                                <span><strong>Suporte prioritario</strong></span>
+                            </div>
+                        </div>
+
+                        <button id="premium-checkout" class="btn-gerar" style="width: 100%; margin-bottom: 1rem;"
+                            onclick="assinarPremium()">
+                            <span class="btn-text">Assinar Premium Agora</span>
+                            <div class="loading" style="display: none;">
+                                <div class="spinner"></div>
+                                <span>Processando...</span>
+                            </div>
+                        </button>
+
+                        <div id="error-message"
+                            style="background: #fee2e2; color: #dc2626; padding: 1rem; border-radius: 10px; margin-bottom: 1rem; display: none;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Beneficios por Idade -->
+                <div class="form-container" style="margin-bottom: 2rem;">
+                    <h3 style="text-align: center; margin-bottom: 1rem; color: #2d3748;">
+                        🧠 Desenvolvido com Base em Estudos Cientificos
+                    </h3>
+                    <p style="text-align: center; margin-bottom: 2rem; color: #666; font-style: italic;">
+                        Nossas historias sao criadas com orientacao de profissionais em psicopedagogia e psicologia infantil
+                    </p>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+                        <!-- 2-3 anos -->
+                        <div style="background: linear-gradient(135deg, #ffeaa7, #fab1a0); padding: 2rem; border-radius: 20px; color: #2d3748;">
+                            <div style="text-align: center; margin-bottom: 1.5rem;">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">👶</div>
+                                <h4 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem;">2-3 Anos</h4>
+                                <div style="font-size: 0.9rem; opacity: 0.8;">Desenvolvimento da Linguagem</div>
+                            </div>
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="margin-bottom: 0.8rem; display: flex; align-items: flex-start;">
+                                    <span style="color: #00b894; margin-right: 8px; font-weight: bold;">•</span>
+                                    <span><strong>Frases curtas</strong> (180-300 palavras)</span>
+                                </li>
+                                <li style="margin-bottom: 0.8rem; display: flex; align-items: flex-start;">
+                                    <span style="color: #00b894; margin-right: 8px; font-weight: bold;">•</span>
+                                    <span><strong>Repeticao</strong> para fixacao</span>
+                                </li>
+                                <li style="margin-bottom: 0.8rem; display: flex; align-items: flex-start;">
+                                    <span style="color: #00b894; margin-right: 8px; font-weight: bold;">•</span>
+                                    <span><strong>Vocabulario simples</strong> e familiar</span>
+                                </li>
+                                <li style="margin-bottom: 0.8rem; display: flex; align-items: flex-start;">
+                                    <span style="color: #00b894; margin-right: 8px; font-weight: bold;">•</span>
+                                    <span><strong>Estimula</strong> primeiras palavras</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- 4-5 anos -->
+                        <div style="background: linear-gradient(135deg, #74b9ff, #0984e3); padding: 2rem; border-radius: 20px; color: white;">
+                            <div style="text-align: center; margin-bottom: 1.5rem;">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🧒</div>
+                                <h4 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem;">4-5 Anos</h4>
+                                <div style="font-size: 0.9rem; opacity: 0.9;">Imaginacao e Criatividade</div>
+                            </div>
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="margin-bottom: 0.8rem; display: flex; align-items: flex-start;">
+                                    <span style="color: #ffeaa7; margin-right: 8px; font-weight: bold;">•</span>
+                                    <span><strong>Narrativas complexas</strong> (250-450 palavras)</span>
+                                </li>
+                                <li style="margin-bottom: 0.8rem; display: flex; align-items: flex-start;">
+                                    <span style="color: #ffeaa7; margin-right: 8px; font-weight: bold;">•</span>
+                                    <span><strong>Dialogos simples</strong> e interativos</span>
+                                </li>
+                                <li style="margin-bottom: 0.8rem; display: flex; align-items: flex-start;">
+                                    <span style="color: #ffeaa7; margin-right: 8px; font-weight: bold;">•</span>
+                                    <span><strong>Humor leve</strong> e situacoes engracadas</span>
+                                </li>
+                                <li style="margin-bottom: 0.8rem; display: flex; align-items: flex-start;">
+                                    <span style="color: #ffeaa7; margin-right: 8px; font-weight: bold;">•</span>
+                                    <span><strong>Desenvolve</strong> pensamento simbolico</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- 6-8 anos -->
+                        <div style="background: linear-gradient(135deg, #a29bfe, #6c5ce7); padding: 2rem; border-radius: 20px; color: white;">
+                            <div style="text-align: center; margin-bottom: 1.5rem;">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">👧</div>
+                                <h4 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem;">6-8 Anos</h4>
+                                <div style="font-size: 0.9rem; opacity: 0.9;">Raciocinio e Valores</div>
+                            </div>
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="margin-bottom: 0.8rem; display: flex; align-items: flex-start;">
+                                    <span style="color: #ffeaa7; margin-right: 8px; font-weight: bold;">•</span>
+                                    <span><strong>Historias longas</strong> (ate 600 palavras)</span>
+                                </li>
+                                <li style="margin-bottom: 0.8rem; display: flex; align-items: flex-start;">
+                                    <span style="color: #ffeaa7; margin-right: 8px; font-weight: bold;">•</span>
+                                    <span><strong>Reviravolta</strong> e suspense</span>
+                                </li>
+                                <li style="margin-bottom: 0.8rem; display: flex; align-items: flex-start;">
+                                    <span style="color: #ffeaa7; margin-right: 8px; font-weight: bold;">•</span>
+                                    <span><strong>Licoes morais</strong> profundas</span>
+                                </li>
+                                <li style="margin-bottom: 0.8rem; display: flex; align-items: flex-start;">
+                                    <span style="color: #ffeaa7; margin-right: 8px; font-weight: bold;">•</span>
+                                    <span><strong>Fortalece</strong> senso de justica</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Credibilidade Cientifica -->
+                    <div style="background: #f8fafc; border-left: 4px solid #667eea; padding: 1.5rem; margin-top: 2rem; border-radius: 10px;">
+                        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <span style="font-size: 1.5rem; margin-right: 10px;">🎓</span>
+                            <h4 style="color: #2d3748; margin: 0;">Fundamentacao Cientifica</h4>
+                        </div>
+                        <p style="color: #555; margin-bottom: 1rem;">
+                            Nossas historias seguem principios da <strong>Teoria do Desenvolvimento Cognitivo de Piaget</strong> 
+                            e diretrizes da <strong>Academia Americana de Pediatria</strong> para desenvolvimento da linguagem.
+                        </p>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                            <div style="display: flex; align-items: center;">
+                                <span style="color: #10b981; margin-right: 8px;">✓</span>
+                                <span style="font-size: 0.9rem;">Psicopedagogia aplicada</span>
+                            </div>
+                            <div style="display: flex; align-items: center;">
+                                <span style="color: #10b981; margin-right: 8px;">✓</span>
+                                <span style="font-size: 0.9rem;">Psicologia do desenvolvimento</span>
+                            </div>
+                            <div style="display: flex; align-items: center;">
+                                <span style="color: #10b981; margin-right: 8px;">✓</span>
+                                <span style="font-size: 0.9rem;">Neurociencia infantil</span>
+                            </div>
+                            <div style="display: flex; align-items: center;">
+                                <span style="color: #10b981; margin-right: 8px;">✓</span>
+                                <span style="font-size: 0.9rem;">Educacao emocional</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Guarantee -->
+                <div
+                    style="background: #f0fff4; border: 2px dashed #10b981; padding: 2rem; border-radius: 15px; text-align: center; margin-bottom: 2rem;">
+                    <h3 style="color: #10b981; margin-bottom: 1rem;">🛡️ Garantia de 7 Dias</h3>
+                    <p style="color: #666;">Nao ficou satisfeito? Devolvemos 100% do seu dinheiro, sem perguntas.</p>
+                </div>
             </div>
+        </main>
+
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <div class="stat-icon">📚</div>
+                <div class="stat-info">
+                    <div class="stat-number" id="historias-restantes">3</div>
+                    <div class="stat-label">Histórias restantes</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🎨</div>
+                <div class="stat-info">
+                    <div class="stat-number" id="ilustracoes-restantes">1</div>
+                    <div class="stat-label">Ilustrações restantes</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-tip">
+            <div class="tip-icon">💡</div>
+            <div class="tip-text">
+                <strong>Dica:</strong> No LudoConto+ você tem histórias ilimitadas e até 30 ilustrações por mês!
+            </div>
+        </div>
+
+        <div class="dashboard-actions">
+            <button class="btn-primary" onclick="mostrarFormulario()">
+                ✨ Gerar Nova História
+            </button>
+            <button class="btn-secondary" onclick="togglePlano()">
+                ⭐ Ver Planos e Benefícios
+            </button>
         </div>
     </div>
 
-    <!-- Elementos decorativos -->
-    <div class="decorative-elements">
-        <div class="cloud cloud1"></div>
-        <div class="cloud cloud2"></div>
+    <!-- Seção Hero (para usuários não logados) -->
+    <div id="hero-section" class="hero">
+        <h2>🌟 Crie histórias mágicas personalizadas para sua criança! 🌟</h2>
+        <p>Preencha o formulário abaixo e receba uma história única, educativa e encantadora!</p>
     </div>
 
-    <!-- Mascote flutuante -->
-    <div class="mascot-float" onclick="showMascotMessage()">
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <!-- Corpo do bicho-preguiça -->
-            <ellipse cx="50" cy="65" rx="25" ry="20" fill="#8B4513" stroke="#654321" stroke-width="2"/>
-            
-            <!-- Cabeça -->
-            <circle cx="50" cy="35" r="18" fill="#D2691E" stroke="#8B4513" stroke-width="2"/>
-            
-            <!-- Braços -->
-            <ellipse cx="30" cy="55" rx="8" ry="15" fill="#8B4513" transform="rotate(-30 30 55)"/>
-            <ellipse cx="70" cy="55" rx="8" ry="15" fill="#8B4513" transform="rotate(30 70 55)"/>
-            
-            <!-- Pernas -->
-            <ellipse cx="40" cy="80" rx="6" ry="12" fill="#8B4513"/>
-            <ellipse cx="60" cy="80" rx="6" ry="12" fill="#8B4513"/>
-            
-            <!-- Rosto -->
-            <!-- Olhos -->
-            <circle cx="44" cy="30" r="4" fill="white"/>
-            <circle cx="56" cy="30" r="4" fill="white"/>
-            <circle cx="44" cy="30" r="2" fill="black"/>
-            <circle cx="56" cy="30" r="2" fill="black"/>
-            
-            <!-- Nariz -->
-            <ellipse cx="50" cy="38" rx="2" ry="1.5" fill="black"/>
-            
-            <!-- Boca sorridente -->
-            <path d="M 45 42 Q 50 47 55 42" stroke="black" stroke-width="2" fill="none" stroke-linecap="round"/>
-            
-            <!-- Manchas características -->
-            <circle cx="42" cy="60" r="3" fill="#654321"/>
-            <circle cx="58" cy="68" r="2.5" fill="#654321"/>
-            <circle cx="35" cy="70" r="2" fill="#654321"/>
-            
-            <!-- Garras -->
-            <path d="M 25 65 L 22 68 M 27 67 L 24 70 M 29 69 L 26 72" stroke="black" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M 75 65 L 78 68 M 73 67 L 76 70 M 71 69 L 74 72" stroke="black" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-    </div>
+    <!-- Formulário -->
+    <form id="historia-form" class="form-container">
+        <div class="form-group">
+            <label for="nome">Nome da criança *</label>
+            <input type="text" id="nome" name="nome" required placeholder="Digite o nome da criança">
+        </div>
 
-    <!-- Main Content -->
-    <main class="main">
-        <div class="container">
-            <!-- Hero Section -->
-            <section class="hero">
-                <h2>🌟 Desbloqueie Todo o Potencial do Ludo Conto</h2>
-                <p>Transforme a hora da historia em momentos magicos e inesqueciveis com seu filho</p>
-            </section>
+        <div class="form-group">
+            <label for="idade">Idade *</label>
+            <input type="number" id="idade" name="idade" min="2" max="8" required placeholder="Ex: 5">
+            <small class="form-hint">Histórias adaptadas para crianças de 2 a 8 anos</small>
+        </div>
 
-            <!-- Comparison Cards -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem;">
-                <!-- Plano Gratuito -->
-                <div class="form-container" style="opacity: 0.7;">
-                    <div style="text-align: center; margin-bottom: 2rem;">
-                        <h3 style="font-size: 1.5rem; color: #666; margin-bottom: 1rem;">Plano Atual</h3>
-                        <div style="font-size: 2rem; font-weight: 700; color: #666;">GRATUITO</div>
-                        <div style="color: #888; margin-bottom: 2rem;">Limitado</div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <div style="display: flex; align-items: center; margin-bottom: 1rem; color: #666;">
-                            <span style="color: #10b981; margin-right: 10px; font-weight: bold;">✓</span>
-                            <span>3 historias por mes</span>
-                        </div>
-                        <div style="display: flex; align-items: center; margin-bottom: 1rem; color: #666;">
-                            <span style="color: #10b981; margin-right: 10px; font-weight: bold;">✓</span>
-                            <span>1 ilustracao gratis</span>
-                        </div>
-                        <div style="display: flex; align-items: center; margin-bottom: 1rem; color: #ccc;">
-                            <span style="color: #ef4444; margin-right: 10px; font-weight: bold;">✗</span>
-                            <span>Historias limitadas</span>
-                        </div>
-                        <div style="display: flex; align-items: center; margin-bottom: 1rem; color: #ccc;">
-                            <span style="color: #ef4444; margin-right: 10px; font-weight: bold;">✗</span>
-                            <span>Sem ilustracoes extras</span>
-                        </div>
-                        <div style="display: flex; align-items: center; margin-bottom: 1rem; color: #ccc;">
-                            <span style="color: #ef4444; margin-right: 10px; font-weight: bold;">✗</span>
-                            <span>Apenas 1 perfil</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Plano Premium -->
-                <div class="form-container" style="border: 3px solid #ffd700; position: relative; transform: scale(1.05); box-shadow: 0 20px 60px rgba(255,215,0,0.3);">
-                    <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: #ffd700; color: #2d3748; padding: 0.5rem 1.5rem; border-radius: 20px; font-weight: 700; font-size: 0.8rem;">
-                        MAIS POPULAR
-                    </div>
-                    
-                    <div style="text-align: center; margin-bottom: 2rem;">
-                        <h3 style="font-size: 1.5rem; color: #2d3748; margin-bottom: 1rem;">Ludo Conto Premium</h3>
-                        <div style="font-size: 2.5rem; font-weight: 700; color: #ff6b6b;">R$ 9,99</div>
-                        <div style="color: #666; margin-bottom: 2rem;">por mes</div>
-                    </div>
-                    
-                    <div class="form-group" style="margin-bottom: 2rem;">
-                        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
-                            <span style="color: #10b981; margin-right: 10px; font-weight: bold;">✓</span>
-                            <span><strong>Historias ILIMITADAS</strong></span>
-                        </div>
-                        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
-                            <span style="color: #10b981; margin-right: 10px; font-weight: bold;">✓</span>
-                            <span><strong>30 ilustracoes por mes</strong></span>
-                        </div>
-                        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
-                            <span style="color: #10b981; margin-right: 10px; font-weight: bold;">✓</span>
-                            <span><strong>Ate 3 perfis de criancas</strong></span>
-                        </div>
-                        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
-                            <span style="color: #10b981; margin-right: 10px; font-weight: bold;">✓</span>
-                            <span><strong>Sem anuncios</strong></span>
-                        </div>
-                        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
-                            <span style="color: #10b981; margin-right: 10px; font-weight: bold;">✓</span>
-                            <span><strong>Suporte prioritario</strong></span>
-                        </div>
-                    </div>
-
-                    <button id="premium-checkout" class="btn-gerar" style="width: 100%; margin-bottom: 1rem;" onclick="assinarPremium()">
-                        <span class="btn-text">Assinar Premium Agora</span>
-                        <div class="loading" style="display: none;">
-                            <div class="spinner"></div>
-                            <span>Processando...</span>
-                        </div>
-                    </button>
-                    
-                    <div id="error-message" style="background: #fee2e2; color: #dc2626; padding: 1rem; border-radius: 10px; margin-bottom: 1rem; display: none;"></div>
-                </div>
-            </div>
-
-            <!-- Social Proof -->
-            <div class="form-container" style="margin-bottom: 2rem;">
-                <h3 style="text-align: center; margin-bottom: 2rem; color: #2d3748;">
-                    💬 O que os Pais Estao Dizendo
-                </h3>
-                
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
-                    <div style="background: #f8fafc; padding: 1.5rem; border-radius: 15px;">
-                        <p style="font-style: italic; margin-bottom: 1rem; color: #555;">
-                            "Minha filha de 5 anos fica encantada com as historias personalizadas. 
-                            Ela se ve como protagonista e aprende valores importantes!"
-                        </p>
-                        <div style="font-weight: 600; color: #2d3748;">- Marina, mae da Sofia</div>
-                    </div>
-                    
-                    <div style="background: #f8fafc; padding: 1.5rem; border-radius: 15px;">
-                        <p style="font-style: italic; margin-bottom: 1rem; color: #555;">
-                            "O Premium mudou nossa rotina noturna. Agora temos historias novas toda noite, 
-                            com ilustracoes lindas. Meu filho dorme mais tranquilo."
-                        </p>
-                        <div style="font-weight: 600; color: #2d3748;">- Carlos, pai do Miguel</div>
-                    </div>
-                    
-                    <div style="background: #f8fafc; padding: 1.5rem; border-radius: 15px;">
-                        <p style="font-style: italic; margin-bottom: 1rem; color: #555;">
-                            "Como educadora, recomendo o Ludo Conto Premium. As historias ensinam valores 
-                            de forma ludica e as criancas adoram se ver nas ilustracoes."
-                        </p>
-                        <div style="font-weight: 600; color: #2d3748;">- Ana Paula, pedagoga</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Guarantee -->
-            <div style="background: #f0fff4; border: 2px dashed #10b981; padding: 2rem; border-radius: 15px; text-align: center; margin-bottom: 2rem;">
-                <h3 style="color: #10b981; margin-bottom: 1rem;">🛡️ Garantia de 7 Dias</h3>
-                <p style="color: #666;">Nao ficou satisfeito? Devolvemos 100% do seu dinheiro, sem perguntas.</p>
+        <div class="form-group">
+            <label for="preferencias">Preferências da criança *</label>
+            <input type="text" id="preferencias" name="preferencias" required
+                placeholder="Ex: dragões, futebol, castelos, florestas mágicas...">
+            <div class="sugestoes">
+                <span class="sugestao" onclick="adicionarSugestao('dragões')">dragões</span>
+                <span class="sugestao" onclick="adicionarSugestao('futebol')">futebol</span>
+                <span class="sugestao" onclick="adicionarSugestao('castelos')">castelos</span>
+                <span class="sugestao" onclick="adicionarSugestao('florestas mágicas')">florestas mágicas</span>
+                <span class="sugestao" onclick="adicionarSugestao('animais')">animais</span>
+                <span class="sugestao" onclick="adicionarSugestao('aventuras')">aventuras</span>
             </div>
         </div>
-    </main>
-                
-                <div class="dashboard-stats">
-                    <div class="stat-card">
-                        <div class="stat-icon">📚</div>
-                        <div class="stat-info">
-                            <div class="stat-number" id="historias-restantes">3</div>
-                            <div class="stat-label">Histórias restantes</div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">🎨</div>
-                        <div class="stat-info">
-                            <div class="stat-number" id="ilustracoes-restantes">1</div>
-                            <div class="stat-label">Ilustrações restantes</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="dashboard-tip">
-                    <div class="tip-icon">💡</div>
-                    <div class="tip-text">
-                        <strong>Dica:</strong> No LudoConto+ você tem histórias ilimitadas e até 30 ilustrações por mês!
-                    </div>
-                </div>
-                
-                <div class="dashboard-actions">
-                    <button class="btn-primary" onclick="mostrarFormulario()">
-                        ✨ Gerar Nova História
-                    </button>
-                    <button class="btn-secondary" onclick="togglePlano()">
-                        ⭐ Ver Planos e Benefícios
-                    </button>
-                </div>
+
+        <div class="form-group">
+            <label for="valor">Virtude ou valor a ser ensinado *</label>
+            <select id="valor" name="valor" required>
+                <option value="">Selecione uma virtude</option>
+                <option value="respeitar os pais">Respeitar os pais</option>
+                <option value="falar a verdade">Falar a verdade</option>
+                <option value="dividir brinquedos">Dividir brinquedos</option>
+                <option value="ajudar os amigos">Ajudar os amigos</option>
+                <option value="coragem">Coragem</option>
+                <option value="generosidade">Generosidade</option>
+                <option value="paciência">Paciência</option>
+                <option value="perseverança">Perseverança</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="desafio">Desafio atual (opcional)</label>
+            <textarea id="desafio" name="desafio" rows="3"
+                placeholder="Descreva algum desafio que a criança está enfrentando..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-gerar" id="btn-gerar">
+            <span class="btn-text">✨ Gerar História Mágica</span>
+            <div class="loading" style="display: none;">
+                <div class="spinner"></div>
+                Criando sua história...
             </div>
+        </button>
+    </form>
 
-            <!-- Seção Hero (para usuários não logados) -->
-            <div id="hero-section" class="hero">
-                <h2>🌟 Crie histórias mágicas personalizadas para sua criança! 🌟</h2>
-                <p>Preencha o formulário abaixo e receba uma história única, educativa e encantadora!</p>
-            </div>
-
-            <!-- Formulário -->
-            <form id="historia-form" class="form-container">
-                <div class="form-group">
-                    <label for="nome">Nome da criança *</label>
-                    <input type="text" id="nome" name="nome" required placeholder="Digite o nome da criança">
-                </div>
-
-                <div class="form-group">
-                    <label for="idade">Idade *</label>
-                    <input type="number" id="idade" name="idade" min="2" max="8" required placeholder="Ex: 5">
-                    <small class="form-hint">Histórias adaptadas para crianças de 2 a 8 anos</small>
-                </div>
-
-                <div class="form-group">
-                    <label for="preferencias">Preferências da criança *</label>
-                    <input type="text" id="preferencias" name="preferencias" required 
-                           placeholder="Ex: dragões, futebol, castelos, florestas mágicas...">
-                    <div class="sugestoes">
-                        <span class="sugestao" onclick="adicionarSugestao('dragões')">dragões</span>
-                        <span class="sugestao" onclick="adicionarSugestao('futebol')">futebol</span>
-                        <span class="sugestao" onclick="adicionarSugestao('castelos')">castelos</span>
-                        <span class="sugestao" onclick="adicionarSugestao('florestas mágicas')">florestas mágicas</span>
-                        <span class="sugestao" onclick="adicionarSugestao('animais')">animais</span>
-                        <span class="sugestao" onclick="adicionarSugestao('aventuras')">aventuras</span>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="valor">Virtude ou valor a ser ensinado *</label>
-                    <select id="valor" name="valor" required>
-                        <option value="">Selecione uma virtude</option>
-                        <option value="respeitar os pais">Respeitar os pais</option>
-                        <option value="falar a verdade">Falar a verdade</option>
-                        <option value="dividir brinquedos">Dividir brinquedos</option>
-                        <option value="ajudar os amigos">Ajudar os amigos</option>
-                        <option value="coragem">Coragem</option>
-                        <option value="generosidade">Generosidade</option>
-                        <option value="paciência">Paciência</option>
-                        <option value="perseverança">Perseverança</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="desafio">Desafio atual (opcional)</label>
-                    <textarea id="desafio" name="desafio" rows="3" 
-                              placeholder="Descreva algum desafio que a criança está enfrentando..."></textarea>
-                </div>
-
-                <button type="submit" class="btn-gerar" id="btn-gerar">
-                    <span class="btn-text">✨ Gerar História Mágica</span>
-                    <div class="loading" style="display: none;">
-                        <div class="spinner"></div>
-                        Criando sua história...
-                    </div>
+    <!-- Resultado -->
+    <div id="resultado" class="resultado" style="display: none;">
+        <div class="historia-container">
+            <div id="historia-content"></div>
+            <div class="acoes">
+                <button class="btn-acao" onclick="copiarHistoria()">📋 Copiar História</button>
+                <button class="btn-acao btn-ilustracao" onclick="gerarIlustracao()" id="btn-ilustracao">
+                    🎨 Gerar Ilustração
                 </button>
-            </form>
-
-            <!-- Resultado -->
-            <div id="resultado" class="resultado" style="display: none;">
-                <div class="historia-container">
-                    <div id="historia-content"></div>
-                    <div class="acoes">
-                        <button class="btn-acao" onclick="copiarHistoria()">📋 Copiar História</button>
-                        <button class="btn-acao btn-ilustracao" onclick="gerarIlustracao()" id="btn-ilustracao">
-                            🎨 Gerar Ilustração
-                        </button>
-                        <button class="btn-acao" onclick="novaHistoria()">🔄 Gerar Nova História</button>
-                        <button class="btn-acao btn-dashboard" onclick="voltarDashboard()">
-                            🏠 Voltar ao Painel
-                        </button>
-                    </div>
-                </div>
+                <button class="btn-acao" onclick="novaHistoria()">🔄 Gerar Nova História</button>
+                <button class="btn-acao btn-dashboard" onclick="voltarDashboard()">
+                    🏠 Voltar ao Painel
+                </button>
             </div>
         </div>
+    </div>
+    </div>
     </main>
 
     <!-- Footer -->
@@ -458,94 +566,95 @@
         </div>
     </footer>
 
-        <!-- Modal Plano Premium -->
-        <div id="modal-plano" class="modal">
-            <div class="modal-content modal-premium">
-                <span class="close" onclick="togglePlano()">&times;</span>
-                <div class="premium-header">
-                    <div class="premium-icon">⭐</div>
-                    <h2>Ludo Conto Premium</h2>
-                    <p class="premium-subtitle">Ilustrações ilimitadas para suas histórias!</p>
+    <!-- Modal Plano Premium -->
+    <div id="modal-plano" class="modal">
+        <div class="modal-content modal-premium">
+            <span class="close" onclick="togglePlano()">&times;</span>
+            <div class="premium-header">
+                <div class="premium-icon">⭐</div>
+                <h2>Ludo Conto Premium</h2>
+                <p class="premium-subtitle">Ilustrações ilimitadas para suas histórias!</p>
+            </div>
+
+            <div class="plano-status" id="plano-status">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    Verificando seu plano...
                 </div>
-                
-                <div class="plano-status" id="plano-status">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                        Verificando seu plano...
-                    </div>
+            </div>
+
+            <div class="premium-features">
+                <h3>🎨 O que você ganha:</h3>
+                <ul>
+                    <li>✨ <strong>Ilustrações ilimitadas</strong> em todas as histórias</li>
+                    <li>🎭 <strong>Arte profissional</strong> estilo livro infantil</li>
+                    <li>🚀 <strong>Histórias mais mágicas</strong> para sua criança</li>
+                    <li>💖 <strong>Experiência completa</strong> sem limitações</li>
+                </ul>
+            </div>
+
+            <div class="premium-pricing">
+                <div class="price-card">
+                    <div class="price">R$ 9,99<span>/mês</span></div>
+                    <p>Cancele quando quiser</p>
                 </div>
-                
-                <div class="premium-features">
-                    <h3>🎨 O que você ganha:</h3>
-                    <ul>
-                        <li>✨ <strong>Ilustrações ilimitadas</strong> em todas as histórias</li>
-                        <li>🎭 <strong>Arte profissional</strong> estilo livro infantil</li>
-                        <li>🚀 <strong>Histórias mais mágicas</strong> para sua criança</li>
-                        <li>💖 <strong>Experiência completa</strong> sem limitações</li>
-                    </ul>
-                </div>
-                
-                <div class="premium-pricing">
-                    <div class="price-card">
-                        <div class="price">R$ 9,99<span>/mês</span></div>
-                        <p>Cancele quando quiser</p>
-                    </div>
-                </div>
-                
-                <button class="btn-premium" id="btn-assinar" onclick="assinarPremium()">
-                    ⭐ Assinar Premium
+            </div>
+
+            <button class="btn-premium" id="btn-assinar" onclick="assinarPremium()">
+                ⭐ Assinar Premium
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal Minhas Histórias -->
+    <div id="modal-historias" class="modal">
+        <div class="modal-content modal-large">
+            <span class="close" onclick="toggleHistorias()">&times;</span>
+            <div class="modal-header">
+                <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="50" cy="65" rx="25" ry="20" fill="#8B4513" stroke="#654321" stroke-width="2" />
+                    <circle cx="50" cy="35" r="18" fill="#D2691E" stroke="#8B4513" stroke-width="2" />
+                    <ellipse cx="30" cy="55" rx="8" ry="15" fill="#8B4513" transform="rotate(-30 30 55)" />
+                    <ellipse cx="70" cy="55" rx="8" ry="15" fill="#8B4513" transform="rotate(30 70 55)" />
+                    <ellipse cx="40" cy="80" rx="6" ry="12" fill="#8B4513" />
+                    <ellipse cx="60" cy="80" rx="6" ry="12" fill="#8B4513" />
+                    <circle cx="44" cy="30" r="4" fill="white" />
+                    <circle cx="56" cy="30" r="4" fill="white" />
+                    <circle cx="44" cy="30" r="2" fill="black" />
+                    <circle cx="56" cy="30" r="2" fill="black" />
+                    <ellipse cx="50" cy="38" rx="2" ry="1.5" fill="black" />
+                    <path d="M 45 42 Q 50 47 55 42" stroke="black" stroke-width="2" fill="none"
+                        stroke-linecap="round" />
+                    <circle cx="42" cy="60" r="3" fill="#654321" />
+                    <circle cx="58" cy="68" r="2.5" fill="#654321" />
+                    <circle cx="35" cy="70" r="2" fill="#654321" />
+                </svg>
+                <h2>📚 Minhas Histórias Mágicas</h2>
+            </div>
+            <div class="historias-filters">
+                <button class="filter-btn active" onclick="filtrarHistorias('todas')">
+                    📚 Todas
+                </button>
+                <button class="filter-btn" onclick="filtrarHistorias('favoritas')">
+                    ❤️ Favoritas
+                </button>
+                <button class="filter-btn" onclick="filtrarHistorias('com-imagem')">
+                    🎨 Com Ilustração
                 </button>
             </div>
-        </div>
-
-        <!-- Modal Minhas Histórias -->
-        <div id="modal-historias" class="modal">
-            <div class="modal-content modal-large">
-                <span class="close" onclick="toggleHistorias()">&times;</span>
-                <div class="modal-header">
-                    <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <ellipse cx="50" cy="65" rx="25" ry="20" fill="#8B4513" stroke="#654321" stroke-width="2"/>
-                        <circle cx="50" cy="35" r="18" fill="#D2691E" stroke="#8B4513" stroke-width="2"/>
-                        <ellipse cx="30" cy="55" rx="8" ry="15" fill="#8B4513" transform="rotate(-30 30 55)"/>
-                        <ellipse cx="70" cy="55" rx="8" ry="15" fill="#8B4513" transform="rotate(30 70 55)"/>
-                        <ellipse cx="40" cy="80" rx="6" ry="12" fill="#8B4513"/>
-                        <ellipse cx="60" cy="80" rx="6" ry="12" fill="#8B4513"/>
-                        <circle cx="44" cy="30" r="4" fill="white"/>
-                        <circle cx="56" cy="30" r="4" fill="white"/>
-                        <circle cx="44" cy="30" r="2" fill="black"/>
-                        <circle cx="56" cy="30" r="2" fill="black"/>
-                        <ellipse cx="50" cy="38" rx="2" ry="1.5" fill="black"/>
-                        <path d="M 45 42 Q 50 47 55 42" stroke="black" stroke-width="2" fill="none" stroke-linecap="round"/>
-                        <circle cx="42" cy="60" r="3" fill="#654321"/>
-                        <circle cx="58" cy="68" r="2.5" fill="#654321"/>
-                        <circle cx="35" cy="70" r="2" fill="#654321"/>
-                    </svg>
-                    <h2>📚 Minhas Histórias Mágicas</h2>
-                </div>
-                <div class="historias-filters">
-                    <button class="filter-btn active" onclick="filtrarHistorias('todas')">
-                        📚 Todas
-                    </button>
-                    <button class="filter-btn" onclick="filtrarHistorias('favoritas')">
-                        ❤️ Favoritas
-                    </button>
-                    <button class="filter-btn" onclick="filtrarHistorias('com-imagem')">
-                        🎨 Com Ilustração
-                    </button>
-                </div>
-                <div id="historias-list" class="historias-list">
-                    <div class="loading-historias">
-                        <div class="spinner"></div>
-                        Carregando suas histórias...
-                    </div>
+            <div id="historias-list" class="historias-list">
+                <div class="loading-historias">
+                    <div class="spinner"></div>
+                    Carregando suas histórias...
                 </div>
             </div>
         </div>
     </div>
+    </div>
 
     <script type="module" src="auth.js?v=4"></script>
     <script src="script.js?v=4"></script>
-    
+
     <script>
         // Funcao para assinar premium
         async function assinarPremium() {
@@ -553,40 +662,40 @@
             const btnText = btn.querySelector('.btn-text');
             const btnLoading = btn.querySelector('.loading');
             const errorMessage = document.getElementById('error-message');
-            
+
             try {
                 if (!window.currentUser) {
                     throw new Error('Voce precisa estar logado para assinar o Premium');
                 }
-                
+
                 // Mostrar loading
                 btn.disabled = true;
                 btnText.style.display = 'none';
                 btnLoading.style.display = 'flex';
                 errorMessage.style.display = 'none';
-                
+
                 // Importar Firebase Functions
                 const { getFunctions, httpsCallable } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js');
-                
+
                 const functions = getFunctions();
                 const criarCheckoutFunction = httpsCallable(functions, 'criarCheckoutSession');
-                
+
                 const result = await criarCheckoutFunction({
                     priceId: 'price_1RqIPF0Tz9khDe1DHsKNCcwu',
                     successUrl: window.location.origin + '/sucesso.html',
                     cancelUrl: window.location.origin + '/premium.html'
                 });
-                
+
                 // Redirecionar para Stripe Checkout
                 window.location.href = result.data.url;
-                
+
             } catch (error) {
                 console.error('Erro ao assinar:', error);
-                
+
                 // Mostrar erro
                 errorMessage.textContent = error.message || 'Erro ao processar pagamento. Tente novamente.';
                 errorMessage.style.display = 'block';
-                
+
                 // Restaurar botao
                 btn.disabled = false;
                 btnText.style.display = 'inline';
@@ -595,4 +704,5 @@
         }
     </script>
 </body>
+
 </html>
